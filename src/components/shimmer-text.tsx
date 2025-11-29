@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 
 const WORDS = [
   "Actioning",
@@ -85,18 +85,15 @@ interface ShimmerTextProps {
   passDuration?: number;
   pauseDuration?: number;
   spread?: number;
-  color?: string;
 }
 
 export function ShimmerText({
   prefix = "In New York, ",
   passDuration = 2,
   pauseDuration = 1,
-  spread = 50,
-  color,
 }: ShimmerTextProps) {
   const [currentWord, setCurrentWord] = useState("Designing");
-  const [isAnimating, setIsAnimating] = useState(false);
+  const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
   const totalDuration = (passDuration + pauseDuration) * 1000;
 
@@ -106,53 +103,29 @@ export function ShimmerText({
   }, []);
 
   useEffect(() => {
-    // Start the animation cycle
-    const runCycle = () => {
-      // Start shimmer animation
-      setIsAnimating(true);
+    // Change word at the end of each full cycle
+    intervalRef.current = setInterval(() => {
+      setCurrentWord(getRandomWord());
+    }, totalDuration);
 
-      // After pass duration, stop animating and wait for pause
-      setTimeout(() => {
-        setIsAnimating(false);
-      }, passDuration * 1000);
-
-      // At the end of the full cycle, change the word
-      setTimeout(() => {
-        setCurrentWord(getRandomWord());
-      }, totalDuration);
+    return () => {
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+      }
     };
-
-    // Run immediately
-    runCycle();
-
-    // Set up interval for subsequent cycles
-    const interval = setInterval(runCycle, totalDuration);
-
-    return () => clearInterval(interval);
-  }, [passDuration, totalDuration, getRandomWord]);
-
-  // Calculate gradient colors
-  const baseColor = color || "currentColor";
-  const gradientStyle = {
-    "--shimmer-duration": `${passDuration}s`,
-    backgroundImage: `linear-gradient(
-      90deg,
-      ${baseColor} 0%,
-      ${baseColor} ${50 - spread / 2}%,
-      var(--shimmer-highlight, rgba(156, 163, 175, 0.4)) 50%,
-      ${baseColor} ${50 + spread / 2}%,
-      ${baseColor} 100%
-    )`,
-  } as React.CSSProperties;
+  }, [totalDuration, getRandomWord]);
 
   return (
     <p
-      className={`shimmer-text ${isAnimating ? "animating" : ""}`}
-      style={gradientStyle}
+      className="shimmer-text"
+      style={
+        {
+          "--shimmer-total-duration": `${passDuration + pauseDuration}s`,
+        } as React.CSSProperties
+      }
     >
       {prefix}
       {currentWord}...
     </p>
   );
 }
-

@@ -1,8 +1,10 @@
 @import "tailwindcss";
 
 :root {
-  --background: theme(colors.gray.50);
-  --foreground: theme(colors.gray.900);
+  --background: #f9fafb;
+  --foreground: #111827;
+  --shimmer-base: #111827;
+  --shimmer-highlight: #9ca3af;
 }
 
 @theme inline {
@@ -14,8 +16,10 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: theme(colors.gray.950);
-    --foreground: theme(colors.gray.100);
+    --background: #030712;
+    --foreground: #f3f4f6;
+    --shimmer-base: #f3f4f6;
+    --shimmer-highlight: #6b7280;
   }
 }
 
@@ -25,23 +29,31 @@ body {
   font-family: var(--font-sans), system-ui, sans-serif;
 }
 
-/* Shimmer animation keyframes */
-@keyframes shimmer {
+/* Shimmer animation using background-position */
+@keyframes shimmer-sweep {
   0% {
     background-position: 200% center;
   }
-  100% {
+  40% {
+    background-position: -200% center;
+  }
+  40.01%, 100% {
     background-position: -200% center;
   }
 }
 
 .shimmer-text {
+  background: linear-gradient(
+    90deg,
+    var(--shimmer-base) 0%,
+    var(--shimmer-base) 35%,
+    var(--shimmer-highlight) 50%,
+    var(--shimmer-base) 65%,
+    var(--shimmer-base) 100%
+  );
+  background-size: 300% 100%;
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  background-size: 200% 100%;
-}
-
-.shimmer-text.animating {
-  animation: shimmer var(--shimmer-duration, 2s) linear forwards;
+  animation: shimmer-sweep var(--shimmer-total-duration, 3s) ease-in-out infinite;
 }
