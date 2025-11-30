@@ -1,6 +1,7 @@
 import { ShimmerText } from "@/components/shimmer-text";
 import { ProjectLink } from "@/components/project-link";
 import { StaggeredFadeIn } from "@/components/staggered-fade-in";
+import { ExperienceSection } from "@/components/experience-section";
 import { getAllProjects, type NotionProject } from "@/lib/notion";
 
 // Revalidate every 60 seconds (ISR)
@@ -62,6 +63,9 @@ export default async function Home() {
       {sideProjects.length > 0 && (
         <ProjectSection title="Side Projects" projects={sideProjects} />
       )}
+
+      {/* Section 4: Experience */}
+      <ExperienceSection />
     </StaggeredFadeIn>
   );
 }
