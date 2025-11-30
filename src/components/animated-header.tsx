@@ -2,17 +2,15 @@
 
 import { motion, AnimatePresence } from "motion/react";
 import { usePathname, useRouter } from "next/navigation";
-import { getProjectTitle } from "@/lib/projects";
+import { useProjectTitle } from "./project-title-context";
 
 export function AnimatedHeader() {
   const pathname = usePathname();
   const router = useRouter();
+  const { title: projectTitle } = useProjectTitle();
 
-  // Extract project slug from pathname
-  const projectSlugMatch = pathname.match(/^\/projects\/([^/]+)/);
-  const projectSlug = projectSlugMatch ? projectSlugMatch[1] : null;
-  const projectTitle = projectSlug ? getProjectTitle(projectSlug) : null;
-  const isProjectPage = projectTitle !== null;
+  // Check if we're on a project page
+  const isProjectPage = pathname.startsWith("/projects/") && projectTitle !== null;
 
   const handleBackClick = () => {
     router.push("/");

@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { PageTransition } from "@/components/page-transition";
+import { SetProjectTitle } from "@/components/project-title-context";
 import {
   getProjectBySlug,
   getAllProjects,
@@ -72,6 +73,9 @@ export default async function ProjectPage({
 
   return (
     <PageTransition direction="right">
+      {/* Set the project title for the animated header */}
+      <SetProjectTitle title={project.title} />
+      
       <div className="flex flex-col gap-10 -mt-16">
         {/* Header section */}
         <div className="flex flex-col gap-4">
