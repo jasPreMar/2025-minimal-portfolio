@@ -2,10 +2,10 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import { PageTransition } from "@/components/page-transition";
 import { SetProjectTitle } from "@/components/project-title-context";
+import { MediaCarousel } from "@/components/media-carousel";
 import {
   getProjectBySlug,
   getAllProjects,
-  type NotionProject,
 } from "@/lib/notion";
 
 // Revalidate every 60 seconds (ISR)
@@ -140,28 +140,23 @@ export default async function ProjectPage({
           )}
         </div>
 
-        {/* Hero image */}
-        <div className="relative w-full aspect-video rounded-xl overflow-hidden bg-gradient-to-br from-gray-800 via-gray-700 to-gray-900">
-          {project.heroImage ? (
-            <Image
-              src={project.heroImage}
-              alt={project.title}
-              fill
-              className="object-cover"
-              unoptimized
-            />
-          ) : (
-            <>
-              {/* Placeholder gradient with abstract shapes */}
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div className="relative w-3/4 h-3/4">
-                  <div className="absolute inset-0 rounded-full bg-gradient-to-br from-gray-600/40 via-transparent to-gray-500/30 blur-sm" />
-                  <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-1/2 h-1/2 rounded-full bg-gradient-to-t from-rose-900/40 via-rose-800/20 to-transparent blur-md" />
-                </div>
-              </div>
-            </>
-          )}
-        </div>
+        {/* Media carousel - Figma Slides, Prototype, Hero Image, Video, Process Images, Final Screens */}
+        <MediaCarousel
+          items={[
+            // Figma Slides
+            ...(project.figmaSlidesUrl ? [{ type: "figma" as const, url: project.figmaSlidesUrl }] : []),
+            // Prototype
+            ...(project.prototypeUrl ? [{ type: "figma" as const, url: project.prototypeUrl }] : []),
+            // Hero Image
+            ...(project.heroImage ? [{ type: "image" as const, url: project.heroImage }] : []),
+            // Video
+            ...(project.videoUrl ? [{ type: "video" as const, url: project.videoUrl }] : []),
+            // Process Images
+            ...project.processImages.map(url => ({ type: "image" as const, url })),
+            // Final Screens
+            ...project.finalScreens.map(url => ({ type: "image" as const, url })),
+          ]}
+        />
 
         {/* Stakeholder quote if available */}
         {project.stakeholderQuote && (

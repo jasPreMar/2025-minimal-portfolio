@@ -73,6 +73,7 @@ type NotionProperties = {
   Prototype: { url: string | null };
   "Process Images": { files: FileItem[] };
   "Final Screens": { files: FileItem[] };
+  "Figma Slides": { url: string | null };
 };
 
 // Helper to extract plain text from rich text array
@@ -175,6 +176,7 @@ export type NotionProject = {
   prototypeUrl: string | null;
   processImages: string[];
   finalScreens: string[];
+  figmaSlidesUrl: string | null;
   
   // Page content (blocks) - populated separately
   pageContent: NotionBlock[];
@@ -241,6 +243,7 @@ function parseNotionPage(page: {
     prototypeUrl: props["Prototype"]?.url || null,
     processImages: getAllFileUrls(props["Process Images"]?.files),
     finalScreens: getAllFileUrls(props["Final Screens"]?.files),
+    figmaSlidesUrl: props["Figma Slides"]?.url || null,
 
     // Will be populated separately
     pageContent: [],
