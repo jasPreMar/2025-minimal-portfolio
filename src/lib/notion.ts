@@ -248,7 +248,7 @@ function parseBlockContent(block: { type: string; [key: string]: unknown }): str
 }
 
 // Status options for filtering
-export type ProjectStatus = "Go live" | "Draft" | "Not started" | "In progress" | "Reject";
+export type ProjectStatus = "Not started" | "Draft" | "Ready" | "Live" | "Rejected";
 
 // Check if we're in production (Vercel sets this)
 const isProduction = process.env.NODE_ENV === "production" && process.env.VERCEL_ENV === "production";
@@ -292,16 +292,16 @@ export async function getAllProjects(
         );
 
         // Filter by status based on environment:
-        // Production: only "Go live" projects
-        // Development: exclude "Not started" and "Reject" (show "Draft" and "Go live")
+        // Production: only "Live" projects
+        // Development: exclude "Not started" and "Rejected" (show "Draft", "Ready", and "Live")
         let includeProject = false;
         
         if (useProductionFilter) {
-          // Production: only show "Go live" projects
-          includeProject = project.status === "Go live";
+          // Production: only show "Live" projects
+          includeProject = project.status === "Live";
         } else {
-          // Development: show everything except "Not started" and "Reject"
-          includeProject = !["Not started", "Reject"].includes(project.status);
+          // Development: show everything except "Not started" and "Rejected"
+          includeProject = !["Not started", "Rejected"].includes(project.status);
         }
 
         if (includeProject && project.title) {
