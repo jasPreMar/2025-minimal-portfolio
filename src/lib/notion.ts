@@ -29,6 +29,11 @@ type NotionDate = {
   end: string | null;
 };
 
+type SelectItem = {
+  name: string;
+  color: string;
+};
+
 type NotionProperties = {
   "Project Name": { title: RichTextItem[] };
   Company: { rich_text: RichTextItem[] };
@@ -38,6 +43,7 @@ type NotionProperties = {
   "Start/End": { date: NotionDate | null };
   Duration: { formula: { string: string } };
   Status: { status: { name: string } | null };
+  "Project type": { select: SelectItem | null };
   Role: { rich_text: RichTextItem[] };
   Team: { rich_text: RichTextItem[] };
   Featured: { checkbox: boolean };
@@ -119,6 +125,9 @@ function formatDate(dateStr: string | null): string {
   });
 }
 
+// Project type values
+export type ProjectType = "Project" | "Side Project";
+
 // Project type that matches our website structure
 export type NotionProject = {
   id: string;
@@ -132,6 +141,7 @@ export type NotionProject = {
   endDate: string | null;
   duration: string;
   status: string;
+  projectType: ProjectType;
   role: string;
   team: string;
   featured: boolean;
@@ -197,6 +207,7 @@ function parseNotionPage(page: {
     endDate: formatDate(props["Start/End"]?.date?.end || null),
     duration: props["Duration"]?.formula?.string || "",
     status: props["Status"]?.status?.name || "Draft",
+    projectType: (props["Project type"]?.select?.name as ProjectType) || "Project",
     role: getRichText(props["Role"]?.rich_text),
     team: getRichText(props["Team"]?.rich_text),
     featured: props["Featured"]?.checkbox || false,
