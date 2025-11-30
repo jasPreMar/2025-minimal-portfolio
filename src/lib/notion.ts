@@ -399,3 +399,42 @@ export async function getFeaturedProjects(): Promise<NotionProject[]> {
   return projects.filter((p) => p.featured);
 }
 
+// Lightweight metadata type for fast initial load
+export type ProjectMetadata = Pick<
+  NotionProject,
+  | "id"
+  | "slug"
+  | "title"
+  | "company"
+  | "companyLogo"
+  | "tags"
+  | "duration"
+  | "role"
+  | "subtitle"
+  | "background"
+>;
+
+// Get just the metadata for a project (faster initial load)
+export async function getProjectMetadata(
+  slug: string,
+  options: GetProjectsOptions = {}
+): Promise<ProjectMetadata | null> {
+  const allProjects = await getAllProjects(options);
+  const project = allProjects.find((p) => p.slug === slug);
+
+  if (!project) return null;
+
+  return {
+    id: project.id,
+    slug: project.slug,
+    title: project.title,
+    company: project.company,
+    companyLogo: project.companyLogo,
+    tags: project.tags,
+    duration: project.duration,
+    role: project.role,
+    subtitle: project.subtitle,
+    background: project.background,
+  };
+}
+
