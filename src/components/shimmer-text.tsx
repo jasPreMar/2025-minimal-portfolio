@@ -86,6 +86,16 @@ interface ShimmerTextProps {
   prefix?: string;
   wipeDuration?: number;
   pauseDuration?: number;
+  /**
+   * If set, triggers a shimmer animation on mount after this delay (in seconds).
+   * Useful for syncing with fade-in animations.
+   */
+  initialShimmerDelay?: number;
+  /**
+   * The word to shimmer into on the initial animation.
+   * Only used when initialShimmerDelay is set.
+   */
+  initialWord?: string;
 }
 
 export interface ShimmerTextRef {
@@ -96,6 +106,8 @@ const ShimmerTextComponent = forwardRef<ShimmerTextRef, ShimmerTextProps>(({
   prefix = " in New York",
   wipeDuration = 0.65,
   pauseDuration = 4.35, // Adjusted so total cycle is 5 seconds (4.35 + 0.65 = 5)
+  initialShimmerDelay,
+  initialWord,
 }, ref) => {
   const [currentWord, setCurrentWord] = useState("Vibing");
   const [previousWord, setPreviousWord] = useState("Vibing");
@@ -115,7 +127,7 @@ const ShimmerTextComponent = forwardRef<ShimmerTextRef, ShimmerTextProps>(({
     return newWord;
   }, []);
 
-  const triggerAnimation = useCallback(() => {
+  const triggerAnimation = useCallback((targetWord?: string) => {
     // Clear any existing timeouts to avoid conflicts
     if (animationTimeoutRef.current) {
       clearTimeout(animationTimeoutRef.current);
@@ -129,7 +141,7 @@ const ShimmerTextComponent = forwardRef<ShimmerTextRef, ShimmerTextProps>(({
 
     setCurrentWord((prev) => {
       setPreviousWord(prev);
-      return getRandomWord(prev);
+      return targetWord || getRandomWord(prev);
     });
     setIsAnimating(true);
 
@@ -156,10 +168,19 @@ const ShimmerTextComponent = forwardRef<ShimmerTextRef, ShimmerTextProps>(({
     trigger: triggerAnimation,
   }), [triggerAnimation]);
 
+  // Trigger initial shimmer on mount if delay is specified
+  useEffect(() => {
+    if (initialShimmerDelay === undefined) return;
+    
+    const initialTimeout = setTimeout(() => {
+      triggerAnimation(initialWord);
+    }, initialShimmerDelay * 1000);
+    
+    return () => clearTimeout(initialTimeout);
+  }, [initialShimmerDelay, initialWord, triggerAnimation]);
+
   useEffect(() => {
     const totalCycleDuration = (wipeDuration + pauseDuration) * 1000;
-    const prismaticDelay = wipeDuration * PRISMATIC_DELAY_RATIO * 1000;
-    const prismaticDuration = wipeDuration * 1.4 * 1000; // Prismatic slides slower
 
     intervalRef.current = setInterval(() => {
       triggerAnimation();
