@@ -3,13 +3,15 @@
 :root {
   --background: #f9fafb;
   --foreground: #111827;
-  --shimmer-base: #111827;
-  --shimmer-highlight: #9ca3af;
+  --secondary: #6b7280;
+  --shimmer-base: var(--secondary);
+  --shimmer-highlight: #ffffff;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-secondary: var(--secondary);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
@@ -18,8 +20,9 @@
   :root {
     --background: #030712;
     --foreground: #f3f4f6;
-    --shimmer-base: #f3f4f6;
-    --shimmer-highlight: #6b7280;
+    --secondary: #9ca3af;
+    --shimmer-base: var(--secondary);
+    --shimmer-highlight: #ffffff;
   }
 }
 
@@ -29,31 +32,237 @@ body {
   font-family: var(--font-sans), system-ui, sans-serif;
 }
 
-/* Shimmer animation using background-position */
-@keyframes shimmer-sweep {
-  0% {
-    background-position: 200% center;
-  }
-  40% {
-    background-position: -200% center;
-  }
-  40.01%, 100% {
-    background-position: -200% center;
-  }
+/* ========================================
+   Shimmer Wipe-Reveal Effect
+   ======================================== */
+
+/* Container holds the stacked text layers */
+.shimmer-container {
+  position: relative;
+  display: block;
+  color: var(--shimmer-base);
 }
 
-.shimmer-text {
+/* New text layer - establishes dimensions and shows by default */
+.shimmer-new {
+  display: block;
+  position: relative;
+}
+
+/* Old text layer - overlays the new text, clips from left to hide */
+.shimmer-old {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  color: var(--shimmer-base);
+}
+
+/* Shimmer highlight layer - white gradient at wipe boundary */
+.shimmer-highlight {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
   background: linear-gradient(
     90deg,
-    var(--shimmer-base) 0%,
-    var(--shimmer-base) 35%,
+    transparent 0%,
+    transparent 45%,
     var(--shimmer-highlight) 50%,
-    var(--shimmer-base) 65%,
-    var(--shimmer-base) 100%
+    transparent 55%,
+    transparent 100%
   );
-  background-size: 300% 100%;
+  background-size: 200% 100%;
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  animation: shimmer-sweep var(--shimmer-total-duration, 3s) ease-in-out infinite;
+  pointer-events: none;
+}
+
+/* Wipe animation keyframes */
+@keyframes wipe-reveal-new {
+  0% {
+    clip-path: inset(0 100% 0 0);
+  }
+  100% {
+    clip-path: inset(0 0% 0 0);
+  }
+}
+
+@keyframes wipe-reveal-old {
+  0% {
+    clip-path: inset(0 0 0 0%);
+  }
+  100% {
+    clip-path: inset(0 0 0 100%);
+  }
+}
+
+/* Shimmer moves from left to right (100% to 0% due to how background-position works) */
+@keyframes shimmer-slide {
+  0% {
+    background-position: 100% center;
+  }
+  100% {
+    background-position: 0% center;
+  }
+}
+
+/* Apply animations when element has animating class */
+.shimmer-new.shimmer-animating {
+  animation: wipe-reveal-new var(--wipe-duration, 0.8s) linear forwards;
+}
+
+.shimmer-old.shimmer-animating {
+  animation: wipe-reveal-old var(--wipe-duration, 0.8s) linear forwards;
+}
+
+.shimmer-highlight.shimmer-animating {
+  animation: shimmer-slide var(--wipe-duration, 0.8s) linear forwards;
+}
+
+/* Prismatic shimmer layer - magical refracted light effect */
+.shimmer-prismatic {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  /* Multi-layer mesh gradient for organic prismatic feel */
+  background: 
+    /* Main prismatic sweep - offset angles create mesh-like interaction */
+    linear-gradient(
+      82deg,
+      transparent 0%,
+      transparent 40%,
+      #ff4da6 43%,
+      #ffa500 46%,
+      #50fa7b 49%,
+      #00cfff 52%,
+      #da70d6 55%,
+      transparent 58%,
+      transparent 100%
+    ),
+    /* Secondary sweep at different angle for depth */
+    linear-gradient(
+      98deg,
+      transparent 0%,
+      transparent 42%,
+      rgba(255, 200, 0, 0.85) 46%,
+      rgba(0, 255, 180, 0.8) 50%,
+      rgba(200, 50, 220, 0.85) 54%,
+      transparent 58%,
+      transparent 100%
+    ),
+    /* Tertiary micro-offset for shimmer texture */
+    linear-gradient(
+      88deg,
+      transparent 0%,
+      transparent 44%,
+      rgba(255, 150, 180, 0.65) 48%,
+      rgba(140, 220, 255, 0.6) 50%,
+      rgba(230, 130, 230, 0.65) 52%,
+      transparent 56%,
+      transparent 100%
+    );
+  background-size: 280% 100%, 280% 100%, 280% 100%;
+  background-position: 100% center;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  pointer-events: none;
+}
+
+/* Prismatic slide animation - faster than the white shimmer */
+@keyframes prismatic-slide {
+  0% {
+    background-position: 100% center, 105% center, 95% center;
+  }
+  100% {
+    background-position: -5% center, 0% center, -10% center;
+  }
+}
+
+.shimmer-prismatic.shimmer-animating {
+  animation: prismatic-slide var(--prismatic-duration, 0.4s) cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
+}
+
+/* ========================================
+   Project Link Hover Effect
+   ======================================== */
+.project-link {
+  color: var(--secondary);
+  transition: color 200ms;
+}
+
+.project-link:hover {
+  color: var(--foreground);
+  transition: color 0ms;
+}
+
+.project-link-arrow {
+  transform: translateX(0);
+  transition: transform 200ms ease-out;
+  will-change: transform;
+}
+
+/* Project link text shimmer effect */
+.project-link-text {
+  display: inline-block;
+}
+
+.project-link-shimmer-forward,
+.project-link-shimmer-reverse {
+  background: 
+    /* Main prismatic sweep with foreground color as base */
+    linear-gradient(
+      82deg,
+      var(--foreground) 0%,
+      var(--foreground) 40%,
+      #ff4da6 43%,
+      #ffa500 46%,
+      #50fa7b 49%,
+      #00cfff 52%,
+      #da70d6 55%,
+      var(--foreground) 58%,
+      var(--foreground) 100%
+    ),
+    /* Secondary sweep at different angle for depth */
+    linear-gradient(
+      98deg,
+      var(--foreground) 0%,
+      var(--foreground) 42%,
+      rgba(255, 200, 0, 0.85) 46%,
+      rgba(0, 255, 180, 0.8) 50%,
+      rgba(200, 50, 220, 0.85) 54%,
+      var(--foreground) 58%,
+      var(--foreground) 100%
+    ),
+    /* Tertiary micro-offset for shimmer texture */
+    linear-gradient(
+      88deg,
+      var(--foreground) 0%,
+      var(--foreground) 44%,
+      rgba(255, 150, 180, 0.65) 48%,
+      rgba(140, 220, 255, 0.6) 50%,
+      rgba(230, 130, 230, 0.65) 52%,
+      var(--foreground) 56%,
+      var(--foreground) 100%
+    );
+  background-size: 280% 100%, 280% 100%, 280% 100%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.project-link-shimmer-forward {
+  animation: project-shimmer-forward 0.9s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
+}
+
+@keyframes project-shimmer-forward {
+  0% {
+    background-position: 100% center, 105% center, 95% center;
+  }
+  100% {
+    background-position: -5% center, 0% center, -10% center;
+  }
 }

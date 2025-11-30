@@ -1,7 +1,8 @@
 "use client";
 
-import { ArrowUpRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import Link from "next/link";
+import { useRef } from "react";
 
 interface ProjectLinkProps {
   name: string;
@@ -9,14 +10,37 @@ interface ProjectLinkProps {
 }
 
 export function ProjectLink({ name, href = "#" }: ProjectLinkProps) {
+  const arrowRef = useRef<HTMLDivElement>(null);
+
+  const handleMouseEnter = () => {
+    if (arrowRef.current) {
+      arrowRef.current.style.transition = "transform 0ms";
+      arrowRef.current.style.transform = "translateX(0.25rem)";
+    }
+  };
+
+  const handleMouseLeave = () => {
+    if (arrowRef.current) {
+      arrowRef.current.style.transition = "transform 200ms ease-out";
+      arrowRef.current.style.transform = "translateX(0)";
+    }
+  };
+
   return (
     <Link
       href={href}
-      className="group flex items-center py-1 w-full justify-between sm:w-fit sm:justify-start sm:gap-2"
+      className="project-link group flex items-center py-1 w-full justify-between sm:w-fit sm:justify-start sm:gap-2"
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
     >
-      <p className="group-hover:underline truncate">{name}</p>
-      <div className="flex items-center justify-center w-6 h-6 shrink-0 transition-transform duration-200 group-hover:translate-x-1">
-        <ArrowUpRight size={16} strokeWidth={2} />
+      <span className="project-link-text truncate">
+        {name}
+      </span>
+      <div
+        ref={arrowRef}
+        className="project-link-arrow flex items-center justify-center w-6 h-6 shrink-0"
+      >
+        <ArrowRight size={16} strokeWidth={2} />
       </div>
     </Link>
   );
