@@ -179,12 +179,20 @@ const ShimmerTextComponent = forwardRef<ShimmerTextRef, ShimmerTextProps>(({
     return () => clearTimeout(initialTimeout);
   }, [initialShimmerDelay, initialWord, triggerAnimation]);
 
-  useEffect(() => {
+  const startInterval = useCallback(() => {
     const totalCycleDuration = (wipeDuration + pauseDuration) * 1000;
-
+    
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+    }
+    
     intervalRef.current = setInterval(() => {
       triggerAnimation();
     }, totalCycleDuration);
+  }, [wipeDuration, pauseDuration, triggerAnimation]);
+
+  useEffect(() => {
+    startInterval();
 
     return () => {
       if (intervalRef.current) {
@@ -200,18 +208,25 @@ const ShimmerTextComponent = forwardRef<ShimmerTextRef, ShimmerTextProps>(({
         clearTimeout(prismaticEndTimeoutRef.current);
       }
     };
-  }, [wipeDuration, pauseDuration, triggerAnimation]);
+  }, [startInterval]);
 
   const fullTextNew = `${currentWord}${prefix}...`;
   const fullTextOld = `${previousWord}${prefix}...`;
 
+  const handleClick = useCallback(() => {
+    triggerAnimation();
+    startInterval(); // Reset the timer
+  }, [triggerAnimation, startInterval]);
+
   return (
     <p
       className="shimmer-container"
+      onClick={handleClick}
       style={
         {
           "--wipe-duration": `${wipeDuration}s`,
           "--prismatic-duration": `${wipeDuration * 1.4}s`,
+          cursor: "pointer",
         } as React.CSSProperties
       }
     >
