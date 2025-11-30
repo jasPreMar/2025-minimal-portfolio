@@ -1,6 +1,6 @@
 import { ShimmerText } from "@/components/shimmer-text";
 import { ProjectLink } from "@/components/project-link";
-import { PageTransition } from "@/components/page-transition";
+import { StaggeredFadeIn } from "@/components/staggered-fade-in";
 import { getAllProjects, type NotionProject } from "@/lib/notion";
 
 // Revalidate every 60 seconds (ISR)
@@ -44,19 +44,21 @@ export default async function Home() {
   const sideProjects = allProjects.filter((p) => p.projectType === "Side Project");
 
   return (
-    <PageTransition direction="left">
-      <div className="flex flex-col gap-20">
-        {/* Shimmer text below header */}
-        <div className="-mt-16">
-          <ShimmerText />
-        </div>
-
-        {/* Projects section - only shows if there are projects */}
-        <ProjectSection title="Projects" projects={projects} />
-
-        {/* Side Projects section - only shows if there are side projects */}
-        <ProjectSection title="Side Projects" projects={sideProjects} />
+    <StaggeredFadeIn initialDelay={0.25} staggerDelay={0.18} duration={0.45}>
+      {/* Section 1: Shimmer text below header */}
+      <div className="-mt-16">
+        <ShimmerText />
       </div>
-    </PageTransition>
+
+      {/* Section 2: Projects - only renders if there are projects */}
+      {projects.length > 0 && (
+        <ProjectSection title="Projects" projects={projects} />
+      )}
+
+      {/* Section 3: Side Projects - only renders if there are side projects */}
+      {sideProjects.length > 0 && (
+        <ProjectSection title="Side Projects" projects={sideProjects} />
+      )}
+    </StaggeredFadeIn>
   );
 }
