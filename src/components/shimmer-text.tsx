@@ -93,7 +93,7 @@ export interface ShimmerTextRef {
 }
 
 const ShimmerTextComponent = forwardRef<ShimmerTextRef, ShimmerTextProps>(({
-  prefix = "Designer in New York, ",
+  prefix = " in New York",
   wipeDuration = 0.65,
   pauseDuration = 4.35, // Adjusted so total cycle is 5 seconds (4.35 + 0.65 = 5)
 }, ref) => {
@@ -181,8 +181,8 @@ const ShimmerTextComponent = forwardRef<ShimmerTextRef, ShimmerTextProps>(({
     };
   }, [wipeDuration, pauseDuration, triggerAnimation]);
 
-  const fullTextNew = `${prefix}${currentWord}...`;
-  const fullTextOld = `${prefix}${previousWord}...`;
+  const fullTextNew = `${currentWord}${prefix}...`;
+  const fullTextOld = `${previousWord}${prefix}...`;
 
   return (
     <p
