@@ -43,7 +43,7 @@ type NotionProperties = {
   "Start/End": { date: NotionDate | null };
   Duration: { formula: { string: string } };
   Status: { status: { name: string } | null };
-  "Project type": { select: SelectItem | null };
+  "Project Type": { select: SelectItem | null };
   Role: { rich_text: RichTextItem[] };
   Team: { rich_text: RichTextItem[] };
   Featured: { checkbox: boolean };
@@ -207,7 +207,7 @@ function parseNotionPage(page: {
     endDate: formatDate(props["Start/End"]?.date?.end || null),
     duration: props["Duration"]?.formula?.string || "",
     status: props["Status"]?.status?.name || "Draft",
-    projectType: (props["Project type"]?.select?.name as ProjectType) || "Project",
+    projectType: (props["Project Type"]?.select?.name as ProjectType) || "Project",
     role: getRichText(props["Role"]?.rich_text),
     team: getRichText(props["Team"]?.rich_text),
     featured: props["Featured"]?.checkbox || false,
