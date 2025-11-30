@@ -288,7 +288,7 @@ export async function getAllProjects(
     for (const page of dbPages) {
       if ("properties" in page) {
         const project = parseNotionPage(
-          page as { id: string; properties: NotionProperties }
+          page as unknown as { id: string; properties: NotionProperties }
         );
 
         // Filter by status based on environment:
