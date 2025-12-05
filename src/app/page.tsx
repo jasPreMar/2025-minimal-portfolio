@@ -25,7 +25,7 @@ function ProjectSection({
           <ProjectLink
             key={project.id}
             name={`${project.title} - ${project.company}`}
-            href={`/projects/${project.slug}`}
+            href={`/projects#${project.slug}`}
           />
         ))}
       </div>

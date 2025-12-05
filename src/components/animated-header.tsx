@@ -9,8 +9,8 @@ export function AnimatedHeader() {
   const router = useRouter();
   const { title: projectTitle } = useProjectTitle();
 
-  // Check if we're on a project page
-  const isProjectPage = pathname.startsWith("/projects/") && projectTitle !== null;
+  // Check if we're on a project page (either /projects or /projects/*)
+  const isProjectPage = (pathname === "/projects" || pathname.startsWith("/projects/")) && projectTitle !== null;
 
   const handleBackClick = () => {
     router.push("/");
