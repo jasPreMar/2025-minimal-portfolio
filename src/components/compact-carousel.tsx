@@ -15,26 +15,17 @@ function ImagePreview({
   url: string;
   onClick: () => void;
 }) {
-  const [aspectRatio, setAspectRatio] = useState<number>(16 / 9);
-
   return (
     <div
-      className="carousel-item flex-shrink-0 w-full rounded-xl overflow-hidden cursor-pointer relative snap-start group"
-      style={{ aspectRatio }}
+      className="carousel-item flex-shrink-0 w-full rounded-xl overflow-hidden cursor-pointer relative snap-start group aspect-video bg-gray-100 dark:bg-gray-800"
       onClick={onClick}
     >
       <Image
         src={url}
         alt=""
         fill
-        className="object-cover transition-transform duration-150 ease-out group-hover:scale-105"
+        className="object-cover transition-transform duration-500 ease-out group-hover:scale-[1.02]"
         unoptimized
-        onLoad={(e) => {
-          const img = e.currentTarget;
-          if (img.naturalWidth && img.naturalHeight) {
-            setAspectRatio(img.naturalWidth / img.naturalHeight);
-          }
-        }}
       />
     </div>
   );

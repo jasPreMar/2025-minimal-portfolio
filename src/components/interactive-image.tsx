@@ -58,14 +58,14 @@ export function InteractiveImage({
   return (
     <>
       <div
-        className={`relative w-full ${aspectClass} rounded-xl overflow-hidden bg-foreground/5 cursor-pointer group ${className}`}
+        className={`relative w-full ${aspectClass} rounded-xl overflow-hidden bg-gray-100 dark:bg-gray-800 cursor-pointer group ${className}`}
         onClick={() => setIsFullscreen(true)}
       >
         <Image
           src={src}
           alt={alt}
           fill
-          className="object-cover transition-transform duration-150 ease-out group-hover:scale-105"
+          className="object-cover transition-transform duration-500 ease-out group-hover:scale-[1.02]"
           unoptimized
           priority={priority}
         />

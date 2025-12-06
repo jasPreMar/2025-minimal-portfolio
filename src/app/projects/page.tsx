@@ -2,6 +2,7 @@ import Image from "next/image";
 import { ArrowUpRight, Briefcase, Calendar, Users } from "lucide-react";
 import { getAllProjects, type NotionProject } from "@/lib/notion";
 import { CompactCarousel } from "@/components/compact-carousel";
+import { InteractiveImage } from "@/components/interactive-image";
 import { SetProjectTitle } from "@/components/project-title-context";
 
 // Revalidate every 60 seconds (ISR)
@@ -46,24 +47,14 @@ function ProjectSection({ project }: { project: NotionProject }) {
       id={project.slug}
       className="flex flex-col gap-6 scroll-mt-32"
     >
-      {/* Hero Image - breaks out of container to fill page width */}
+      {/* Hero Image */}
       {project.heroImage && (
-        <div
-          className="relative w-screen mb-6 px-8 md:px-10"
-          style={{ marginLeft: "calc(-50vw + 50%)" }}
-        >
-          <div className="relative w-full aspect-video rounded-3xl overflow-hidden bg-secondary/10 p-4 flex items-center justify-center">
-            <Image
-              src={project.heroImage}
-              alt={project.title}
-              width={0}
-              height={0}
-              sizes="100vw"
-              className="w-auto h-auto max-w-full max-h-full shadow-[0_20px_40px_-12px_rgba(0,0,0,0.1)] rounded-lg"
-              unoptimized
-              priority
-            />
-          </div>
+        <div className="mb-6">
+          <InteractiveImage
+            src={project.heroImage}
+            alt={project.title}
+            priority
+          />
         </div>
       )}
 
