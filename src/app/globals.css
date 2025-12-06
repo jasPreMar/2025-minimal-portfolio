@@ -64,14 +64,12 @@ body {
   top: 0;
   left: 0;
   right: 0;
-  background: linear-gradient(
-    90deg,
-    transparent 0%,
-    transparent 45%,
-    var(--shimmer-highlight) 50%,
-    transparent 55%,
-    transparent 100%
-  );
+  background: linear-gradient(90deg,
+      transparent 0%,
+      transparent 45%,
+      var(--shimmer-highlight) 50%,
+      transparent 55%,
+      transparent 100%);
   background-size: 200% 100%;
   background-clip: text;
   -webkit-background-clip: text;
@@ -84,6 +82,7 @@ body {
   0% {
     clip-path: inset(0 100% 0 0);
   }
+
   100% {
     clip-path: inset(0 0% 0 0);
   }
@@ -93,6 +92,7 @@ body {
   0% {
     clip-path: inset(0 0 0 0%);
   }
+
   100% {
     clip-path: inset(0 0 0 100%);
   }
@@ -103,6 +103,7 @@ body {
   0% {
     background-position: 100% center;
   }
+
   100% {
     background-position: 0% center;
   }
@@ -128,10 +129,9 @@ body {
   left: 0;
   right: 0;
   /* Multi-layer mesh gradient for organic prismatic feel */
-  background: 
+  background:
     /* Main prismatic sweep - offset angles create mesh-like interaction */
-    linear-gradient(
-      82deg,
+    linear-gradient(82deg,
       transparent 0%,
       transparent 40%,
       #ff4da6 43%,
@@ -140,30 +140,25 @@ body {
       #00cfff 52%,
       #da70d6 55%,
       transparent 58%,
-      transparent 100%
-    ),
+      transparent 100%),
     /* Secondary sweep at different angle for depth */
-    linear-gradient(
-      98deg,
+    linear-gradient(98deg,
       transparent 0%,
       transparent 42%,
       rgba(255, 200, 0, 0.85) 46%,
       rgba(0, 255, 180, 0.8) 50%,
       rgba(200, 50, 220, 0.85) 54%,
       transparent 58%,
-      transparent 100%
-    ),
+      transparent 100%),
     /* Tertiary micro-offset for shimmer texture */
-    linear-gradient(
-      88deg,
+    linear-gradient(88deg,
       transparent 0%,
       transparent 44%,
       rgba(255, 150, 180, 0.65) 48%,
       rgba(140, 220, 255, 0.6) 50%,
       rgba(230, 130, 230, 0.65) 52%,
       transparent 56%,
-      transparent 100%
-    );
+      transparent 100%);
   background-size: 280% 100%, 280% 100%, 280% 100%;
   background-position: 100% center;
   background-clip: text;
@@ -177,6 +172,7 @@ body {
   0% {
     background-position: 100% center, 105% center, 95% center;
   }
+
   100% {
     background-position: -5% center, 0% center, -10% center;
   }
@@ -212,10 +208,9 @@ body {
 
 .project-link-shimmer-forward,
 .project-link-shimmer-reverse {
-  background: 
+  background:
     /* Main prismatic sweep with foreground color as base */
-    linear-gradient(
-      82deg,
+    linear-gradient(82deg,
       var(--foreground) 0%,
       var(--foreground) 40%,
       #ff4da6 43%,
@@ -224,30 +219,25 @@ body {
       #00cfff 52%,
       #da70d6 55%,
       var(--foreground) 58%,
-      var(--foreground) 100%
-    ),
+      var(--foreground) 100%),
     /* Secondary sweep at different angle for depth */
-    linear-gradient(
-      98deg,
+    linear-gradient(98deg,
       var(--foreground) 0%,
       var(--foreground) 42%,
       rgba(255, 200, 0, 0.85) 46%,
       rgba(0, 255, 180, 0.8) 50%,
       rgba(200, 50, 220, 0.85) 54%,
       var(--foreground) 58%,
-      var(--foreground) 100%
-    ),
+      var(--foreground) 100%),
     /* Tertiary micro-offset for shimmer texture */
-    linear-gradient(
-      88deg,
+    linear-gradient(88deg,
       var(--foreground) 0%,
       var(--foreground) 44%,
       rgba(255, 150, 180, 0.65) 48%,
       rgba(140, 220, 255, 0.6) 50%,
       rgba(230, 130, 230, 0.65) 52%,
       var(--foreground) 56%,
-      var(--foreground) 100%
-    );
+      var(--foreground) 100%);
   background-size: 280% 100%, 280% 100%, 280% 100%;
   background-clip: text;
   -webkit-background-clip: text;
@@ -262,6 +252,7 @@ body {
   0% {
     background-position: 100% center, 105% center, 95% center;
   }
+
   100% {
     background-position: -5% center, 0% center, -10% center;
   }
