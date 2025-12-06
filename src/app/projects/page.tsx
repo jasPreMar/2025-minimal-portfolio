@@ -16,7 +16,7 @@ export const metadata = {
 // Parse markdown-style bullet lists into array of strings
 function parseBulletList(text: string): string[] {
   if (!text) return [];
-  
+
   return text
     .split("\n")
     .map((line) => line.trim())
@@ -48,16 +48,18 @@ function ProjectSection({ project }: { project: NotionProject }) {
     >
       {/* Hero Image - breaks out of container to fill page width */}
       {project.heroImage && (
-        <div 
+        <div
           className="relative w-screen mb-6 px-8 md:px-10"
           style={{ marginLeft: "calc(-50vw + 50%)" }}
         >
-          <div className="relative w-full aspect-video rounded-3xl overflow-hidden bg-foreground/5">
+          <div className="relative w-full aspect-video rounded-3xl overflow-hidden bg-secondary/10 p-4 flex items-center justify-center">
             <Image
               src={project.heroImage}
               alt={project.title}
-              fill
-              className="object-cover"
+              width={0}
+              height={0}
+              sizes="100vw"
+              className="w-auto h-auto max-w-full max-h-full shadow-[0_20px_40px_-12px_rgba(0,0,0,0.1)] rounded-lg"
               unoptimized
               priority
             />
