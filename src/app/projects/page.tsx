@@ -38,8 +38,8 @@ function formatDateRange(startDate: string, endDate: string | null): string {
 // Single project section component
 function ProjectSection({ project }: { project: NotionProject }) {
   const dateRange = formatDateRange(project.startDate, project.endDate);
-  const outcomesList = parseBulletList(project.outcomes);
-  const contributionsList = parseBulletList(project.keyContributions);
+  const outcomesList = parseBulletList(project.impactMetrics);
+  const contributionsList = parseBulletList(project.keyFindings);
 
   return (
     <section
@@ -123,11 +123,11 @@ function ProjectSection({ project }: { project: NotionProject }) {
       </div>
 
       {/* Overview */}
-      {project.overview && (
+      {project.background && (
         <div className="flex flex-col gap-2">
           <h3 className="text-xl font-semibold">Overview</h3>
           <p className="leading-relaxed whitespace-pre-line">
-            {project.overview}
+            {project.background}
           </p>
         </div>
       )}
