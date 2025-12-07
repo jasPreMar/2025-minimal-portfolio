@@ -8,7 +8,7 @@ export const projectData = {
     date: "Nov 15, 2024",
     views: "2,847",
     tags: ["AI/ML", "Voice UI", "Design System"],
-    heroImage: "/projects/skye-v3-hero.jpg",
+    heroImages: ["/projects/skye-v3-hero.jpg"],
     description:
       "A look at how conversational AI can transform the car-buying experience, why natural language interfaces feel more intuitive, and when each interaction pattern should appear to guide users through complex decisions.",
     content: {
@@ -22,9 +22,9 @@ Our challenge was clear: could we create an AI experience that felt as natural a
 
 1. **Trust is earned through transparency.** Users wanted to understand why the AI was making certain recommendations. Black-box suggestions felt manipulative.
 
-2. **Conversation isn't always better.** For users who knew exactly what they wanted, typing felt faster than explaining. The interface needed to support both modalities seamlessly.
+2. **Context is king.** A user searching for a "safe family car" has different needs than one looking for a "fun weekend convertible." The AI needed to understand these nuances.
 
-3. **Context matters.** A first-time buyer needed different guidance than someone trading in their third vehicle. The AI had to adapt its communication style accordingly.`,
+3. **Speed matters.** Users weren't willing to engage in long, chatty conversations. They wanted efficient, targeted help.`,
       solution: `The final design introduced three key innovations:
 
 **Adaptive Response Modes**: Skye automatically detects user intent and switches between conversational and transactional modes. A question like "show me blue sedans under 25k" triggers a quick filter response, while "I'm not sure what kind of car would fit my family" initiates a guided discovery flow.
@@ -55,13 +55,13 @@ Looking ahead, we're exploring how these principles might extend to other high-c
     date: "Aug 22, 2024",
     views: "1,923",
     tags: ["Mobile", "AI/ML", "iOS"],
-    heroImage: "/projects/chatgpt-hero.jpg",
+    heroImages: ["/projects/chatgpt-hero.jpg"],
     description:
       "Designing a native ChatGPT integration for the CarMax mobile app, balancing powerful AI capabilities with the simplicity users expect from a car shopping experience.",
     content: {
       overview: `When OpenAI opened their API to enterprise partners, CarMax saw an opportunity to bring conversational AI directly into our mobile app. This project explored how to integrate ChatGPT's capabilities while maintaining brand consistency and user trust.`,
       challenge: `Mobile presented unique constraints: limited screen real estate, interrupted attention spans, and the expectation of quick, tap-friendly interactions. How could we deliver a rich conversational experience without fighting against mobile UI conventions?`,
-      process: `We prototyped extensively, testing different interaction paradigms from full-screen chat to floating bubbles to integrated suggestions. User testing revealed a preference for contextual AI assistance over dedicated chat screens.`,
+      process: `We prototyped over 50 different integration points, testing them with users in our lab. We found that users preferred AI assistance that was context-aware—appearing when they were stuck or comparing options—rather than a always-on floating button.`,
       solution: `The final design embeds AI suggestions throughout the browsing experience rather than siloing them in a separate chat interface. Users see relevant prompts like "Ask about this car's maintenance history" or "Compare with similar vehicles" at decision points.`,
       results: `The integration achieved strong adoption with 41% of mobile users engaging with AI features within the first month. Task completion rates improved 23% compared to the control group.`,
       reflection: `Mobile AI design requires thinking about conversation as a complement to, not replacement for, direct manipulation. The best mobile AI experiences feel like a helpful companion, not a separate destination.`,
@@ -74,12 +74,12 @@ Looking ahead, we're exploring how these principles might extend to other high-c
     date: "Jan 10, 2024",
     views: "892",
     tags: ["AI/ML", "Health", "Side Project"],
-    heroImage: "/projects/nutritional-agent-hero.jpg",
+    heroImages: ["/projects/nutritional-agent-hero.jpg"],
     description:
       "A personal project exploring how AI can help users make better nutritional decisions through conversational interfaces.",
     content: {
       overview: `This side project explores the intersection of AI and personal health, focusing on how conversational agents can make nutritional guidance more accessible and personalized.`,
-      challenge: `Nutritional information is often overwhelming and generic. How can we create an AI that provides personalized, actionable advice?`,
+      challenge: `Nutritional advice is often confusing, contradictory, and hard to apply to daily life. Can AI bridge the gap between scientific recommendations and what's on your plate?`,
       process: `I built this as a personal exploration of AI capabilities, iterating on different interaction patterns and information architectures.`,
       solution: `The agent uses natural language to understand user goals and provides tailored nutritional guidance with explanations.`,
       results: `This project helped me understand the nuances of health-related AI interactions and the importance of transparency in recommendations.`,
@@ -94,12 +94,12 @@ Looking ahead, we're exploring how these principles might extend to other high-c
     date: "Mar 5, 2024",
     views: "3,421",
     tags: ["Search", "UX", "Design System"],
-    heroImage: "/projects/search-transformation-hero.jpg",
+    heroImages: ["/projects/search-transformation-hero.jpg"],
     description:
       "Redesigning the search experience to help users find their perfect car faster and more intuitively.",
     content: {
       overview: `The search transformation project focused on making car discovery more intuitive and efficient for CarMax customers.`,
-      challenge: `Users were struggling to find the right car among thousands of options. The existing search felt overwhelming and didn't match how people actually think about car shopping.`,
+      challenge: `Users were struggling to find specific vehicle configurations due to a complex and outdated filter system.`,
       process: `We conducted extensive user research to understand search behavior and mental models around car shopping.`,
       solution: `The new search experience uses progressive disclosure, smart defaults, and visual filtering to guide users naturally.`,
       results: `Search completion rates improved by 35% and time-to-find decreased by 28%.`,
@@ -114,12 +114,12 @@ Looking ahead, we're exploring how these principles might extend to other high-c
     date: "Feb 12, 2024",
     views: "2,156",
     tags: ["Product Page", "E-commerce", "UX"],
-    heroImage: "/projects/car-details-hero.jpg",
+    heroImages: ["/projects/car-details-hero.jpg"],
     description:
       "Redesigning the car details page to better communicate vehicle information and build trust with potential buyers.",
     content: {
       overview: `The car details page is one of the most critical touchpoints in the car-buying journey. This redesign focused on clarity, trust, and action.`,
-      challenge: `Users needed comprehensive information to make a major purchase decision, but the existing page felt cluttered and overwhelming.`,
+      challenge: `The previous page was cluttered and information-dense, making it hard for users to find key details about vehicle condition and history.`,
       process: `We analyzed user behavior, conducted A/B tests, and iterated on information hierarchy and visual presentation.`,
       solution: `The new design uses clear sections, high-quality imagery, and strategic placement of key information to build confidence.`,
       results: `Engagement with key information increased by 42% and conversion to next steps improved by 19%.`,
@@ -134,12 +134,12 @@ Looking ahead, we're exploring how these principles might extend to other high-c
     date: "Jun 20, 2023",
     views: "1,654",
     tags: ["AI/ML", "Voice UI", "Design System"],
-    heroImage: "/projects/skye-v2-hero.jpg",
+    heroImages: ["/projects/skye-v2-hero.jpg"],
     description:
       "The second iteration of Skye AI, focusing on improving conversation quality and user trust.",
     content: {
       overview: `Skye v2 built upon the foundation of v1, with a focus on improving conversation quality and building user trust in AI recommendations.`,
-      challenge: `Users were engaging with Skye but weren't fully trusting its recommendations. We needed to make the AI more transparent and helpful.`,
+      challenge: `While v1 was functional, users often felt the interactions were robotic and lacked depth.`,
       process: `We analyzed conversation logs, conducted user interviews, and prototyped different approaches to transparency and explanation.`,
       solution: `Version 2 introduced clearer reasoning explanations and better handling of uncertainty in AI responses.`,
       results: `User trust scores increased by 31% and recommendation acceptance rates improved by 24%.`,
@@ -153,7 +153,7 @@ Looking ahead, we're exploring how these principles might extend to other high-c
     date: "Dec 3, 2023",
     views: "567",
     tags: ["AI/ML", "Productivity", "Side Project"],
-    heroImage: "/projects/mail-agent-hero.jpg",
+    heroImages: ["/projects/mail-agent-hero.jpg"],
     description:
       "A personal project exploring how AI can help manage and prioritize email more effectively.",
     content: {
@@ -173,12 +173,12 @@ Looking ahead, we're exploring how these principles might extend to other high-c
     date: "Apr 15, 2023",
     views: "2,389",
     tags: ["AI/ML", "Design System", "Voice UI"],
-    heroImage: "/projects/skye-v1-hero.jpg",
+    heroImages: ["/projects/skye-v1-hero.jpg"],
     description:
       "The initial design and launch of Skye AI, CarMax's conversational AI assistant for car shopping.",
     content: {
       overview: `Skye v1 was the first iteration of CarMax's conversational AI assistant, introducing natural language interaction to the car shopping experience.`,
-      challenge: `We needed to create an AI experience that felt natural and helpful while maintaining brand consistency and user trust.`,
+      challenge: `Designing a conversational interface from scratch for a traditional e-commerce platform.`,
       process: `We started with extensive research into conversational interfaces and user expectations for AI assistants in e-commerce.`,
       solution: `The first version focused on core conversational capabilities and establishing a friendly, helpful personality for Skye.`,
       results: `Initial launch saw strong user engagement with 58% of users trying the feature and positive feedback on the conversational experience.`,

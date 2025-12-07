@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { ArrowUpRight, Briefcase, Calendar, Users } from "lucide-react";
 import { getAllProjects, type NotionProject } from "@/lib/notion";
-import { CompactCarousel } from "@/components/compact-carousel";
+// CompactCarousel import removed
 import { InteractiveImage } from "@/components/interactive-image";
 import { SetProjectTitle } from "@/components/project-title-context";
 
@@ -45,16 +45,27 @@ function ProjectSection({ project }: { project: NotionProject }) {
   return (
     <section
       id={project.slug}
-      className="flex flex-col gap-6 scroll-mt-32"
+      className="flex flex-col gap-6 scroll-mt-32 py-20 border-b border-black/10 last:border-0"
     >
-      {/* Hero Image */}
-      {project.heroImage && (
-        <div className="mb-6">
-          <InteractiveImage
-            src={project.heroImage}
-            alt={project.title}
-            priority
-          />
+      {/* Hero Images - Breakout Horizontal Scroll */}
+      {project.heroImages.length > 0 && (
+        <div className="w-screen ml-[calc(50%-50vw)] overflow-x-auto scrollbar-hide mb-6 -mr-[calc(50%-50vw)] snap-x snap-mandatory">
+          <div className="flex gap-2 px-8 md:pl-[calc((100vw-608px)/2+32px)] w-max max-w-none">
+            {project.heroImages.map((image, index) => (
+              <div
+                key={index}
+                className="relative w-[calc(100vw-64px)] md:w-[544px] flex-shrink-0 snap-center"
+              >
+                <InteractiveImage
+                  src={image}
+                  alt={`${project.title} hero image ${index + 1}`}
+                  priority={index === 0}
+                />
+              </div>
+            ))}
+            {/* Right padding spacer to match left padding visually when scrolling to end */}
+            <div className="w-6 md:w-[calc((100vw-608px)/2+8px)] flex-shrink-0" />
+          </div>
         </div>
       )}
 
@@ -125,22 +136,6 @@ function ProjectSection({ project }: { project: NotionProject }) {
         </div>
       )}
 
-      {/* Process Images */}
-      {project.processImages.length > 0 && (
-        <div className="flex flex-col gap-2">
-          <h3 className="text-xl font-semibold">Process</h3>
-          <CompactCarousel images={project.processImages} />
-        </div>
-      )}
-
-      {/* Final Screens */}
-      {project.finalScreens.length > 0 && (
-        <div className="flex flex-col gap-2">
-          <h3 className="text-xl font-semibold">Final Screens</h3>
-          <CompactCarousel images={project.finalScreens} />
-        </div>
-      )}
-
       {/* Prototype Button */}
       {project.prototypeUrl && (
         <div>
@@ -202,7 +197,7 @@ export default async function ProjectsPage() {
   const allProjects = await getAllProjects();
 
   return (
-    <div className="flex flex-col gap-20 -mt-16">
+    <div className="flex flex-col">
       {/* Set header title to "Projects" */}
       <SetProjectTitle title="Projects" />
 

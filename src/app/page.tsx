@@ -47,7 +47,7 @@ export default async function Home() {
   return (
     <StaggeredFadeIn initialDelay={0.25} staggerDelay={0.18} duration={0.45}>
       {/* Section 1: Shimmer text below header */}
-      <div className="-mt-20">
+      <div className="">
         <ShimmerText initialShimmerDelay={0.25} initialWord="Designing" />
         <p className="mt-6 text-base max-w-md">
           I design conversational interfaces at CarMax since 2022. I like simplicity, tiny details, bold ideas, and magic moments.
