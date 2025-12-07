@@ -58,7 +58,7 @@ export function InteractiveImage({
   return (
     <>
       <div
-        className={`relative w-full ${aspectClass} rounded-xl overflow-hidden bg-gray-100 dark:bg-gray-800 cursor-pointer group ${className}`}
+        className={`relative w-full ${aspectClass} rounded-xl overflow-hidden bg-gray-100 dark:bg-gray-800 cursor-zoom-in group border border-black/10 ${className}`}
         onClick={() => setIsFullscreen(true)}
       >
         <Image
@@ -69,6 +69,8 @@ export function InteractiveImage({
           unoptimized
           priority={priority}
         />
+        {/* Inset shadow overlay */}
+        <div className="absolute inset-0 pointer-events-none ring-1 ring-black/10 transition-transform duration-500 ease-out group-hover:scale-[1.02]" />
       </div>
       {isFullscreen && (
         <FullscreenView
@@ -80,4 +82,5 @@ export function InteractiveImage({
     </>
   );
 }
+
 

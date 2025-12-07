@@ -136,7 +136,7 @@ export type NotionProject = {
   title: string;
   company: string;
   companyLogo: string | null;
-  heroImage: string | null;
+  heroImages: string[];
   tags: string[];
   startDate: string;
   endDate: string | null;
@@ -146,7 +146,7 @@ export type NotionProject = {
   role: string;
   team: string;
   featured: boolean;
-  
+
   // Content fields
   background: string;
   challengeStatement: string;
@@ -170,14 +170,14 @@ export type NotionProject = {
   stakeholderQuote: string;
   nextSteps: string;
   personalGrowth: string;
-  
+
   // Media
   videoUrl: string | null;
   prototypeUrl: string | null;
   processImages: string[];
   finalScreens: string[];
   figmaSlidesUrl: string | null;
-  
+
   // Page content (blocks) - populated separately
   pageContent: NotionBlock[];
 };
@@ -203,7 +203,7 @@ function parseNotionPage(page: {
     title: getRichText(props["Project Name"]?.title),
     company: getRichText(props["Company"]?.rich_text),
     companyLogo: getFileUrl(props["Company Logo"]?.files),
-    heroImage: getFileUrl(props["Hero Image"]?.files),
+    heroImages: getAllFileUrls(props["Hero Image"]?.files),
     tags: props["Keywords / Tags"]?.multi_select?.map((tag) => tag.name) || [],
     startDate: formatDate(props["Start/End"]?.date?.start || null),
     endDate: formatDate(props["Start/End"]?.date?.end || null),
@@ -251,10 +251,10 @@ function parseNotionPage(page: {
 }
 
 // Parse block content from Notion
-function parseBlockContent(block: { type: string; [key: string]: unknown }): string {
+function parseBlockContent(block: { type: string;[key: string]: unknown }): string {
   const blockType = block.type;
   const blockData = block[blockType] as { rich_text?: RichTextItem[] } | undefined;
-  
+
   if (blockData?.rich_text) {
     return getRichText(blockData.rich_text);
   }
@@ -309,7 +309,7 @@ export async function getAllProjects(
         // Production: only "Live" projects
         // Development: exclude "Not started" and "Rejected" (show "Draft", "Ready", and "Live")
         let includeProject = false;
-        
+
         if (useProductionFilter) {
           // Production: only show "Live" projects
           includeProject = project.status === "Live";
@@ -343,12 +343,12 @@ export async function getProjectBySlug(
   // Use the same environment-based filtering as getAllProjects
   const allProjects = await getAllProjects(options);
   const project = allProjects.find((p) => p.slug === slug);
-  
+
   if (!project) return null;
 
   // Fetch the page content (blocks) if any exist
   project.pageContent = await getPageContent(project.id);
-  
+
   return project;
 }
 
@@ -369,7 +369,7 @@ export async function getPageContent(pageId: string): Promise<NotionBlock[]> {
         const notionBlock: NotionBlock = {
           id: block.id,
           type: block.type,
-          content: parseBlockContent(block as { type: string; [key: string]: unknown }),
+          content: parseBlockContent(block as { type: string;[key: string]: unknown }),
         };
 
         // Recursively fetch children if block has them
