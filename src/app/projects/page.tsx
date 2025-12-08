@@ -35,7 +35,25 @@ function parseBulletList(text: string): string[] {
 function formatDateRange(startDate: string, endDate: string | null): string {
   if (!startDate) return "";
   if (!endDate) return startDate;
-  return `${startDate} – ${endDate}`;
+
+  // Parse dates (format is like "Jan 12, 2024")
+  const parseDate = (dateStr: string) => {
+    const parts = dateStr.trim().split(' ');
+    const month = parts[0]; // "Jan"
+    const year = parts[2]; // "2024" (after the comma)
+    return { month, year };
+  };
+
+  const start = parseDate(startDate);
+  const end = parseDate(endDate);
+
+  // Same year: "Month - Month Year"
+  if (start.year === end.year) {
+    return `${start.month} – ${end.month} ${start.year}`;
+  }
+
+  // Different years: "Year - Year"
+  return `${start.year} – ${end.year}`;
 }
 
 // Single project section component
@@ -98,9 +116,9 @@ function ProjectSection({ project }: { project: NotionProject }) {
                 <Image
                   src={project.companyLogo}
                   alt={`${project.company} logo`}
-                  width={20}
-                  height={20}
-                  className="flex-shrink-0"
+                  width={16}
+                  height={16}
+                  className="flex-shrink-0 translate-y-[2px]"
                   unoptimized
                 />
               )}
