@@ -15,7 +15,7 @@ export default function ProjectsLoading() {
             </div>
 
             {/* First project section skeleton */}
-            <div className="flex flex-col gap-6 py-20 border-b border-black/10">
+            <div className="flex flex-col gap-6 py-20 border-b border-border">
                 {/* Hero image skeleton - breakout width */}
                 <div className="w-screen ml-[calc(50%-50vw)] mb-6 -mr-[calc(50%-50vw)]">
                     <div className="flex gap-2 px-8 md:pl-[calc((100vw-608px)/2+32px)]">

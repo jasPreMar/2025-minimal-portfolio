@@ -264,8 +264,7 @@ function FullscreenCarousel({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex flex-col"
-      style={{ backgroundColor: "#e5e5e5" }}
+      className="fixed inset-0 z-50 flex flex-col bg-muted"
     >
       {/* Header */}
       <div
@@ -361,8 +360,7 @@ function FullscreenView({
   if (item.type === "figma") {
     return (
       <div
-        className="fixed inset-0 z-50 flex flex-col"
-        style={{ backgroundColor: "#e5e5e5" }}
+        className="fixed inset-0 z-50 flex flex-col bg-muted"
       >
         <div
           className="flex items-center px-4 flex-shrink-0"
@@ -391,8 +389,7 @@ function FullscreenView({
   if (item.type === "video") {
     return (
       <div
-        className="fixed inset-0 z-50 flex flex-col"
-        style={{ backgroundColor: "#e5e5e5" }}
+        className="fixed inset-0 z-50 flex flex-col bg-muted"
       >
         <div
           className="flex items-center px-4 flex-shrink-0"

@@ -101,8 +101,7 @@ function FullscreenView({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex flex-col"
-      style={{ backgroundColor: "#e5e5e5" }}
+      className="fixed inset-0 z-50 flex flex-col bg-muted"
     >
       {/* Header */}
       <div
@@ -176,7 +175,7 @@ export function InteractiveImage({
   return (
     <>
       <div
-        className={`relative w-full ${aspectClass} rounded-xl overflow-hidden bg-gray-100 dark:bg-gray-800 cursor-zoom-in group border border-black/10 ${className}`}
+        className={`relative w-full ${aspectClass} rounded-xl overflow-hidden bg-muted cursor-zoom-in group border border-border ${className}`}
         onClick={() => setIsFullscreen(true)}
       >
         <Image
@@ -193,7 +192,7 @@ export function InteractiveImage({
           <Skeleton className="absolute inset-0 w-full h-full rounded-xl" />
         )}
         {/* Inset shadow overlay */}
-        <div className="absolute inset-0 pointer-events-none ring-1 ring-black/10 transition-transform duration-500 ease-out group-hover:scale-[1.02]" />
+        <div className="absolute inset-0 pointer-events-none ring-1 ring-border transition-transform duration-500 ease-out group-hover:scale-[1.02]" />
       </div>
       {isFullscreen && (
         <FullscreenView
