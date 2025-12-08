@@ -252,9 +252,11 @@ body {
   text-decoration: none;
 }
 
-/* Underline on hover */
-.project-link:hover .project-link-text {
-  text-decoration: underline;
+/* Underline on hover - only on devices that support hover */
+@media (hover: hover) {
+  .project-link:hover .project-link-text {
+    text-decoration: underline;
+  }
 }
 
 .project-link-arrow {
