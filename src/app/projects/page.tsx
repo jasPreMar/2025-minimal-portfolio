@@ -181,7 +181,7 @@ function ProjectSection({ project }: { project: NotionProject }) {
       {outcomesList.length > 0 && (
         <div className="flex flex-col gap-2">
           <h3 className="text-xl font-semibold">Outcomes</h3>
-          <ul className="list-disc list-outside pl-6 leading-relaxed space-y-1">
+          <ul className="list-disc list-outside -ml-6 pl-6 leading-relaxed space-y-1">
             {outcomesList.map((outcome, i) => (
               <li key={i}>{outcome}</li>
             ))}
@@ -193,7 +193,7 @@ function ProjectSection({ project }: { project: NotionProject }) {
       {contributionsList.length > 0 && (
         <div className="flex flex-col gap-2">
           <h3 className="text-xl font-semibold">Key Contributions</h3>
-          <ul className="list-disc list-outside pl-6 leading-relaxed space-y-1">
+          <ul className="list-disc list-outside -ml-6 pl-6 leading-relaxed space-y-1">
             {contributionsList.map((contribution, i) => (
               <li key={i}>{contribution}</li>
             ))}
