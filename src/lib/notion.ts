@@ -48,17 +48,20 @@ type NotionProperties = {
   Team: { rich_text: RichTextItem[] };
   Featured: { checkbox: boolean };
   Background: { rich_text: RichTextItem[] };
+  Overview: { rich_text: RichTextItem[] };
   "Challenge Statement": { rich_text: RichTextItem[] };
   "Trigger or Insight": { rich_text: RichTextItem[] };
   Goals: { rich_text: RichTextItem[] };
   Constraints: { rich_text: RichTextItem[] };
   Methods: { rich_text: RichTextItem[] };
   "Key Findings": { rich_text: RichTextItem[] };
+  "Key Contributions": { rich_text: RichTextItem[] };
   "Early Concepts": { rich_text: RichTextItem[] };
   "Design Decisions": { rich_text: RichTextItem[] };
   "Testing + Feedback": { rich_text: RichTextItem[] };
   Learnings: { rich_text: RichTextItem[] };
   "Impact Metrics": { rich_text: RichTextItem[] };
+  Outcomes: { rich_text: RichTextItem[] };
   "Qualitative Impact": { rich_text: RichTextItem[] };
   "One-Line Summary": { rich_text: RichTextItem[] };
   "Subtitle / Tagline": { rich_text: RichTextItem[] };
@@ -155,6 +158,7 @@ export type NotionProject = {
   constraints: string;
   methods: string;
   keyFindings: string;
+  keyContributions: string;
   earlyConcepts: string;
   designDecisions: string;
   testingFeedback: string;
@@ -215,18 +219,19 @@ function parseNotionPage(page: {
     featured: props["Featured"]?.checkbox || false,
 
     // Content
-    background: getRichText(props["Background"]?.rich_text),
+    background: getRichText(props["Overview"]?.rich_text) || getRichText(props["Background"]?.rich_text),
     challengeStatement: getRichText(props["Challenge Statement"]?.rich_text),
     triggerOrInsight: getRichText(props["Trigger or Insight"]?.rich_text),
     goals: getRichText(props["Goals"]?.rich_text),
     constraints: getRichText(props["Constraints"]?.rich_text),
     methods: getRichText(props["Methods"]?.rich_text),
     keyFindings: getRichText(props["Key Findings"]?.rich_text),
+    keyContributions: getRichText(props["Key Contributions"]?.rich_text),
     earlyConcepts: getRichText(props["Early Concepts"]?.rich_text),
     designDecisions: getRichText(props["Design Decisions"]?.rich_text),
     testingFeedback: getRichText(props["Testing + Feedback"]?.rich_text),
     learnings: getRichText(props["Learnings"]?.rich_text),
-    impactMetrics: getRichText(props["Impact Metrics"]?.rich_text),
+    impactMetrics: getRichText(props["Outcomes"]?.rich_text) || getRichText(props["Impact Metrics"]?.rich_text),
     qualitativeImpact: getRichText(props["Qualitative Impact"]?.rich_text),
     summary: getRichText(props["One-Line Summary"]?.rich_text),
     subtitle: getRichText(props["Subtitle / Tagline"]?.rich_text),

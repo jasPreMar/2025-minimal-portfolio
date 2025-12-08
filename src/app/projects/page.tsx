@@ -4,6 +4,8 @@ import { getAllProjects, type NotionProject } from "@/lib/notion";
 // CompactCarousel import removed
 import { InteractiveImage } from "@/components/interactive-image";
 import { SetProjectTitle } from "@/components/project-title-context";
+import { SocialLinks } from "@/components/social-links";
+import { ProjectsStaggeredFade } from "@/components/projects-staggered-fade";
 
 // Revalidate every 60 seconds (ISR)
 export const revalidate = 60;
@@ -40,7 +42,13 @@ function formatDateRange(startDate: string, endDate: string | null): string {
 function ProjectSection({ project }: { project: NotionProject }) {
   const dateRange = formatDateRange(project.startDate, project.endDate);
   const outcomesList = parseBulletList(project.impactMetrics);
-  const contributionsList = parseBulletList(project.keyFindings);
+  const contributionsList = parseBulletList(project.keyContributions);
+
+  // Debug: log what we're getting from Notion
+  console.log(`\n=== ${project.title} ===`);
+  console.log(`background: "${project.background?.substring(0, 100)}..."`);
+  console.log(`impactMetrics: "${project.impactMetrics?.substring(0, 100)}..."`);
+  console.log(`keyContributions: "${project.keyContributions?.substring(0, 100)}..."`);
 
   return (
     <section
@@ -201,10 +209,16 @@ export default async function ProjectsPage() {
       {/* Set header title to "Projects" */}
       <SetProjectTitle title="Projects" />
 
-      {/* All projects */}
-      {allProjects.map((project) => (
-        <ProjectSection key={project.id} project={project} />
-      ))}
+      <div className="my-8">
+        <SocialLinks />
+      </div>
+
+      {/* All projects with staggered animation */}
+      <ProjectsStaggeredFade>
+        {allProjects.map((project) => (
+          <ProjectSection key={project.id} project={project} />
+        ))}
+      </ProjectsStaggeredFade>
 
       {/* Footer spacing */}
       <div className="h-20" />
