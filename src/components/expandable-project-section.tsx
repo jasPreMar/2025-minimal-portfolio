@@ -304,8 +304,23 @@ function ProjectLinkWithThumbnails({
   const [isHovered, setIsHovered] = useState(false);
   const thumbnailHoverCount = useRef(0);
   const [isHoveringThumbnail, setIsHoveringThumbnail] = useState(false);
+  const [supportsHover, setSupportsHover] = useState(false);
+
+  useEffect(() => {
+    // Check if device supports hover (not a touch device)
+    const mediaQuery = window.matchMedia("(hover: hover)");
+    setSupportsHover(mediaQuery.matches);
+
+    const handleChange = (e: MediaQueryListEvent) => {
+      setSupportsHover(e.matches);
+    };
+
+    mediaQuery.addEventListener("change", handleChange);
+    return () => mediaQuery.removeEventListener("change", handleChange);
+  }, []);
 
   const handleMouseEnter = () => {
+    if (!supportsHover) return;
     setIsHovered(true);
     if (arrowRef.current) {
       arrowRef.current.style.transition = "transform 0ms";
@@ -314,6 +329,7 @@ function ProjectLinkWithThumbnails({
   };
 
   const handleMouseLeave = () => {
+    if (!supportsHover) return;
     setIsHovered(false);
     thumbnailHoverCount.current = 0;
     setIsHoveringThumbnail(false);
@@ -346,8 +362,8 @@ function ProjectLinkWithThumbnails({
         backgroundColor: showHoverBg ? "var(--accent)" : "transparent",
         transition: showHoverBg ? "none" : "background-color 150ms ease-out",
       } : undefined}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
+      onMouseEnter={supportsHover ? handleMouseEnter : undefined}
+      onMouseLeave={supportsHover ? handleMouseLeave : undefined}
     >
       {/* Text row */}
       <div className="flex items-center w-full justify-between min-[480px]:w-fit min-[480px]:justify-start min-[480px]:gap-2">
@@ -423,7 +439,7 @@ export function ExpandableProjectSection({
     <>
       <div className="flex flex-col gap-4">
         <p className="text-base font-semibold">{title}</p>
-        <div className="flex flex-col gap-0">
+        <div className={`flex flex-col ${isExpanded ? "gap-1" : "gap-0"}`}>
           {projects.map((project, index) => (
             <ProjectLinkWithThumbnails
               key={project.id}
