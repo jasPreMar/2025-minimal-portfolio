@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect, useCallback } from "react";
+import { useState, useRef, useEffect, useLayoutEffect, useCallback } from "react";
 import { ArrowRight, ChevronLeft } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -305,6 +305,10 @@ function ProjectLinkWithThumbnails({
   const [isHovered, setIsHovered] = useState(false);
   const thumbnailHoverCount = useRef(0);
   const [isHoveringThumbnail, setIsHoveringThumbnail] = useState(false);
+  const [isPrismaticShimmering, setIsPrismaticShimmering] = useState(false);
+  const previousExpandedRef = useRef(false);
+  const prismaticTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const prismaticEndTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const handleMouseEnter = () => {
     setIsHovered(true);
@@ -333,6 +337,33 @@ function ProjectLinkWithThumbnails({
     setIsHoveringThumbnail(thumbnailHoverCount.current > 0);
   };
 
+  // Trigger shimmer effect when expanding - use useLayoutEffect for instant trigger
+  useLayoutEffect(() => {
+    // Only trigger if transitioning from not expanded to expanded
+    if (isExpanded && !previousExpandedRef.current) {
+      const prismaticDuration = 0.91; // Duration in seconds
+
+      // Clear any existing timeouts
+      if (prismaticTimeoutRef.current) clearTimeout(prismaticTimeoutRef.current);
+      if (prismaticEndTimeoutRef.current) clearTimeout(prismaticEndTimeoutRef.current);
+
+      // Start prismatic shimmer immediately
+      setIsPrismaticShimmering(true);
+
+      // End prismatic shimmer
+      prismaticEndTimeoutRef.current = setTimeout(() => {
+        setIsPrismaticShimmering(false);
+      }, prismaticDuration * 1000);
+    }
+
+    previousExpandedRef.current = isExpanded;
+
+    return () => {
+      if (prismaticTimeoutRef.current) clearTimeout(prismaticTimeoutRef.current);
+      if (prismaticEndTimeoutRef.current) clearTimeout(prismaticEndTimeoutRef.current);
+    };
+  }, [isExpanded]);
+
   const showHoverBg = isHovered && !isHoveringThumbnail;
 
   return (
@@ -352,9 +383,36 @@ function ProjectLinkWithThumbnails({
     >
       {/* Text row */}
       <div className="flex items-center w-full justify-between min-[480px]:w-fit min-[480px]:justify-start min-[480px]:gap-2">
-        <span className={`truncate ${isExpanded ? "" : "project-link-text"}`}>
-          {project.title} - {project.company}
-        </span>
+        {isExpanded ? (
+          <span
+            className="truncate"
+            style={
+              {
+                "--prismatic-duration": "0.91s",
+                position: "relative",
+                display: "inline-block",
+              } as React.CSSProperties
+            }
+          >
+            {/* Base text */}
+            <span>
+              {project.title} - {project.company}
+            </span>
+            {/* Prismatic shimmer */}
+            {isPrismaticShimmering && (
+              <span
+                className="shimmer-prismatic shimmer-animating"
+                aria-hidden="true"
+              >
+                {project.title} - {project.company}
+              </span>
+            )}
+          </span>
+        ) : (
+          <span className="project-link-text truncate">
+            {project.title} - {project.company}
+          </span>
+        )}
         <div
           ref={arrowRef}
           className="project-link-arrow flex items-center justify-center w-6 h-6 shrink-0"
