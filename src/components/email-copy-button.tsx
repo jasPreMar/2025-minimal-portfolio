@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { AnimatePresence, motion } from 'motion/react';
+import { Copy, Check } from 'lucide-react';
 import {
   Tooltip,
   TooltipContent,
@@ -15,6 +16,20 @@ interface EmailCopyButtonProps {
 export default function EmailCopyButton({ email = "jasonpmarsh@gmail.com" }: EmailCopyButtonProps) {
   const [isHovered, setIsHovered] = useState(false);
   const [isCopied, setIsCopied] = useState(false);
+  const [supportsHover, setSupportsHover] = useState(false);
+
+  useEffect(() => {
+    // Check if device supports hover (not a touch device)
+    const mediaQuery = window.matchMedia("(hover: hover)");
+    setSupportsHover(mediaQuery.matches);
+
+    const handleChange = (e: MediaQueryListEvent) => {
+      setSupportsHover(e.matches);
+    };
+
+    mediaQuery.addEventListener("change", handleChange);
+    return () => mediaQuery.removeEventListener("change", handleChange);
+  }, []);
 
   const handleCopyEmail = async () => {
     // Reset hover state on click/touch to prevent stuck hover state on touch devices
@@ -28,38 +43,124 @@ export default function EmailCopyButton({ email = "jasonpmarsh@gmail.com" }: Ema
     }
   };
 
-  // Display text logic
-  const getDisplayText = () => {
-    if (isCopied) return "Copied!";
-    return isHovered ? "Copy" : "Email";
+  const handleMouseEnter = () => {
+    if (supportsHover) {
+      setIsHovered(true);
+    }
+  };
+
+  const handleMouseLeave = () => {
+    if (supportsHover) {
+      setIsHovered(false);
+    }
   };
 
   return (
     <Tooltip>
       <TooltipTrigger asChild>
         <motion.button
-          className="email-button-chromatic outline-none px-4 h-9 flex items-center justify-center whitespace-nowrap rounded-lg active:scale-95 transition-transform focus-visible:ring-1 focus-visible:ring-foreground focus-visible:ring-offset-1 focus:outline-none bg-foreground text-background font-sans text-sm font-medium cursor-pointer"
-          whileTap={{ scale: 0.98 }}
+          className="email-button-chromatic outline-none h-9 flex items-center justify-center whitespace-nowrap rounded-lg focus-visible:ring-1 focus-visible:ring-foreground focus-visible:ring-offset-1 focus:outline-none bg-foreground text-background font-sans text-sm font-medium cursor-pointer relative"
           onClick={handleCopyEmail}
-          onMouseEnter={() => setIsHovered(true)}
-          onMouseLeave={() => setIsHovered(false)}
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
           onTouchStart={() => setIsHovered(false)}
           aria-label="Copy email address to clipboard"
+          layout
+          transition={{
+            layout: {
+              type: "spring",
+              bounce: 0,
+              duration: 0.2,
+            },
+          }}
         >
-          <AnimatePresence mode="popLayout" initial={false}>
-            <motion.div
-              className="flex items-center justify-center min-w-[3rem]"
-              key={isCopied ? 'copied' : (isHovered ? 'hovered' : 'default')}
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: 10 }}
-              transition={{ type: "spring", duration: 0.3, bounce: 0.2 }}
-            >
-              <span className="email-button-text">
-                {getDisplayText()}
-              </span>
-            </motion.div>
-          </AnimatePresence>
+          <motion.div
+            className="flex items-center px-4 relative"
+            layout
+            transition={{
+              layout: {
+                type: "spring",
+                bounce: 0,
+                duration: 0.2,
+              },
+            }}
+          >
+            <div className="relative flex items-center">
+              <motion.div
+                className="flex items-center gap-1.5"
+                initial={false}
+                animate={{
+                  opacity: isCopied ? 1 : 0,
+                  pointerEvents: isCopied ? "auto" : "none",
+                }}
+                transition={{
+                  opacity: {
+                    type: "spring",
+                    bounce: 0,
+                    duration: isCopied ? 0.2 : 0.15,
+                  },
+                }}
+                style={{ 
+                  position: isCopied ? "relative" : "absolute",
+                  left: 0,
+                  top: 0,
+                  visibility: isCopied ? "visible" : "hidden",
+                }}
+              >
+                <Check size={16} strokeWidth={2} />
+                <span className="email-button-text">Copied Email!</span>
+              </motion.div>
+              <motion.div
+                className="flex items-center"
+                initial={false}
+                animate={{
+                  opacity: isCopied ? 0 : 1,
+                  pointerEvents: isCopied ? "none" : "auto",
+                }}
+                transition={{
+                  opacity: {
+                    type: "spring",
+                    bounce: 0,
+                    duration: isCopied ? 0.15 : 0.2,
+                  },
+                }}
+                style={{ 
+                  position: isCopied ? "absolute" : "relative",
+                  visibility: isCopied ? "hidden" : "visible",
+                }}
+              >
+                <AnimatePresence initial={false}>
+                  {isHovered && !isCopied && (
+                    <motion.div
+                      key="icon"
+                      initial={{ opacity: 0, width: 0, marginRight: 0 }}
+                      animate={{ opacity: 1, width: 16, marginRight: 6 }}
+                      exit={{
+                        opacity: 0,
+                        width: 0,
+                        marginRight: 0,
+                        transition: {
+                          type: "spring",
+                          bounce: 0,
+                          duration: 0.15,
+                        },
+                      }}
+                      transition={{
+                        type: "spring",
+                        bounce: 0,
+                        duration: 0.2,
+                      }}
+                      className="flex items-center overflow-hidden"
+                      style={{ flexShrink: 0 }}
+                    >
+                      <Copy size={16} strokeWidth={2} />
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+                <span className="email-button-text">Copy Email</span>
+              </motion.div>
+            </div>
+          </motion.div>
         </motion.button>
       </TooltipTrigger>
       <TooltipContent side="bottom" sideOffset={8}>
@@ -68,4 +169,3 @@ export default function EmailCopyButton({ email = "jasonpmarsh@gmail.com" }: Ema
     </Tooltip>
   );
 }
-
