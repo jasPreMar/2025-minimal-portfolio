@@ -90,10 +90,10 @@ function ProjectSection({ project }: { project: NotionProject }) {
         )}
 
         {/* Metadata row */}
-        <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-secondary">
+        <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-secondary text-sm max-[480px]:flex-col max-[480px]:items-start">
           {/* Company */}
           {project.company && (
-            <div className="flex items-center gap-2">
+            <div className="flex items-baseline gap-2">
               {project.companyLogo && (
                 <Image
                   src={project.companyLogo}
@@ -110,24 +110,24 @@ function ProjectSection({ project }: { project: NotionProject }) {
 
           {/* Role */}
           {project.role && (
-            <div className="flex items-center gap-1.5">
-              <Briefcase size={16} />
+            <div className="flex items-baseline gap-1.5">
+              <Briefcase size={16} className="flex-shrink-0 translate-y-[2px]" />
               <span>{project.role}</span>
             </div>
           )}
 
           {/* Date range */}
           {dateRange && (
-            <div className="flex items-center gap-1.5">
-              <Calendar size={16} />
+            <div className="flex items-baseline gap-1.5">
+              <Calendar size={16} className="flex-shrink-0 translate-y-[2px]" />
               <span>{dateRange}</span>
             </div>
           )}
 
           {/* Team */}
           {project.team && (
-            <div className="flex items-center gap-1.5">
-              <Users size={16} />
+            <div className="flex items-baseline gap-1.5">
+              <Users size={16} className="flex-shrink-0 translate-y-[2px]" />
               <span>{project.team}</span>
             </div>
           )}

@@ -111,8 +111,7 @@ function FullscreenView({
       >
         <button
           onClick={onClose}
-          className="p-2 -ml-2 transition-colors cursor-pointer"
-          style={{ color: "#666" }}
+          className="p-2 -ml-2 transition-colors cursor-pointer text-foreground"
           aria-label="Close fullscreen"
         >
           <ChevronLeft size={28} />
