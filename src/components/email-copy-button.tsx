@@ -17,6 +17,8 @@ export default function EmailCopyButton({ email = "jasonpmarsh@gmail.com" }: Ema
   const [isCopied, setIsCopied] = useState(false);
 
   const handleCopyEmail = async () => {
+    // Reset hover state on click/touch to prevent stuck hover state on touch devices
+    setIsHovered(false);
     try {
       await navigator.clipboard.writeText(email);
       setIsCopied(true);
@@ -41,6 +43,7 @@ export default function EmailCopyButton({ email = "jasonpmarsh@gmail.com" }: Ema
           onClick={handleCopyEmail}
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
+          onTouchStart={() => setIsHovered(false)}
           aria-label="Copy email address to clipboard"
         >
           <AnimatePresence mode="popLayout" initial={false}>
