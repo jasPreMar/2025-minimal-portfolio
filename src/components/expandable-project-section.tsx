@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
-import { ArrowRight } from "lucide-react";
+import { useState, useRef, useEffect, useCallback } from "react";
+import { ArrowRight, ChevronLeft } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -21,15 +21,252 @@ interface ExpandableProjectSectionProps {
   firstItemAsMainLink?: boolean;
 }
 
+// Fullscreen image component with zoom/pan functionality
+function FullscreenImage({
+  url,
+  isZoomed,
+  onToggleZoom,
+}: {
+  url: string;
+  isZoomed: boolean;
+  onToggleZoom: () => void;
+}) {
+  const [panPosition, setPanPosition] = useState({ x: 50, y: 50 });
+  const [isDragging, setIsDragging] = useState(false);
+  const dragStartRef = useRef<{ mouseX: number; mouseY: number; panX: number; panY: number } | null>(null);
+
+  useEffect(() => {
+    if (!isZoomed) {
+      setPanPosition({ x: 50, y: 50 });
+    }
+  }, [isZoomed]);
+
+  const handleMouseDown = useCallback(
+    (e: React.MouseEvent) => {
+      if (!isZoomed) return;
+      setIsDragging(true);
+      dragStartRef.current = {
+        mouseX: e.clientX,
+        mouseY: e.clientY,
+        panX: panPosition.x,
+        panY: panPosition.y,
+      };
+    },
+    [isZoomed, panPosition]
+  );
+
+  const handleMouseMove = useCallback(
+    (e: React.MouseEvent) => {
+      if (!isZoomed || !isDragging || !dragStartRef.current) return;
+      const rect = e.currentTarget.getBoundingClientRect();
+      const deltaX = ((e.clientX - dragStartRef.current.mouseX) / rect.width) * 100;
+      const deltaY = ((e.clientY - dragStartRef.current.mouseY) / rect.height) * 100;
+      setPanPosition({
+        x: dragStartRef.current.panX - deltaX,
+        y: dragStartRef.current.panY - deltaY,
+      });
+    },
+    [isZoomed, isDragging]
+  );
+
+  const handleTouchStart = useCallback(
+    (e: React.TouchEvent) => {
+      if (!isZoomed) return;
+      const touch = e.touches[0];
+      dragStartRef.current = {
+        mouseX: touch.clientX,
+        mouseY: touch.clientY,
+        panX: panPosition.x,
+        panY: panPosition.y,
+      };
+    },
+    [isZoomed, panPosition]
+  );
+
+  const handleTouchMove = useCallback(
+    (e: React.TouchEvent) => {
+      if (!isZoomed || !dragStartRef.current) return;
+      const touch = e.touches[0];
+      const rect = e.currentTarget.getBoundingClientRect();
+      const deltaX = ((touch.clientX - dragStartRef.current.mouseX) / rect.width) * 100;
+      const deltaY = ((touch.clientY - dragStartRef.current.mouseY) / rect.height) * 100;
+      setPanPosition({
+        x: dragStartRef.current.panX - deltaX,
+        y: dragStartRef.current.panY - deltaY,
+      });
+    },
+    [isZoomed]
+  );
+
+  return (
+    <div
+      className="w-full h-full flex items-center justify-center"
+      style={{
+        cursor: isZoomed ? (isDragging ? "grabbing" : "grab") : "zoom-in",
+      }}
+      onClick={() => {
+        if (!isDragging) onToggleZoom();
+      }}
+      onMouseDown={handleMouseDown}
+      onMouseUp={() => setIsDragging(false)}
+      onMouseLeave={() => setIsDragging(false)}
+      onMouseMove={handleMouseMove}
+      onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchMove}
+      onTouchEnd={() => { dragStartRef.current = null; }}
+    >
+      <Image
+        src={url}
+        alt=""
+        fill
+        className="transition-none"
+        style={{
+          objectFit: isZoomed ? "cover" : "contain",
+          objectPosition: isZoomed ? `${panPosition.x}% ${panPosition.y}%` : "center",
+        }}
+        unoptimized
+        draggable={false}
+      />
+    </div>
+  );
+}
+
+// Fullscreen carousel view
+function FullscreenCarousel({
+  items,
+  initialIndex,
+  onClose,
+}: {
+  items: string[];
+  initialIndex: number;
+  onClose: () => void;
+}) {
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const [currentIndex, setCurrentIndex] = useState(initialIndex);
+  const [isZoomed, setIsZoomed] = useState(false);
+  const showCounter = items.length > 1;
+
+  useEffect(() => {
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, []);
+
+  useEffect(() => {
+    if (scrollRef.current && initialIndex > 0) {
+      const scrollContainer = scrollRef.current;
+      const slideWidth = scrollContainer.clientWidth + 8;
+      scrollContainer.scrollLeft = slideWidth * initialIndex;
+    }
+  }, [initialIndex]);
+
+  useEffect(() => {
+    const scrollContainer = scrollRef.current;
+    if (!scrollContainer) return;
+
+    const handleScroll = () => {
+      const slideWidth = scrollContainer.clientWidth + 8;
+      const newIndex = Math.round(scrollContainer.scrollLeft / slideWidth);
+      if (newIndex !== currentIndex && newIndex >= 0 && newIndex < items.length) {
+        setCurrentIndex(newIndex);
+        setIsZoomed(false);
+      }
+    };
+
+    scrollContainer.addEventListener("scroll", handleScroll, { passive: true });
+    return () => scrollContainer.removeEventListener("scroll", handleScroll);
+  }, [currentIndex, items.length]);
+
+  useEffect(() => {
+    if (scrollRef.current) {
+      scrollRef.current.style.overflowX = isZoomed ? "hidden" : "auto";
+    }
+  }, [isZoomed]);
+
+  return (
+    <div
+      className="fixed inset-0 z-50 flex flex-col"
+      style={{ backgroundColor: "#e5e5e5" }}
+    >
+      <div
+        className="flex items-center justify-between px-4 flex-shrink-0"
+        style={{ height: "56px" }}
+      >
+        <button
+          onClick={onClose}
+          className="p-2 -ml-2 transition-colors cursor-pointer text-foreground"
+          aria-label="Close fullscreen"
+        >
+          <ChevronLeft size={28} />
+        </button>
+        {showCounter && (
+          <span className="text-sm font-medium text-foreground">
+            {currentIndex + 1} / {items.length}
+          </span>
+        )}
+      </div>
+
+      <div
+        className="flex-1 flex items-center justify-center"
+        style={{
+          position: "relative",
+          top: "14px",
+          maxHeight: "calc(100% - 70px)",
+        }}
+      >
+        <div
+          ref={scrollRef}
+          className="w-full h-full flex overflow-x-auto scrollbar-hide"
+          style={{
+            scrollSnapType: isZoomed ? "none" : "x mandatory",
+            gap: "8px",
+            WebkitOverflowScrolling: "touch",
+          }}
+        >
+          {items.map((url, index) => (
+            <div
+              key={`${url}-${index}`}
+              className="flex-shrink-0 w-full h-full relative"
+              style={{ scrollSnapAlign: "start" }}
+            >
+              <FullscreenImage
+                url={url}
+                isZoomed={isZoomed && index === currentIndex}
+                onToggleZoom={() => setIsZoomed(!isZoomed)}
+              />
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 // Thumbnail image with skeleton loading
-function ThumbnailImage({ src }: { src: string }) {
+function ThumbnailImage({
+  src,
+  onClick,
+  onHoverChange,
+}: {
+  src: string;
+  onClick: () => void;
+  onHoverChange: (isHovering: boolean) => void;
+}) {
   const [isLoading, setIsLoading] = useState(true);
   const [aspectRatio, setAspectRatio] = useState(16 / 9);
 
   return (
     <div
-      className="relative flex-shrink-0 h-[90px] rounded-lg overflow-hidden bg-gray-100"
+      className="relative flex-shrink-0 h-[90px] rounded-lg overflow-hidden bg-gray-100 border border-black/10 group/thumb cursor-pointer"
       style={{ aspectRatio }}
+      onClick={(e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        onClick();
+      }}
+      onMouseEnter={() => onHoverChange(true)}
+      onMouseLeave={() => onHoverChange(false)}
     >
       {isLoading && (
         <Skeleton className="absolute inset-0 w-full h-full" />
@@ -38,7 +275,7 @@ function ThumbnailImage({ src }: { src: string }) {
         src={src}
         alt=""
         fill
-        className={`object-cover transition-opacity duration-300 ${isLoading ? "opacity-0" : "opacity-100"}`}
+        className={`object-cover transition-all duration-500 ease-out group-hover/thumb:scale-[1.06] ${isLoading ? "opacity-0" : "opacity-100"}`}
         unoptimized
         onLoad={(e) => {
           const img = e.currentTarget;
@@ -57,14 +294,20 @@ function ProjectLinkWithThumbnails({
   project,
   href,
   isExpanded,
+  onImageClick,
 }: {
   project: Project;
   href: string;
   isExpanded: boolean;
+  onImageClick: (index: number) => void;
 }) {
   const arrowRef = useRef<HTMLDivElement>(null);
+  const [isHovered, setIsHovered] = useState(false);
+  const thumbnailHoverCount = useRef(0);
+  const [isHoveringThumbnail, setIsHoveringThumbnail] = useState(false);
 
   const handleMouseEnter = () => {
+    setIsHovered(true);
     if (arrowRef.current) {
       arrowRef.current.style.transition = "transform 0ms";
       arrowRef.current.style.transform = "translateX(0.25rem)";
@@ -72,22 +315,44 @@ function ProjectLinkWithThumbnails({
   };
 
   const handleMouseLeave = () => {
+    setIsHovered(false);
+    thumbnailHoverCount.current = 0;
+    setIsHoveringThumbnail(false);
     if (arrowRef.current) {
       arrowRef.current.style.transition = "transform 200ms ease-out";
       arrowRef.current.style.transform = "translateX(0)";
     }
   };
 
+  const handleThumbnailHover = (isHovering: boolean) => {
+    if (isHovering) {
+      thumbnailHoverCount.current++;
+    } else {
+      thumbnailHoverCount.current = Math.max(0, thumbnailHoverCount.current - 1);
+    }
+    setIsHoveringThumbnail(thumbnailHoverCount.current > 0);
+  };
+
+  const showHoverBg = isHovered && !isHoveringThumbnail;
+
   return (
     <Link
       href={href}
-      className="project-link group flex flex-col py-2 min-[480px]:py-1"
+      className={`group flex flex-col ${
+        isExpanded
+          ? "rounded-xl px-3 -mx-3 py-3"
+          : "project-link py-2 min-[480px]:py-1"
+      }`}
+      style={isExpanded ? {
+        backgroundColor: showHoverBg ? "rgba(0, 0, 0, 0.05)" : "transparent",
+        transition: showHoverBg ? "none" : "background-color 150ms ease-out",
+      } : undefined}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
       {/* Text row */}
       <div className="flex items-center w-full justify-between min-[480px]:w-fit min-[480px]:justify-start min-[480px]:gap-2">
-        <span className="project-link-text truncate">
+        <span className={`truncate ${isExpanded ? "" : "project-link-text"}`}>
           {project.title} - {project.company}
         </span>
         <div
@@ -109,7 +374,12 @@ function ProjectLinkWithThumbnails({
       >
         <div className="flex gap-2 overflow-x-auto scrollbar-hide py-1">
           {project.heroImages.map((src, index) => (
-            <ThumbnailImage key={`${src}-${index}`} src={src} />
+            <ThumbnailImage
+              key={`${src}-${index}`}
+              src={src}
+              onClick={() => onImageClick(index)}
+              onHoverChange={handleThumbnailHover}
+            />
           ))}
         </div>
       </div>
@@ -123,6 +393,10 @@ export function ExpandableProjectSection({
   firstItemAsMainLink = false,
 }: ExpandableProjectSectionProps) {
   const [isExpanded, setIsExpanded] = useState(false);
+  const [fullscreenState, setFullscreenState] = useState<{
+    images: string[];
+    initialIndex: number;
+  } | null>(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -137,25 +411,43 @@ export function ExpandableProjectSection({
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  const handleImageClick = (project: Project, index: number) => {
+    setFullscreenState({
+      images: project.heroImages,
+      initialIndex: index,
+    });
+  };
+
   if (projects.length === 0) return null;
 
   return (
-    <div className="flex flex-col gap-4">
-      <p className="text-base font-semibold">{title}</p>
-      <div className="flex flex-col gap-0">
-        {projects.map((project, index) => (
-          <ProjectLinkWithThumbnails
-            key={project.id}
-            project={project}
-            href={
-              firstItemAsMainLink && index === 0
-                ? "/projects"
-                : `/projects#${project.slug}`
-            }
-            isExpanded={isExpanded}
-          />
-        ))}
+    <>
+      <div className="flex flex-col gap-4">
+        <p className="text-base font-semibold">{title}</p>
+        <div className="flex flex-col gap-0">
+          {projects.map((project, index) => (
+            <ProjectLinkWithThumbnails
+              key={project.id}
+              project={project}
+              href={
+                firstItemAsMainLink && index === 0
+                  ? "/projects"
+                  : `/projects#${project.slug}`
+              }
+              isExpanded={isExpanded}
+              onImageClick={(imgIndex) => handleImageClick(project, imgIndex)}
+            />
+          ))}
+        </div>
       </div>
-    </div>
+
+      {fullscreenState && (
+        <FullscreenCarousel
+          items={fullscreenState.images}
+          initialIndex={fullscreenState.initialIndex}
+          onClose={() => setFullscreenState(null)}
+        />
+      )}
+    </>
   );
 }
