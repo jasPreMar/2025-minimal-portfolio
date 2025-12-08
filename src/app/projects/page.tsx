@@ -75,7 +75,7 @@ function ProjectSection({ project }: { project: NotionProject }) {
     >
       {/* Hero Images - Breakout Horizontal Scroll */}
       {project.heroImages.length > 0 && (
-        <div className="w-screen ml-[calc(50%-50vw)] overflow-x-auto scrollbar-hide mb-6 -mr-[calc(50%-50vw)] snap-x snap-mandatory">
+        <div className="w-screen ml-[calc(50%-50vw)] overflow-x-auto scrollbar-hide mb-2 -mr-[calc(50%-50vw)] snap-x snap-mandatory">
           <div className="flex gap-2 px-8 md:pl-[calc((100vw-608px)/2+32px)] w-max max-w-none">
             {project.heroImages.map((image, index) => (
               <div
@@ -181,7 +181,7 @@ function ProjectSection({ project }: { project: NotionProject }) {
       {outcomesList.length > 0 && (
         <div className="flex flex-col gap-2">
           <h3 className="text-xl font-semibold">Outcomes</h3>
-          <ul className="list-disc list-inside leading-relaxed space-y-1">
+          <ul className="list-disc list-outside pl-6 leading-relaxed space-y-1">
             {outcomesList.map((outcome, i) => (
               <li key={i}>{outcome}</li>
             ))}
@@ -193,7 +193,7 @@ function ProjectSection({ project }: { project: NotionProject }) {
       {contributionsList.length > 0 && (
         <div className="flex flex-col gap-2">
           <h3 className="text-xl font-semibold">Key Contributions</h3>
-          <ul className="list-disc list-inside leading-relaxed space-y-1">
+          <ul className="list-disc list-outside pl-6 leading-relaxed space-y-1">
             {contributionsList.map((contribution, i) => (
               <li key={i}>{contribution}</li>
             ))}
@@ -230,7 +230,11 @@ export default async function ProjectsPage() {
       {/* Set header title to "Projects" */}
       <SetProjectTitle title="Projects" />
 
-      <div className="my-8">
+      <p className="mt-2 text-base max-w-md">
+        A collection of real, impactful, and shipped projects.
+      </p>
+
+      <div className="mt-8">
         <SocialLinks />
       </div>
 
