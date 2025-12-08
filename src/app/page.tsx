@@ -4,6 +4,7 @@ import { StaggeredFadeIn } from "@/components/staggered-fade-in";
 import { ExperienceSection } from "@/components/experience-section";
 import { SocialLinks } from "@/components/social-links";
 import { getAllProjects, type NotionProject } from "@/lib/notion";
+import { ExpandableProjectSection } from "@/components/expandable-project-section";
 
 // Revalidate every 60 seconds (ISR)
 export const revalidate = 60;
@@ -66,12 +67,12 @@ export default async function Home() {
 
       {/* Section 2: Projects - only renders if there are projects */}
       {projects.length > 0 && (
-        <ProjectSection title="Projects" projects={projects} firstItemAsMainLink />
+        <ExpandableProjectSection title="Projects" projects={projects} firstItemAsMainLink />
       )}
 
       {/* Section 3: Side Projects - only renders if there are side projects */}
       {sideProjects.length > 0 && (
-        <ProjectSection title="Side Projects" projects={sideProjects} />
+        <ExpandableProjectSection title="Side Projects" projects={sideProjects} />
       )}
 
       {/* Section 4: Experience */}
