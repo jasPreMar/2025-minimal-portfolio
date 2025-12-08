@@ -38,7 +38,7 @@ export default function EmailCopyButton({ email = "jasonpmarsh@gmail.com" }: Ema
     <Tooltip>
       <TooltipTrigger asChild>
         <motion.button
-          className="outline-none px-4 h-9 flex items-center justify-center whitespace-nowrap rounded-lg active:scale-95 transition-transform focus-visible:ring-1 focus-visible:ring-foreground focus-visible:ring-offset-1 focus:outline-none bg-foreground text-background font-sans text-sm font-medium cursor-pointer"
+          className="email-button-chromatic outline-none px-4 h-9 flex items-center justify-center whitespace-nowrap rounded-lg active:scale-95 transition-transform focus-visible:ring-1 focus-visible:ring-foreground focus-visible:ring-offset-1 focus:outline-none bg-foreground text-background font-sans text-sm font-medium cursor-pointer"
           whileTap={{ scale: 0.98 }}
           onClick={handleCopyEmail}
           onMouseEnter={() => setIsHovered(true)}
@@ -55,7 +55,7 @@ export default function EmailCopyButton({ email = "jasonpmarsh@gmail.com" }: Ema
               exit={{ opacity: 0, y: 10 }}
               transition={{ type: "spring", duration: 0.3, bounce: 0.2 }}
             >
-              <span>
+              <span className="email-button-text">
                 {getDisplayText()}
               </span>
             </motion.div>
