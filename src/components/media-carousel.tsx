@@ -274,16 +274,14 @@ function FullscreenCarousel({
       >
         <button
           onClick={onClose}
-          className="p-2 -ml-2 transition-colors cursor-pointer"
-          style={{ color: "#666" }}
+          className="p-2 -ml-2 transition-colors cursor-pointer text-foreground"
           aria-label="Close fullscreen"
         >
           <ChevronLeft size={28} />
         </button>
         {showCounter && (
           <span
-            className="text-sm font-medium"
-            style={{ color: "#666" }}
+            className="text-sm font-medium text-foreground"
           >
             {currentIndex + 1} / {items.length}
           </span>
@@ -372,8 +370,7 @@ function FullscreenView({
         >
           <button
             onClick={onClose}
-            className="p-2 -ml-2 transition-colors cursor-pointer"
-            style={{ color: "#666" }}
+            className="p-2 -ml-2 transition-colors cursor-pointer text-foreground"
             aria-label="Close fullscreen"
           >
             <ChevronLeft size={28} />
@@ -403,8 +400,7 @@ function FullscreenView({
         >
           <button
             onClick={onClose}
-            className="p-2 -ml-2 transition-colors cursor-pointer"
-            style={{ color: "#666" }}
+            className="p-2 -ml-2 transition-colors cursor-pointer text-foreground"
             aria-label="Close fullscreen"
           >
             <ChevronLeft size={28} />

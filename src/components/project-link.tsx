@@ -29,7 +29,7 @@ export function ProjectLink({ name, href = "#" }: ProjectLinkProps) {
   return (
     <Link
       href={href}
-      className="project-link group flex items-center py-1 w-full justify-between sm:w-fit sm:justify-start sm:gap-2"
+      className="project-link group flex items-center py-2 min-[480px]:py-1 w-full justify-between min-[480px]:w-fit min-[480px]:justify-start min-[480px]:gap-2"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
