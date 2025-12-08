@@ -371,6 +371,56 @@ body {
   --shimmer-highlight: #ffffff;
 }
 
+/* ========================================
+   Email Button Chromatic Aberration Effect
+   Syncs with shimmer text (4s cycle, effect during 0.65s shimmer window)
+   Accounts for initial 0.25s delay from shimmer text
+   Creates RGB-separated shadow around button edges
+   ======================================== */
+
+.email-button-chromatic {
+  position: relative;
+  /* Continuous slow pulse */
+  animation: chromatic-pulse-button 3s ease-in-out infinite;
+}
+
+.email-button-text {
+  position: relative;
+  display: inline-block;
+  /* Continuous slow pulse - same timing as button */
+  animation: chromatic-pulse-text 3s ease-in-out infinite;
+}
+
+@keyframes chromatic-pulse-button {
+  /* Continuous pulse - no rest state */
+  0%, 100% {
+    box-shadow: 
+      -0.5px 0 0 0 rgba(255, 0, 150, 0.4),
+      0.5px 0 0 0 rgba(0, 200, 255, 0.4);
+  }
+  /* Peak of pulse */
+  50% {
+    box-shadow: 
+      -1.5px 0 0 0 rgba(255, 0, 100, 0.7),
+      1.5px 0 0 0 rgba(0, 200, 255, 0.7);
+  }
+}
+
+@keyframes chromatic-pulse-text {
+  /* Continuous pulse - no rest state */
+  0%, 100% {
+    text-shadow: 
+      -0.4px 0 0 rgba(255, 0, 150, 0.4),
+      0.4px 0 0 rgba(0, 200, 255, 0.4);
+  }
+  /* Peak of pulse */
+  50% {
+    text-shadow: 
+      -0.8px 0 0 rgba(255, 0, 100, 0.6),
+      0.8px 0 0 rgba(0, 200, 255, 0.6);
+  }
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
