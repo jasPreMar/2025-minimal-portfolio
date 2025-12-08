@@ -7,16 +7,20 @@ const PRISMATIC_DELAY_RATIO = 0.35; // Prismatic starts right on the heels of wh
 const WORDS = [
   "Actioning",
   "Actualizing",
-  "Believing",
-  "Brewing",
+  "Aligning",
+  "Animating",
+  "Architecting",
+  "Balancing",
+  "Blending",
   "Calculating",
   "Caring",
-  "Cerebrating",
-  "Churning",
+  "Choreographing",
   "Clauding",
   "Coalescing",
   "Coding",
   "Cogitating",
+  "Componentizing",
+  "Composing",
   "Computing",
   "Conjuring",
   "Considering",
@@ -24,61 +28,91 @@ const WORDS = [
   "Crafting",
   "Creating",
   "Crunching",
-  "Distilling",
-  "Designing",
+  "Debugging",
   "Deliberating",
+  "Delighting",
   "Delivering",
+  "Designing",
   "Determining",
-  "Empathizing",
+  "Digging",
+  "Discovering",
+  "Distilling",
+  "Easing",
   "Effecting",
+  "Empathizing",
   "Executing",
   "Exploring",
   "Finagling",
+  "Flowing",
   "Focusing",
   "Forging",
   "Forming",
   "Framing",
   "Generating",
+  "Gradating",
+  "Gridding",
   "Grouping",
+  "Guiding",
+  "Harmonizing",
   "Hatching",
   "Herding",
   "Hustling",
   "Ideating",
   "Inspecting",
+  "Interpolating",
   "Intuiting",
+  "Iterating",
+  "Jamming",
+  "Kerning",
   "Layering",
   "Levitating",
   "Listening",
   "Manifesting",
-  "Marinating",
+  "Mapping",
+  "Morphing",
   "Mulling",
   "Musing",
   "Noodling",
   "Obsessing",
+  "Optimizing",
+  "Orchestrating",
   "Owning",
   "Percolating",
+  "Pixelating",
+  "Polishing",
   "Pondering",
-  "Prestidigitating",
   "Processing",
   "Prototyping",
+  "Rasterizing",
+  "Redlining",
+  "Refactoring",
+  "Refining",
+  "Rendering",
   "Reticulating",
   "Ruminating",
-  "Schlepping",
+  "Scaling",
   "Scoping",
   "Sensing",
-  "Shucking",
+  "Shadowing",
   "Simmering",
   "Simplifying",
   "Sketching",
-  "Smooshing",
   "Solving",
-  "Stewing",
-  "Stirring",
-  "Synthesizes",
+  "Spacing",
+  "Studying",
+  "Synthesizing",
+  "Systematizing",
+  "Tessellating",
   "Thinking",
+  "Tokenizing",
+  "Transforming",
+  "Transitioning",
   "Transmuting",
+  "Tweening",
+  "Typesetting",
   "Vectoring",
-  "Vibing",
+  "Vibe coding",
+  "Wireframing",
   "Working",
 ];
 
@@ -105,7 +139,7 @@ export interface ShimmerTextRef {
 const ShimmerTextComponent = forwardRef<ShimmerTextRef, ShimmerTextProps>(({
   prefix = " in New York",
   wipeDuration = 0.65,
-  pauseDuration = 4.35, // Adjusted so total cycle is 5 seconds (4.35 + 0.65 = 5)
+  pauseDuration = 3.35, // Adjusted so total cycle is 4 seconds (3.35 + 0.65 = 4)
   initialShimmerDelay,
   initialWord,
 }, ref) => {
@@ -171,21 +205,21 @@ const ShimmerTextComponent = forwardRef<ShimmerTextRef, ShimmerTextProps>(({
   // Trigger initial shimmer on mount if delay is specified
   useEffect(() => {
     if (initialShimmerDelay === undefined) return;
-    
+
     const initialTimeout = setTimeout(() => {
       triggerAnimation(initialWord);
     }, initialShimmerDelay * 1000);
-    
+
     return () => clearTimeout(initialTimeout);
   }, [initialShimmerDelay, initialWord, triggerAnimation]);
 
   const startInterval = useCallback(() => {
     const totalCycleDuration = (wipeDuration + pauseDuration) * 1000;
-    
+
     if (intervalRef.current) {
       clearInterval(intervalRef.current);
     }
-    
+
     intervalRef.current = setInterval(() => {
       triggerAnimation();
     }, totalCycleDuration);
@@ -226,7 +260,8 @@ const ShimmerTextComponent = forwardRef<ShimmerTextRef, ShimmerTextProps>(({
         {
           "--wipe-duration": `${wipeDuration}s`,
           "--prismatic-duration": `${wipeDuration * 1.4}s`,
-          cursor: "pointer",
+          cursor: "default",
+          userSelect: "none",
         } as React.CSSProperties
       }
     >

@@ -7,12 +7,14 @@ import { useProjectTitle } from "./project-title-context";
 export function AnimatedHeader() {
   const pathname = usePathname();
   const router = useRouter();
-  const { title: projectTitle } = useProjectTitle();
+  const { title: projectTitle, setTitle } = useProjectTitle();
 
   // Check if we're on a project page (either /projects or /projects/*)
   const isProjectPage = (pathname === "/projects" || pathname.startsWith("/projects/")) && projectTitle !== null;
 
   const handleBackClick = () => {
+    // Clear title immediately to trigger header animation before navigation
+    setTitle(null);
     router.push("/");
   };
 
@@ -40,14 +42,14 @@ export function AnimatedHeader() {
             animate="visible"
             exit="hidden"
             variants={{
-              hidden: { 
+              hidden: {
                 opacity: 0,
                 transition: {
                   duration: 0.25,
                   ease: [0.25, 0.1, 0.25, 1],
                 },
               },
-              visible: { 
+              visible: {
                 opacity: 1,
                 transition: {
                   duration: 0.25,

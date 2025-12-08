@@ -2,6 +2,7 @@ import { ShimmerText } from "@/components/shimmer-text";
 import { ProjectLink } from "@/components/project-link";
 import { StaggeredFadeIn } from "@/components/staggered-fade-in";
 import { ExperienceSection } from "@/components/experience-section";
+import { SocialLinks } from "@/components/social-links";
 import { getAllProjects, type NotionProject } from "@/lib/notion";
 
 // Revalidate every 60 seconds (ISR)
@@ -11,9 +12,11 @@ export const revalidate = 60;
 function ProjectSection({
   title,
   projects,
+  firstItemAsMainLink = false,
 }: {
   title: string;
   projects: NotionProject[];
+  firstItemAsMainLink?: boolean;
 }) {
   if (projects.length === 0) return null;
 
@@ -21,11 +24,15 @@ function ProjectSection({
     <div className="flex flex-col gap-4">
       <p className="text-base font-semibold">{title}</p>
       <div className="flex flex-col gap-0">
-        {projects.map((project) => (
+        {projects.map((project, index) => (
           <ProjectLink
             key={project.id}
             name={`${project.title} - ${project.company}`}
-            href={`/projects#${project.slug}`}
+            href={
+              firstItemAsMainLink && index === 0
+                ? "/projects"
+                : `/projects#${project.slug}`
+            }
           />
         ))}
       </div>
@@ -50,13 +57,16 @@ export default async function Home() {
       <div className="">
         <ShimmerText initialShimmerDelay={0.25} initialWord="Designing" />
         <p className="mt-6 text-base max-w-md">
-          I design conversational interfaces at CarMax since 2022. I like simplicity, tiny details, bold ideas, and magic moments.
+          Currently designing conversational AI interfaces at CarMax. I enjoy hidden details, differing perspectives, and bold ideas.
         </p>
+        <div className="mt-8">
+          <SocialLinks />
+        </div>
       </div>
 
       {/* Section 2: Projects - only renders if there are projects */}
       {projects.length > 0 && (
-        <ProjectSection title="Projects" projects={projects} />
+        <ProjectSection title="Projects" projects={projects} firstItemAsMainLink />
       )}
 
       {/* Section 3: Side Projects - only renders if there are side projects */}

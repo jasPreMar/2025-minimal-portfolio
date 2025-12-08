@@ -1,5 +1,12 @@
 "use client";
 
+import { ArrowUpRight } from "lucide-react";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+
 interface Experience {
   title: string;
   company: string;
@@ -55,7 +62,7 @@ const experiences: Experience[] = [
 
 function ExperienceItem({ experience }: { experience: Experience }) {
   return (
-    <div className="grid grid-cols-[140px_1fr] gap-8 py-4">
+    <div className="grid grid-cols-[max-content_1fr] gap-8 py-4">
       <div className="text-secondary">
         {experience.startYear} — {experience.endYear}
       </div>
@@ -71,10 +78,33 @@ function ExperienceItem({ experience }: { experience: Experience }) {
   );
 }
 
+const LINKEDIN_URL = "linkedin.com/in/jpmarsh";
+
 export function ExperienceSection() {
   return (
     <div className="flex flex-col gap-4">
-      <p className="text-base font-semibold">Experience</p>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <a
+            href={`https://www.${LINKEDIN_URL}/`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group flex items-center gap-1 w-fit"
+          >
+            <span className="text-base font-semibold group-hover:underline underline-offset-2">
+              Experience
+            </span>
+            <ArrowUpRight
+              size={16}
+              strokeWidth={2}
+              className="opacity-0 group-hover:opacity-100 transition-opacity duration-200"
+            />
+          </a>
+        </TooltipTrigger>
+        <TooltipContent side="right" sideOffset={8}>
+          <p>{LINKEDIN_URL}</p>
+        </TooltipContent>
+      </Tooltip>
       <div className="flex flex-col">
         {experiences.map((experience, index) => (
           <ExperienceItem key={index} experience={experience} />
