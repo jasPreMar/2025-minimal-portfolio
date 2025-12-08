@@ -19,7 +19,7 @@ export function AnimatedHeader() {
   };
 
   return (
-    <div className={`flex items-center gap-0 text-xl font-semibold tracking-tight min-h-[28px] ${isProjectPage ? "sticky top-0 z-50 bg-background py-4 -mx-8 px-8 mb-4" : ""}`}>
+    <div className="flex items-center gap-0 text-xl font-semibold tracking-tight min-h-[28px]">
       {/* "J" that's always visible, clickable when on project page */}
       <motion.div
         className={`relative ${isProjectPage ? "cursor-pointer" : ""}`}
