@@ -186,8 +186,7 @@ function FullscreenCarousel({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex flex-col"
-      style={{ backgroundColor: "#e5e5e5" }}
+      className="fixed inset-0 z-50 flex flex-col bg-muted"
     >
       <div
         className="flex items-center justify-between px-4 flex-shrink-0"
@@ -258,7 +257,7 @@ function ThumbnailImage({
 
   return (
     <div
-      className="relative flex-shrink-0 h-[90px] rounded-lg overflow-hidden bg-gray-100 border border-black/10 group/thumb cursor-pointer"
+      className="relative flex-shrink-0 h-[90px] rounded-lg overflow-hidden bg-muted border border-border group/thumb cursor-pointer"
       style={{ aspectRatio }}
       onClick={(e) => {
         e.preventDefault();
@@ -344,7 +343,7 @@ function ProjectLinkWithThumbnails({
           : "project-link py-2 min-[480px]:py-1"
       }`}
       style={isExpanded ? {
-        backgroundColor: showHoverBg ? "rgba(0, 0, 0, 0.05)" : "transparent",
+        backgroundColor: showHoverBg ? "var(--accent)" : "transparent",
         transition: showHoverBg ? "none" : "background-color 150ms ease-out",
       } : undefined}
       onMouseEnter={handleMouseEnter}

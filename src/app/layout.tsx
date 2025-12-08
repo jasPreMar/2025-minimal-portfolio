@@ -30,6 +30,24 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-background text-foreground`}
       >
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                function updateTheme() {
+                  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                  if (prefersDark) {
+                    document.documentElement.classList.add('dark');
+                  } else {
+                    document.documentElement.classList.remove('dark');
+                  }
+                }
+                updateTheme();
+                window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', updateTheme);
+              })();
+            `,
+          }}
+        />
         <ProjectTitleProvider>
           <div className="max-w-[608px] mx-auto mt-[120px] mb-10 px-8 flex flex-col">
             <AnimatedHeader />
