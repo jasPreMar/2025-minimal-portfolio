@@ -12,6 +12,7 @@ interface Project {
   company: string;
   slug: string;
   heroImages: string[];
+  subtitle?: string;
   [key: string]: unknown;
 }
 
@@ -353,21 +354,21 @@ function ProjectLinkWithThumbnails({
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
-      {/* Text row */}
+      {/* Title and arrow row */}
       <div className="flex items-center w-full justify-between min-[480px]:w-fit min-[480px]:justify-start min-[480px]:gap-2">
         {isExpanded ? (
           <span
-            className="truncate"
+            className="truncate whitespace-nowrap"
             style={
               {
                 "--prismatic-duration": "0.91s",
                 position: "relative",
-                display: "inline-block",
+                display: "block",
               } as React.CSSProperties
             }
           >
             {/* Base text */}
-            <span>
+            <span className="truncate block">
               {project.title} - {project.company}
             </span>
             {/* Prismatic shimmer */}
@@ -392,6 +393,15 @@ function ProjectLinkWithThumbnails({
           <ArrowRight size={16} strokeWidth={2} />
         </div>
       </div>
+
+      {/* Subtitle row - only in expanded mode */}
+      {isExpanded && project.subtitle && (
+        <div className="overflow-hidden mt-1">
+          <p className="text-secondary text-sm truncate whitespace-nowrap">
+            {project.subtitle}
+          </p>
+        </div>
+      )}
 
       {/* Animated thumbnail container */}
       <div
