@@ -117,8 +117,8 @@ const WORDS = [
 ];
 
 const LOCATIONS = [
-  "the city",
-  "work island",
+  "the City",
+  "Work Island",
   "Brooklyn",
   "BK",
   "Willy B",
@@ -140,12 +140,10 @@ const LOCATIONS = [
   "East Williamsburg",
   "the Northside",
   "Bedford Ave",
-  "the hipster capital",
   "McCarren Park",
   "Domino Park",
-  "the 11249",
+  "the 11211",
   "the BQE",
-  "Kent Ave",
   "the waterfront",
 ];
 

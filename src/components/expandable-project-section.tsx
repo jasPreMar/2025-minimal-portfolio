@@ -346,11 +346,14 @@ function ProjectLinkWithThumbnails({
       href={href}
       className={`group flex flex-col ${
         isExpanded
-          ? `rounded-xl px-3 -mx-3 py-3 transition-colors duration-150 ${
+          ? `rounded-xl px-3 -mx-3 py-3 ${
               showHoverBg ? "bg-black/5 dark:bg-white/5" : "bg-transparent"
             }`
           : "project-link py-2 min-[480px]:py-1"
       }`}
+      style={isExpanded ? {
+        transition: showHoverBg ? "none" : "background-color 150ms ease-out",
+      } : undefined}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
@@ -396,7 +399,7 @@ function ProjectLinkWithThumbnails({
 
       {/* Subtitle row - only in expanded mode */}
       {isExpanded && project.subtitle && (
-        <div className="overflow-hidden mt-1">
+        <div className="overflow-hidden mt-0.5">
           <p className="text-secondary text-sm truncate whitespace-nowrap">
             {project.subtitle}
           </p>
@@ -409,7 +412,7 @@ function ProjectLinkWithThumbnails({
         style={{
           maxHeight: isExpanded && project.heroImages.length > 0 ? "110px" : "0px",
           opacity: isExpanded ? 1 : 0,
-          marginTop: isExpanded && project.heroImages.length > 0 ? "8px" : "0px",
+          marginTop: isExpanded && project.heroImages.length > 0 ? "4px" : "0px",
         }}
       >
         <div className="flex gap-2 overflow-x-auto scrollbar-hide py-1">
@@ -462,7 +465,7 @@ export function ExpandableProjectSection({
     <>
       <div className="flex flex-col gap-4">
         <p className="text-base font-semibold">{title}</p>
-        <div className="flex flex-col gap-0">
+        <div className={`flex flex-col ${isExpanded ? "gap-1" : "gap-0"}`}>
           {projects.map((project, index) => (
             <ProjectLinkWithThumbnails
               key={project.id}
