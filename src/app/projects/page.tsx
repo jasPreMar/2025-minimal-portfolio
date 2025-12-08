@@ -1,11 +1,11 @@
 import Image from "next/image";
 import { ArrowUpRight, Briefcase, Calendar, Users } from "lucide-react";
 import { getAllProjects, type NotionProject } from "@/lib/notion";
-// CompactCarousel import removed
 import { InteractiveImage } from "@/components/interactive-image";
 import { SetProjectTitle } from "@/components/project-title-context";
 import { SocialLinks } from "@/components/social-links";
 import { ProjectsStaggeredFade } from "@/components/projects-staggered-fade";
+import { HashScroll } from "@/components/hash-scroll";
 
 // Revalidate every 60 seconds (ISR)
 export const revalidate = 60;
@@ -71,7 +71,7 @@ function ProjectSection({ project }: { project: NotionProject }) {
   return (
     <section
       id={project.slug}
-      className="flex flex-col gap-6 scroll-mt-32 py-20 border-b border-black/10 last:border-0"
+      className="flex flex-col gap-6 scroll-mt-20 py-20 border-b border-black/10 last:border-0"
     >
       {/* Hero Images - Breakout Horizontal Scroll */}
       {project.heroImages.length > 0 && (
@@ -224,6 +224,9 @@ export default async function ProjectsPage() {
 
   return (
     <div className="flex flex-col">
+      {/* Handle hash scroll for deep links */}
+      <HashScroll />
+
       {/* Set header title to "Projects" */}
       <SetProjectTitle title="Projects" />
 
