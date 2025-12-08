@@ -246,27 +246,16 @@ function FullscreenCarousel({
 // Thumbnail image with skeleton loading
 function ThumbnailImage({
   src,
-  onClick,
-  onHoverChange,
 }: {
   src: string;
-  onClick: () => void;
-  onHoverChange: (isHovering: boolean) => void;
 }) {
   const [isLoading, setIsLoading] = useState(true);
   const [aspectRatio, setAspectRatio] = useState(16 / 9);
 
   return (
     <div
-      className="relative flex-shrink-0 h-[90px] rounded-lg overflow-hidden bg-gray-100 border border-black/10 group/thumb cursor-pointer"
+      className="relative flex-shrink-0 h-[90px] rounded-lg overflow-hidden bg-gray-100 border border-black/10 group/thumb"
       style={{ aspectRatio }}
-      onClick={(e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        onClick();
-      }}
-      onMouseEnter={() => onHoverChange(true)}
-      onMouseLeave={() => onHoverChange(false)}
     >
       {isLoading && (
         <Skeleton className="absolute inset-0 w-full h-full" />
@@ -294,17 +283,13 @@ function ProjectLinkWithThumbnails({
   project,
   href,
   isExpanded,
-  onImageClick,
 }: {
   project: Project;
   href: string;
   isExpanded: boolean;
-  onImageClick: (index: number) => void;
 }) {
   const arrowRef = useRef<HTMLDivElement>(null);
   const [isHovered, setIsHovered] = useState(false);
-  const thumbnailHoverCount = useRef(0);
-  const [isHoveringThumbnail, setIsHoveringThumbnail] = useState(false);
   const [isPrismaticShimmering, setIsPrismaticShimmering] = useState(false);
   const previousExpandedRef = useRef(false);
   const prismaticTimeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -320,21 +305,10 @@ function ProjectLinkWithThumbnails({
 
   const handleMouseLeave = () => {
     setIsHovered(false);
-    thumbnailHoverCount.current = 0;
-    setIsHoveringThumbnail(false);
     if (arrowRef.current) {
       arrowRef.current.style.transition = "transform 200ms ease-out";
       arrowRef.current.style.transform = "translateX(0)";
     }
-  };
-
-  const handleThumbnailHover = (isHovering: boolean) => {
-    if (isHovering) {
-      thumbnailHoverCount.current++;
-    } else {
-      thumbnailHoverCount.current = Math.max(0, thumbnailHoverCount.current - 1);
-    }
-    setIsHoveringThumbnail(thumbnailHoverCount.current > 0);
   };
 
   // Trigger shimmer effect when expanding - use useLayoutEffect for instant trigger
@@ -364,20 +338,18 @@ function ProjectLinkWithThumbnails({
     };
   }, [isExpanded]);
 
-  const showHoverBg = isHovered && !isHoveringThumbnail;
+  const showHoverBg = isHovered;
 
   return (
     <Link
       href={href}
       className={`group flex flex-col ${
         isExpanded
-          ? "rounded-xl px-3 -mx-3 py-3"
+          ? `rounded-xl px-3 -mx-3 py-3 transition-colors duration-150 ${
+              showHoverBg ? "bg-black/5 dark:bg-white/5" : "bg-transparent"
+            }`
           : "project-link py-2 min-[480px]:py-1"
       }`}
-      style={isExpanded ? {
-        backgroundColor: showHoverBg ? "rgba(0, 0, 0, 0.05)" : "transparent",
-        transition: showHoverBg ? "none" : "background-color 150ms ease-out",
-      } : undefined}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
@@ -435,8 +407,6 @@ function ProjectLinkWithThumbnails({
             <ThumbnailImage
               key={`${src}-${index}`}
               src={src}
-              onClick={() => onImageClick(index)}
-              onHoverChange={handleThumbnailHover}
             />
           ))}
         </div>
@@ -493,7 +463,6 @@ export function ExpandableProjectSection({
                   : `/projects#${project.slug}`
               }
               isExpanded={isExpanded}
-              onImageClick={(imgIndex) => handleImageClick(project, imgIndex)}
             />
           ))}
         </div>
