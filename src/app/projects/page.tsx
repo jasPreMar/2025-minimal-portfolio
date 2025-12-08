@@ -234,10 +234,6 @@ export default async function ProjectsPage() {
         A collection of real, impactful, and shipped projects.
       </p>
 
-      <div className="mt-8">
-        <SocialLinks />
-      </div>
-
       {/* All projects with staggered animation */}
       <ProjectsStaggeredFade>
         {allProjects.map((project) => (

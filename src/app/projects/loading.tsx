@@ -7,12 +7,6 @@ export default function ProjectsLoading() {
         <div className="flex flex-col">
             {/* Set header title immediately */}
             <SetProjectTitle title="Projects" />
-            {/* Header spacing to match page layout */}
-            <div className="my-8">
-                <div className="flex items-center gap-3">
-                    <Skeleton className="h-5 w-5 rounded" />
-                </div>
-            </div>
 
             {/* First project section skeleton */}
             <div className="flex flex-col gap-6 py-20 border-b border-border">
