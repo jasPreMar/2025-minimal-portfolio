@@ -116,8 +116,40 @@ const WORDS = [
   "Working",
 ];
 
+const LOCATIONS = [
+  "the city",
+  "work island",
+  "Brooklyn",
+  "BK",
+  "Willy B",
+  "the concrete jungle",
+  "Williamsburg",
+  "the Big Apple",
+  "NYC",
+  "the 718",
+  "the L train",
+  "Kings County",
+  "north Brooklyn",
+  "Billyburg",
+  "the burg",
+  "Gotham",
+  "the city that never sleeps",
+  "Nueva York",
+  "the Empire State",
+  "Manhattan-adjacent",
+  "East Williamsburg",
+  "the Northside",
+  "Bedford Ave",
+  "the hipster capital",
+  "McCarren Park",
+  "Domino Park",
+  "the 11249",
+  "the BQE",
+  "Kent Ave",
+  "the waterfront",
+];
+
 interface ShimmerTextProps {
-  prefix?: string;
   wipeDuration?: number;
   pauseDuration?: number;
   /**
@@ -130,6 +162,11 @@ interface ShimmerTextProps {
    * Only used when initialShimmerDelay is set.
    */
   initialWord?: string;
+  /**
+   * The location to shimmer into on the initial animation.
+   * Only used when initialShimmerDelay is set.
+   */
+  initialLocation?: string;
 }
 
 export interface ShimmerTextRef {
@@ -137,14 +174,16 @@ export interface ShimmerTextRef {
 }
 
 const ShimmerTextComponent = forwardRef<ShimmerTextRef, ShimmerTextProps>(({
-  prefix = " in New York",
   wipeDuration = 0.65,
   pauseDuration = 3.35, // Adjusted so total cycle is 4 seconds (3.35 + 0.65 = 4)
   initialShimmerDelay,
   initialWord,
+  initialLocation,
 }, ref) => {
   const [currentWord, setCurrentWord] = useState("Vibing");
   const [previousWord, setPreviousWord] = useState("Vibing");
+  const [currentLocation, setCurrentLocation] = useState("New York");
+  const [previousLocation, setPreviousLocation] = useState("New York");
   const [isAnimating, setIsAnimating] = useState(false);
   const [isPrismaticAnimating, setIsPrismaticAnimating] = useState(false);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
@@ -161,7 +200,16 @@ const ShimmerTextComponent = forwardRef<ShimmerTextRef, ShimmerTextProps>(({
     return newWord;
   }, []);
 
-  const triggerAnimation = useCallback((targetWord?: string) => {
+  const getRandomLocation = useCallback((excludeLocation: string) => {
+    let newLocation: string;
+    do {
+      const randomIndex = Math.floor(Math.random() * LOCATIONS.length);
+      newLocation = LOCATIONS[randomIndex];
+    } while (newLocation === excludeLocation);
+    return newLocation;
+  }, []);
+
+  const triggerAnimation = useCallback((targetWord?: string, targetLocation?: string) => {
     // Clear any existing timeouts to avoid conflicts
     if (animationTimeoutRef.current) {
       clearTimeout(animationTimeoutRef.current);
@@ -176,6 +224,10 @@ const ShimmerTextComponent = forwardRef<ShimmerTextRef, ShimmerTextProps>(({
     setCurrentWord((prev) => {
       setPreviousWord(prev);
       return targetWord || getRandomWord(prev);
+    });
+    setCurrentLocation((prev) => {
+      setPreviousLocation(prev);
+      return targetLocation || getRandomLocation(prev);
     });
     setIsAnimating(true);
 
@@ -196,7 +248,7 @@ const ShimmerTextComponent = forwardRef<ShimmerTextRef, ShimmerTextProps>(({
     prismaticEndTimeoutRef.current = setTimeout(() => {
       setIsPrismaticAnimating(false);
     }, prismaticDelay + prismaticDuration);
-  }, [wipeDuration, getRandomWord]);
+  }, [wipeDuration, getRandomWord, getRandomLocation]);
 
   useImperativeHandle(ref, () => ({
     trigger: triggerAnimation,
@@ -207,11 +259,11 @@ const ShimmerTextComponent = forwardRef<ShimmerTextRef, ShimmerTextProps>(({
     if (initialShimmerDelay === undefined) return;
 
     const initialTimeout = setTimeout(() => {
-      triggerAnimation(initialWord);
+      triggerAnimation(initialWord, initialLocation);
     }, initialShimmerDelay * 1000);
 
     return () => clearTimeout(initialTimeout);
-  }, [initialShimmerDelay, initialWord, triggerAnimation]);
+  }, [initialShimmerDelay, initialWord, initialLocation, triggerAnimation]);
 
   const startInterval = useCallback(() => {
     const totalCycleDuration = (wipeDuration + pauseDuration) * 1000;
@@ -244,8 +296,8 @@ const ShimmerTextComponent = forwardRef<ShimmerTextRef, ShimmerTextProps>(({
     };
   }, [startInterval]);
 
-  const fullTextNew = `${currentWord}${prefix}...`;
-  const fullTextOld = `${previousWord}${prefix}...`;
+  const fullTextNew = `${currentWord} in ${currentLocation}...`;
+  const fullTextOld = `${previousWord} in ${previousLocation}...`;
 
   const handleClick = useCallback(() => {
     triggerAnimation();
