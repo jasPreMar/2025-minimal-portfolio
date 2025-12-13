@@ -49,7 +49,7 @@ export default function RootLayout({
           }}
         />
         <ProjectTitleProvider>
-          <div className="max-w-[608px] mx-auto mt-[120px] mb-10 px-8 flex flex-col">
+          <div className="max-w-[608px] mx-auto mt-28 mb-10 px-8 flex flex-col">
             <AnimatedHeader />
             {children}
             <SiteFooter />
