@@ -62,11 +62,11 @@ const experiences: Experience[] = [
 
 function ExperienceItem({ experience }: { experience: Experience }) {
   return (
-    <div className="grid grid-cols-[max-content_1fr] gap-8 py-4">
-      <div className="text-secondary">
+    <>
+      <div className="text-secondary py-4">
         {experience.startYear} — {experience.endYear}
       </div>
-      <div className="flex flex-col gap-1">
+      <div className="flex flex-col gap-1 py-4">
         <div className="text-foreground">
           {experience.title} at {experience.company}
         </div>
@@ -74,7 +74,7 @@ function ExperienceItem({ experience }: { experience: Experience }) {
           {experience.location}
         </div>
       </div>
-    </div>
+    </>
   );
 }
 
@@ -105,7 +105,7 @@ export function ExperienceSection() {
           <p>{LINKEDIN_URL}</p>
         </TooltipContent>
       </Tooltip>
-      <div className="flex flex-col">
+      <div className="grid grid-cols-[max-content_1fr] gap-4">
         {experiences.map((experience, index) => (
           <ExperienceItem key={index} experience={experience} />
         ))}

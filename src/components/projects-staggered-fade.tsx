@@ -34,6 +34,7 @@ export function ProjectsStaggeredFade({ children }: ProjectsStaggeredFadeProps) 
                         delay: index * 0.12,
                         ease: [0.25, 0.1, 0.25, 1],
                     }}
+                    className="border-b border-border last:border-0"
                 >
                     {child}
                 </motion.div>

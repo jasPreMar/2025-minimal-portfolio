@@ -175,7 +175,7 @@ export function InteractiveImage({
   return (
     <>
       <div
-        className={`relative w-full ${aspectClass} rounded-xl overflow-hidden bg-muted cursor-zoom-in group border border-border ${className}`}
+        className={`relative w-full ${aspectClass} rounded-xl overflow-hidden bg-muted cursor-zoom-in group ${className}`}
         onClick={() => setIsFullscreen(true)}
       >
         <Image
@@ -191,8 +191,6 @@ export function InteractiveImage({
         {isLoading && (
           <Skeleton className="absolute inset-0 w-full h-full rounded-xl" />
         )}
-        {/* Inset shadow overlay */}
-        <div className="absolute inset-0 pointer-events-none ring-1 ring-border transition-transform duration-500 ease-out group-hover:scale-[1.02]" />
       </div>
       {isFullscreen && (
         <FullscreenView
