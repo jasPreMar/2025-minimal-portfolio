@@ -4,6 +4,7 @@ import { useState, useRef, useEffect, useLayoutEffect, useCallback } from "react
 import { ArrowRight, ChevronLeft } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { motion, AnimatePresence } from "motion/react";
 import { Skeleton } from "@/components/ui/skeleton";
 
 interface Project {
@@ -19,7 +20,6 @@ interface Project {
 interface ExpandableProjectSectionProps {
   title: string;
   projects: Project[];
-  firstItemAsMainLink?: boolean;
 }
 
 // Fullscreen image component with zoom/pan functionality
@@ -431,13 +431,14 @@ function ProjectLinkWithThumbnails({
 export function ExpandableProjectSection({
   title,
   projects,
-  firstItemAsMainLink = false,
 }: ExpandableProjectSectionProps) {
   const [isExpanded, setIsExpanded] = useState(false);
   const [fullscreenState, setFullscreenState] = useState<{
     images: string[];
     initialIndex: number;
   } | null>(null);
+  const [isTitleHovered, setIsTitleHovered] = useState(false);
+  const [supportsHover, setSupportsHover] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -452,6 +453,31 @@ export function ExpandableProjectSection({
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  useEffect(() => {
+    // Check if device supports hover (not a touch device)
+    const mediaQuery = window.matchMedia("(hover: hover)");
+    setSupportsHover(mediaQuery.matches);
+
+    const handleChange = (e: MediaQueryListEvent) => {
+      setSupportsHover(e.matches);
+    };
+
+    mediaQuery.addEventListener("change", handleChange);
+    return () => mediaQuery.removeEventListener("change", handleChange);
+  }, []);
+
+  const handleTitleMouseEnter = () => {
+    if (supportsHover) {
+      setIsTitleHovered(true);
+    }
+  };
+
+  const handleTitleMouseLeave = () => {
+    if (supportsHover) {
+      setIsTitleHovered(false);
+    }
+  };
+
   const handleImageClick = (project: Project, index: number) => {
     setFullscreenState({
       images: project.heroImages,
@@ -464,17 +490,52 @@ export function ExpandableProjectSection({
   return (
     <>
       <div className="flex flex-col gap-4">
-        <p className="text-base font-semibold">{title}</p>
+        {title === "Projects" ? (
+          <Link
+            href="/projects"
+            className="group flex items-center gap-1 w-fit"
+            onMouseEnter={handleTitleMouseEnter}
+            onMouseLeave={handleTitleMouseLeave}
+          >
+            <span className="text-base font-semibold group-hover:underline underline-offset-2">
+              {title}
+            </span>
+            <AnimatePresence>
+              {isTitleHovered && (
+                <motion.div
+                  initial={{ opacity: 0, x: 0 }}
+                  animate={{ opacity: 1, x: "0.25rem" }}
+                  exit={{
+                    x: 0,
+                    opacity: 0,
+                    transition: {
+                      x: { duration: 0.2, ease: "easeOut" },
+                      opacity: { duration: 0.2, ease: "easeOut" }
+                    }
+                  }}
+                  transition={{
+                    opacity: { duration: 0.2 },
+                    x: { 
+                      duration: 0,
+                      ease: "easeOut"
+                    }
+                  }}
+                  className="flex items-center justify-center w-6 h-6 shrink-0"
+                >
+                  <ArrowRight size={16} strokeWidth={2} />
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </Link>
+        ) : (
+          <p className="text-base font-semibold">{title}</p>
+        )}
         <div className={`flex flex-col ${isExpanded ? "gap-1" : "gap-0"}`}>
-          {projects.map((project, index) => (
+          {projects.map((project) => (
             <ProjectLinkWithThumbnails
               key={project.id}
               project={project}
-              href={
-                firstItemAsMainLink && index === 0
-                  ? "/projects"
-                  : `/projects#${project.slug}`
-              }
+              href={`/projects#${project.slug}`}
               isExpanded={isExpanded}
             />
           ))}

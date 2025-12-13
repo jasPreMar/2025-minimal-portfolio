@@ -1,6 +1,8 @@
 "use client";
 
 import { ArrowUpRight } from "lucide-react";
+import { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "motion/react";
 import {
   Tooltip,
   TooltipContent,
@@ -81,6 +83,34 @@ function ExperienceItem({ experience }: { experience: Experience }) {
 const LINKEDIN_URL = "linkedin.com/in/jpmarsh";
 
 export function ExperienceSection() {
+  const [isHovered, setIsHovered] = useState(false);
+  const [supportsHover, setSupportsHover] = useState(false);
+
+  useEffect(() => {
+    // Check if device supports hover (not a touch device)
+    const mediaQuery = window.matchMedia("(hover: hover)");
+    setSupportsHover(mediaQuery.matches);
+
+    const handleChange = (e: MediaQueryListEvent) => {
+      setSupportsHover(e.matches);
+    };
+
+    mediaQuery.addEventListener("change", handleChange);
+    return () => mediaQuery.removeEventListener("change", handleChange);
+  }, []);
+
+  const handleMouseEnter = () => {
+    if (supportsHover) {
+      setIsHovered(true);
+    }
+  };
+
+  const handleMouseLeave = () => {
+    if (supportsHover) {
+      setIsHovered(false);
+    }
+  };
+
   return (
     <div className="flex flex-col gap-4">
       <Tooltip>
@@ -90,15 +120,39 @@ export function ExperienceSection() {
             target="_blank"
             rel="noopener noreferrer"
             className="group flex items-center gap-1 w-fit"
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
           >
             <span className="text-base font-semibold group-hover:underline underline-offset-2">
               Experience
             </span>
-            <ArrowUpRight
-              size={16}
-              strokeWidth={2}
-              className="opacity-0 group-hover:opacity-100 transition-opacity duration-200"
-            />
+            <AnimatePresence>
+              {isHovered && (
+                <motion.div
+                  initial={{ opacity: 0, x: 0 }}
+                  animate={{ opacity: 1, x: "0.25rem" }}
+                  exit={{ x: 0, opacity: 0 }}
+                  transition={{
+                    opacity: { duration: 0.2 },
+                    x: { 
+                      duration: 0,
+                      ease: "easeOut"
+                    }
+                  }}
+                  exit={{
+                    x: 0,
+                    opacity: 0,
+                    transition: {
+                      x: { duration: 0.2, ease: "easeOut" },
+                      opacity: { duration: 0.2, ease: "easeOut" }
+                    }
+                  }}
+                  className="flex items-center justify-center w-6 h-6 shrink-0"
+                >
+                  <ArrowUpRight size={16} strokeWidth={2} />
+                </motion.div>
+              )}
+            </AnimatePresence>
           </a>
         </TooltipTrigger>
         <TooltipContent side="right" sideOffset={8}>

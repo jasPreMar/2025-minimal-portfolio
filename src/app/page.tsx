@@ -67,7 +67,7 @@ export default async function Home() {
 
       {/* Section 2: Projects - only renders if there are projects */}
       {projects.length > 0 && (
-        <ExpandableProjectSection title="Projects" projects={projects} firstItemAsMainLink />
+        <ExpandableProjectSection title="Projects" projects={projects} />
       )}
 
       {/* Section 3: Side Projects - only renders if there are side projects */}

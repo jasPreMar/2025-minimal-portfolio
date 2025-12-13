@@ -71,7 +71,7 @@ function ProjectSection({ project }: { project: NotionProject }) {
   return (
     <section
       id={project.slug}
-      className="flex flex-col gap-6 scroll-mt-20 py-[120px]"
+      className="flex flex-col gap-6 scroll-mt-0 py-28"
     >
       {/* Hero Images - Breakout Horizontal Scroll */}
       {project.heroImages.length > 0 && (
