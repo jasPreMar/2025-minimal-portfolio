@@ -131,20 +131,19 @@ export function ExperienceSection() {
                 <motion.div
                   initial={{ opacity: 0, x: 0 }}
                   animate={{ opacity: 1, x: "0.25rem" }}
-                  exit={{ x: 0, opacity: 0 }}
-                  transition={{
-                    opacity: { duration: 0.2 },
-                    x: { 
-                      duration: 0,
-                      ease: "easeOut"
-                    }
-                  }}
                   exit={{
                     x: 0,
                     opacity: 0,
                     transition: {
                       x: { duration: 0.2, ease: "easeOut" },
                       opacity: { duration: 0.2, ease: "easeOut" }
+                    }
+                  }}
+                  transition={{
+                    opacity: { duration: 0.2 },
+                    x: { 
+                      duration: 0,
+                      ease: "easeOut"
                     }
                   }}
                   className="flex items-center justify-center w-6 h-6 shrink-0"
