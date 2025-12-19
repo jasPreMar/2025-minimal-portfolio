@@ -6,6 +6,7 @@ import { SetProjectTitle } from "@/components/project-title-context";
 import { SocialLinks } from "@/components/social-links";
 import { ProjectsStaggeredFade } from "@/components/projects-staggered-fade";
 import { HashScroll } from "@/components/hash-scroll";
+import { Badge } from "@/components/ui/badge";
 
 // Revalidate every 60 seconds (ISR)
 export const revalidate = 60;
@@ -73,6 +74,13 @@ function ProjectSection({ project }: { project: NotionProject }) {
       id={project.slug}
       className="flex flex-col gap-6 scroll-mt-0 py-28"
     >
+      {/* New Badge */}
+      {project.featured && (
+        <Badge variant="featured" className="w-fit">
+          New
+        </Badge>
+      )}
+
       {/* Hero Images - Breakout Horizontal Scroll */}
       {project.heroImages.length > 0 && (
         <div className="w-screen ml-[calc(50%-50vw)] overflow-x-auto scrollbar-hide mb-2 -mr-[calc(50%-50vw)] snap-x snap-mandatory">

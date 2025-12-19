@@ -6,6 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion, AnimatePresence } from "motion/react";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Badge } from "@/components/ui/badge";
 
 interface Project {
   id: string;
@@ -14,6 +15,7 @@ interface Project {
   slug: string;
   heroImages: string[];
   subtitle?: string;
+  featured?: boolean;
   [key: string]: unknown;
 }
 
@@ -388,6 +390,11 @@ function ProjectLinkWithThumbnails({
           <span className="project-link-text truncate">
             {project.title} - {project.company}
           </span>
+        )}
+        {project.featured && (
+          <Badge variant="featured" className="shrink-0 ml-2">
+            New
+          </Badge>
         )}
         <div
           ref={arrowRef}
