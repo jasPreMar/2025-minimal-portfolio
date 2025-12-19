@@ -504,7 +504,7 @@ export function ExpandableProjectSection({
             onMouseEnter={handleTitleMouseEnter}
             onMouseLeave={handleTitleMouseLeave}
           >
-            <span className="text-base font-semibold group-hover:underline underline-offset-2">
+            <span className="text-base font-semibold group-hover:underline underline-offset-2 font-heading">
               {title}
             </span>
             <AnimatePresence>
@@ -535,7 +535,7 @@ export function ExpandableProjectSection({
             </AnimatePresence>
           </Link>
         ) : (
-          <p className="text-base font-semibold">{title}</p>
+          <p className="text-base font-semibold font-heading">{title}</p>
         )}
         <div className={`flex flex-col ${isExpanded ? "gap-1" : "gap-0"}`}>
           {projects.map((project) => (

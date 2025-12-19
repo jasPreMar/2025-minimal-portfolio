@@ -110,7 +110,7 @@ function ProjectSection({ project }: { project: NotionProject }) {
 
         {/* Subtitle */}
         {project.subtitle && (
-          <p className="text-xl font-semibold leading-relaxed">
+          <p className="text-xl font-semibold leading-tight">
             {project.subtitle}
           </p>
         )}

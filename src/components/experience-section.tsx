@@ -123,7 +123,7 @@ export function ExperienceSection() {
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
           >
-            <span className="text-base font-semibold group-hover:underline underline-offset-2">
+            <span className="text-base font-semibold group-hover:underline underline-offset-2 font-heading">
               Experience
             </span>
             <AnimatePresence>

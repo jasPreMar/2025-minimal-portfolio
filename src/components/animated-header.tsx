@@ -19,7 +19,7 @@ export function AnimatedHeader() {
   };
 
   return (
-    <div className="flex items-center gap-0 text-xl font-semibold tracking-tight min-h-[28px]">
+    <div className="flex items-center gap-0 text-xl font-semibold tracking-tight min-h-[28px] font-heading">
       {/* "J" that's always visible, clickable when on project page */}
       <motion.div
         className={`relative ${isProjectPage ? "cursor-pointer" : ""}`}
@@ -78,7 +78,7 @@ export function AnimatedHeader() {
             }}
             className="flex items-center"
           >
-            <span className="text-secondary mx-2 font-normal">/</span>
+            <span className="text-border mx-2 font-normal">/</span>
             <span>{projectTitle}</span>
           </motion.div>
         )}
