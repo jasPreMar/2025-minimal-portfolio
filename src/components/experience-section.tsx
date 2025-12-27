@@ -113,7 +113,7 @@ export function ExperienceSection() {
 
   return (
     <div className="flex flex-col gap-6">
-      <Tooltip>
+      <Tooltip delayDuration={500}>
         <TooltipTrigger asChild>
           <a
             href={`https://www.${LINKEDIN_URL}/`}

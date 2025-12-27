@@ -56,7 +56,7 @@ export default function EmailCopyButton({ email = "jasonpmarsh@gmail.com" }: Ema
   };
 
   return (
-    <Tooltip>
+    <Tooltip delayDuration={500}>
       <TooltipTrigger asChild>
         <motion.button
           className="email-button-chromatic outline-none h-9 flex items-center justify-center whitespace-nowrap rounded-lg focus-visible:ring-1 focus-visible:ring-foreground focus-visible:ring-offset-1 focus:outline-none bg-foreground text-background font-sans text-sm font-medium cursor-pointer relative"
