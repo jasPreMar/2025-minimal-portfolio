@@ -2,7 +2,7 @@ import { ShimmerText } from "@/components/shimmer-text";
 import { ProjectLink } from "@/components/project-link";
 import { StaggeredFadeIn } from "@/components/staggered-fade-in";
 import { ExperienceSection } from "@/components/experience-section";
-import { SocialLinks } from "@/components/social-links";
+import EmailCopyButton from "@/components/email-copy-button";
 import { getAllProjects, type NotionProject } from "@/lib/notion";
 import { ExpandableProjectSection } from "@/components/expandable-project-section";
 
@@ -61,7 +61,7 @@ export default async function Home() {
           Currently designing conversational AI interfaces at CarMax. I enjoy hidden details, differing perspectives, and bold ideas.
         </p>
         <div className="mt-8">
-          <SocialLinks />
+          <EmailCopyButton />
         </div>
       </div>
 
