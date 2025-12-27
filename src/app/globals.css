@@ -99,6 +99,8 @@ body {
   position: relative;
   display: block;
   color: var(--shimmer-base);
+  width: 100%;
+  height: fit-content;
 }
 
 /* New text layer - establishes dimensions and shows by default */

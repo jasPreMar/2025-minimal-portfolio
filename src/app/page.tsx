@@ -55,12 +55,12 @@ export default async function Home() {
   return (
     <StaggeredFadeIn initialDelay={0.25} staggerDelay={0.18} duration={0.45}>
       {/* Section 1: Shimmer text below header */}
-      <div className="">
+      <div className="flex flex-col gap-6 w-full h-fit">
         <ShimmerText initialShimmerDelay={0.25} initialWord="Designing" />
-        <p className="mt-6 text-base w-full">
+        <p className="mt-0 text-base w-full h-fit">
           Currently designing conversational AI interfaces at CarMax. I enjoy hidden details, differing perspectives, and bold ideas.
         </p>
-        <div className="mt-8">
+        <div className="mt-1 w-full h-fit">
           <EmailCopyButton />
         </div>
       </div>
