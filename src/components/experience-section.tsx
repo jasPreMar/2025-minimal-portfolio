@@ -65,10 +65,10 @@ const experiences: Experience[] = [
 function ExperienceItem({ experience }: { experience: Experience }) {
   return (
     <>
-      <div className="text-secondary py-4">
+      <div className="text-secondary">
         {experience.startYear} — {experience.endYear}
       </div>
-      <div className="flex flex-col gap-1 py-4">
+      <div className="flex flex-col gap-1">
         <div className="text-foreground">
           {experience.title} at {experience.company}
         </div>
@@ -112,7 +112,7 @@ export function ExperienceSection() {
   };
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-6">
       <Tooltip>
         <TooltipTrigger asChild>
           <a
