@@ -57,7 +57,7 @@ export default async function Home() {
       {/* Section 1: Shimmer text below header */}
       <div className="">
         <ShimmerText initialShimmerDelay={0.25} initialWord="Designing" />
-        <p className="mt-6 text-base max-w-md">
+        <p className="mt-6 text-base w-full">
           Currently designing conversational AI interfaces at CarMax. I enjoy hidden details, differing perspectives, and bold ideas.
         </p>
         <div className="mt-8">
