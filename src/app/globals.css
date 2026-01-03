@@ -445,14 +445,14 @@ body {
   }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: var(--font-manrope), system-ui, sans-serif;
+    font-family: var(--font-inter), system-ui, sans-serif;
     line-height: 1.2;
   }
 }
 
 @layer utilities {
   .font-heading {
-    font-family: var(--font-manrope), system-ui, sans-serif;
+    font-family: var(--font-inter), system-ui, sans-serif;
     line-height: 1.2;
   }
 }

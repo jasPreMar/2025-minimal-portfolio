@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Manrope } from "next/font/google";
+import { Inter } from "next/font/google";
 import "./globals.css";
 import { AnimatedHeader } from "@/components/animated-header";
 import { ProjectTitleProvider } from "@/components/project-title-context";
@@ -7,11 +7,6 @@ import { SiteFooter } from "@/components/site-footer";
 
 const inter = Inter({
   variable: "--font-inter",
-  subsets: ["latin"],
-});
-
-const manrope = Manrope({
-  variable: "--font-manrope",
   subsets: ["latin"],
 });
 
@@ -28,7 +23,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${inter.variable} ${manrope.variable} antialiased bg-background text-foreground`}
+        className={`${inter.variable} antialiased bg-background text-foreground`}
       >
         <script
           dangerouslySetInnerHTML={{
