@@ -3,7 +3,6 @@ import { ArrowUpRight, Briefcase, Calendar, Users } from "lucide-react";
 import { getAllProjects, type NotionProject } from "@/lib/notion";
 import { InteractiveImage } from "@/components/interactive-image";
 import { SetProjectTitle } from "@/components/project-title-context";
-import { SocialLinks } from "@/components/social-links";
 import { ProjectsStaggeredFade } from "@/components/projects-staggered-fade";
 import { HashScroll } from "@/components/hash-scroll";
 import { Badge } from "@/components/ui/badge";
