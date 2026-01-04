@@ -1,7 +1,8 @@
 import { ShimmerText } from "@/components/shimmer-text";
 import { ProjectLink } from "@/components/project-link";
 import { StaggeredFadeIn } from "@/components/staggered-fade-in";
-import { ExperienceSection } from "@/components/experience-section";
+import { Preview } from "@/components/preview";
+import { Steps } from "@/components/steps";
 import EmailCopyButton from "@/components/email-copy-button";
 import { getAllProjects, type NotionProject } from "@/lib/notion";
 import { ExpandableProjectSection } from "@/components/expandable-project-section";
@@ -75,8 +76,10 @@ export default async function Home() {
         <ExpandableProjectSection title="Side Projects" projects={sideProjects} />
       )}
 
-      {/* Section 4: Experience */}
-      <ExperienceSection />
+      {/* Section 4: Steps Demo */}
+      <Preview>
+        <Steps />
+      </Preview>
     </StaggeredFadeIn>
   );
 }

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Inter, Lato } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 import { AnimatedHeader } from "@/components/animated-header";
 import { ProjectTitleProvider } from "@/components/project-title-context";
@@ -8,6 +9,29 @@ import { SiteFooter } from "@/components/site-footer";
 const inter = Inter({
   variable: "--font-inter",
   subsets: ["latin"],
+});
+
+const lato = Lato({
+  variable: "--font-lato",
+  subsets: ["latin"],
+  weight: ["100", "300", "400", "700", "900"],
+});
+
+const carmaxSharpSans = localFont({
+  src: [
+    {
+      path: "./fonts/CarMaxSharpSansDisp-Book.otf",
+      weight: "400",
+      style: "normal",
+    },
+    {
+      path: "./fonts/CarMaxSharpSansDisp-Bold.otf",
+      weight: "700",
+      style: "normal",
+    },
+  ],
+  variable: "--font-carmax-sharp-sans",
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -23,7 +47,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${inter.variable} antialiased bg-background text-foreground`}
+        className={`${inter.variable} ${lato.variable} ${carmaxSharpSans.variable} antialiased bg-background text-foreground`}
       >
         <script
           dangerouslySetInnerHTML={{

@@ -6,6 +6,7 @@ import { SetProjectTitle } from "@/components/project-title-context";
 import { ProjectsStaggeredFade } from "@/components/projects-staggered-fade";
 import { HashScroll } from "@/components/hash-scroll";
 import { Badge } from "@/components/ui/badge";
+import { Preview } from "@/components/preview";
 
 // Revalidate every 60 seconds (ISR)
 export const revalidate = 60;
@@ -168,6 +169,9 @@ function ProjectSection({ project }: { project: NotionProject }) {
           </p>
         </div>
       )}
+
+      {/* Preview */}
+      <Preview />
 
       {/* Prototype Button */}
       {project.prototypeUrl && (
