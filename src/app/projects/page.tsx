@@ -170,9 +170,6 @@ function ProjectSection({ project }: { project: NotionProject }) {
         </div>
       )}
 
-      {/* Preview */}
-      <Preview />
-
       {/* Prototype Button */}
       {project.prototypeUrl && (
         <div>
