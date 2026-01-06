@@ -621,7 +621,7 @@ export function ExpandableProjectSection({
             )}
           </div>
         </button>
-        <div className={`flex flex-col ${isExpanded ? "gap-1" : "gap-0.5"}`}>
+        <div className={`flex flex-col ${isExpanded ? "gap-5 min-[480px]:gap-1" : "gap-0.5"}`}>
           {projects.map((project) => (
             <ProjectLinkWithThumbnails
               key={project.id}
