@@ -81,25 +81,14 @@ function ProjectSection({ project }: { project: NotionProject }) {
         </Badge>
       )}
 
-      {/* Hero Images - Breakout Horizontal Scroll */}
+      {/* Hero Image - Full Width with Padding */}
       {project.heroImages.length > 0 && (
-        <div className="w-screen ml-[calc(50%-50vw)] overflow-x-auto scrollbar-hide mb-2 -mr-[calc(50%-50vw)] snap-x snap-mandatory">
-          <div className="flex gap-2 px-8 md:pl-[calc((100vw-608px)/2+32px)] w-max max-w-none">
-            {project.heroImages.map((image, index) => (
-              <div
-                key={index}
-                className="relative w-[calc(100vw-64px)] md:w-[544px] flex-shrink-0 snap-center"
-              >
-                <InteractiveImage
-                  src={image}
-                  alt={`${project.title} hero image ${index + 1}`}
-                  priority={index === 0}
-                />
-              </div>
-            ))}
-            {/* Right padding spacer to match left padding visually when scrolling to end */}
-            <div className="w-6 md:w-[calc((100vw-608px)/2+8px)] flex-shrink-0" />
-          </div>
+        <div className="w-screen ml-[calc(50%-50vw)] -mr-[calc(50%-50vw)] mb-2 px-8">
+          <InteractiveImage
+            src={project.heroImages[0]}
+            alt={`${project.title} hero image`}
+            priority={true}
+          />
         </div>
       )}
 
