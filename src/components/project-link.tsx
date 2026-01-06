@@ -11,6 +11,7 @@ interface ProjectLinkProps {
 
 export function ProjectLink({ name, href = "#" }: ProjectLinkProps) {
   const arrowRef = useRef<HTMLDivElement>(null);
+  const linkRef = useRef<HTMLAnchorElement>(null);
   const [supportsHover, setSupportsHover] = useState(false);
 
   useEffect(() => {
@@ -40,12 +41,41 @@ export function ProjectLink({ name, href = "#" }: ProjectLinkProps) {
     }
   };
 
+  const handleTouchStart = () => {
+    // On touch devices, clear any stuck hover states
+    if (!supportsHover && arrowRef.current) {
+      arrowRef.current.style.transition = "transform 200ms ease-out";
+      arrowRef.current.style.transform = "translateX(0)";
+    }
+  };
+
+  // Clear hover state when clicking/tapping elsewhere
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent | TouchEvent) => {
+      if (linkRef.current && !linkRef.current.contains(e.target as Node)) {
+        if (arrowRef.current && !supportsHover) {
+          arrowRef.current.style.transition = "transform 200ms ease-out";
+          arrowRef.current.style.transform = "translateX(0)";
+        }
+      }
+    };
+
+    document.addEventListener("click", handleClickOutside);
+    document.addEventListener("touchstart", handleClickOutside);
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+      document.removeEventListener("touchstart", handleClickOutside);
+    };
+  }, [supportsHover]);
+
   return (
     <Link
+      ref={linkRef}
       href={href}
       className="project-link group flex items-center py-2 min-[480px]:py-1 w-full justify-between min-[480px]:w-fit min-[480px]:justify-start min-[480px]:gap-2"
       onMouseEnter={supportsHover ? handleMouseEnter : undefined}
       onMouseLeave={supportsHover ? handleMouseLeave : undefined}
+      onTouchStart={handleTouchStart}
     >
       <span className="project-link-text truncate">
         {name}

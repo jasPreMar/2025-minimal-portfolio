@@ -292,27 +292,79 @@ function ProjectLinkWithThumbnails({
   isExpanded: boolean;
 }) {
   const arrowRef = useRef<HTMLDivElement>(null);
+  const linkRef = useRef<HTMLAnchorElement>(null);
   const [isHovered, setIsHovered] = useState(false);
+  const [supportsHover, setSupportsHover] = useState(false);
   const [isPrismaticShimmering, setIsPrismaticShimmering] = useState(false);
   const previousExpandedRef = useRef(false);
   const prismaticTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const prismaticEndTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
+  useEffect(() => {
+    // Check if device supports hover (not a touch device)
+    const mediaQuery = window.matchMedia("(hover: hover)");
+    setSupportsHover(mediaQuery.matches);
+
+    const handleChange = (e: MediaQueryListEvent) => {
+      setSupportsHover(e.matches);
+    };
+
+    mediaQuery.addEventListener("change", handleChange);
+    return () => mediaQuery.removeEventListener("change", handleChange);
+  }, []);
+
   const handleMouseEnter = () => {
-    setIsHovered(true);
-    if (arrowRef.current) {
-      arrowRef.current.style.transition = "transform 0ms";
-      arrowRef.current.style.transform = "translateX(0.25rem)";
+    if (supportsHover) {
+      setIsHovered(true);
+      if (arrowRef.current) {
+        arrowRef.current.style.transition = "transform 0ms";
+        arrowRef.current.style.transform = "translateX(0.25rem)";
+      }
     }
   };
 
   const handleMouseLeave = () => {
-    setIsHovered(false);
-    if (arrowRef.current) {
-      arrowRef.current.style.transition = "transform 200ms ease-out";
-      arrowRef.current.style.transform = "translateX(0)";
+    if (supportsHover) {
+      setIsHovered(false);
+      if (arrowRef.current) {
+        arrowRef.current.style.transition = "transform 200ms ease-out";
+        arrowRef.current.style.transform = "translateX(0)";
+      }
     }
   };
+
+  const handleTouchStart = () => {
+    // On touch devices, clear any stuck hover states
+    if (!supportsHover) {
+      setIsHovered(false);
+      if (arrowRef.current) {
+        arrowRef.current.style.transition = "transform 200ms ease-out";
+        arrowRef.current.style.transform = "translateX(0)";
+      }
+    }
+  };
+
+  // Clear hover state when clicking/tapping elsewhere
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent | TouchEvent) => {
+      if (linkRef.current && !linkRef.current.contains(e.target as Node)) {
+        if (!supportsHover) {
+          setIsHovered(false);
+          if (arrowRef.current) {
+            arrowRef.current.style.transition = "transform 200ms ease-out";
+            arrowRef.current.style.transform = "translateX(0)";
+          }
+        }
+      }
+    };
+
+    document.addEventListener("click", handleClickOutside);
+    document.addEventListener("touchstart", handleClickOutside);
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+      document.removeEventListener("touchstart", handleClickOutside);
+    };
+  }, [supportsHover]);
 
   // Trigger shimmer effect when expanding - use useLayoutEffect for instant trigger
   useLayoutEffect(() => {
@@ -345,6 +397,7 @@ function ProjectLinkWithThumbnails({
 
   return (
     <Link
+      ref={linkRef}
       href={href}
       className={`group flex flex-col rounded-xl px-3 -mx-3 py-2 min-[480px]:py-1 ${
         showHoverBg ? "bg-black/5 dark:bg-white/5" : "bg-transparent"
@@ -354,6 +407,7 @@ function ProjectLinkWithThumbnails({
       }}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
+      onTouchStart={handleTouchStart}
     >
       {/* Title and arrow row */}
       <div className="flex items-center w-full justify-between gap-1 min-[480px]:w-fit min-[480px]:justify-start min-[480px]:gap-2">
@@ -446,7 +500,22 @@ export function ExpandableProjectSection({
     initialIndex: number;
   } | null>(null);
   const chevronRef = useRef<HTMLDivElement>(null);
+  const buttonRef = useRef<HTMLButtonElement>(null);
   const [isTitleHovered, setIsTitleHovered] = useState(false);
+  const [supportsHover, setSupportsHover] = useState(false);
+
+  useEffect(() => {
+    // Check if device supports hover (not a touch device)
+    const mediaQuery = window.matchMedia("(hover: hover)");
+    setSupportsHover(mediaQuery.matches);
+
+    const handleChange = (e: MediaQueryListEvent) => {
+      setSupportsHover(e.matches);
+    };
+
+    mediaQuery.addEventListener("change", handleChange);
+    return () => mediaQuery.removeEventListener("change", handleChange);
+  }, []);
 
   const handleImageClick = (project: Project, index: number) => {
     const allImages = [...project.heroImages, ...(project.finalScreens || [])];
@@ -457,20 +526,57 @@ export function ExpandableProjectSection({
   };
 
   const handleTitleMouseEnter = () => {
-    setIsTitleHovered(true);
-    if (chevronRef.current) {
-      chevronRef.current.style.transition = "transform 200ms ease-out";
-      chevronRef.current.style.transform = isExpanded ? "translateY(-2px)" : "translateY(2px)";
+    if (supportsHover) {
+      setIsTitleHovered(true);
+      if (chevronRef.current) {
+        chevronRef.current.style.transition = "transform 200ms ease-out";
+        chevronRef.current.style.transform = isExpanded ? "translateY(-2px)" : "translateY(2px)";
+      }
     }
   };
 
   const handleTitleMouseLeave = () => {
-    setIsTitleHovered(false);
-    if (chevronRef.current) {
-      chevronRef.current.style.transition = "transform 200ms ease-out";
-      chevronRef.current.style.transform = "translateY(0)";
+    if (supportsHover) {
+      setIsTitleHovered(false);
+      if (chevronRef.current) {
+        chevronRef.current.style.transition = "transform 200ms ease-out";
+        chevronRef.current.style.transform = "translateY(0)";
+      }
     }
   };
+
+  const handleTitleTouchStart = () => {
+    // On touch devices, clear any stuck hover states
+    if (!supportsHover) {
+      setIsTitleHovered(false);
+      if (chevronRef.current) {
+        chevronRef.current.style.transition = "transform 200ms ease-out";
+        chevronRef.current.style.transform = "translateY(0)";
+      }
+    }
+  };
+
+  // Clear hover state when clicking/tapping elsewhere
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent | TouchEvent) => {
+      if (buttonRef.current && !buttonRef.current.contains(e.target as Node)) {
+        if (!supportsHover) {
+          setIsTitleHovered(false);
+          if (chevronRef.current) {
+            chevronRef.current.style.transition = "transform 200ms ease-out";
+            chevronRef.current.style.transform = "translateY(0)";
+          }
+        }
+      }
+    };
+
+    document.addEventListener("click", handleClickOutside);
+    document.addEventListener("touchstart", handleClickOutside);
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+      document.removeEventListener("touchstart", handleClickOutside);
+    };
+  }, [supportsHover]);
 
   // Update chevron position when isExpanded changes while hovering
   useEffect(() => {
@@ -486,6 +592,7 @@ export function ExpandableProjectSection({
     <>
       <div className="flex flex-col gap-5">
         <button
+          ref={buttonRef}
           onClick={() => setIsExpanded(!isExpanded)}
           className={`project-link flex items-center w-fit justify-start gap-2 rounded-xl px-3 -mx-3 py-2 min-[480px]:py-1 cursor-pointer ${
             isTitleHovered ? "bg-black/5 dark:bg-white/5" : "bg-transparent"
@@ -496,6 +603,7 @@ export function ExpandableProjectSection({
           aria-label={isExpanded ? "Collapse projects" : "Expand projects"}
           onMouseEnter={handleTitleMouseEnter}
           onMouseLeave={handleTitleMouseLeave}
+          onTouchStart={handleTitleTouchStart}
         >
           <p className="text-base font-semibold font-heading">{title}</p>
           <div
