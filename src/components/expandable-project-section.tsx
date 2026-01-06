@@ -1,10 +1,9 @@
 "use client";
 
 import { useState, useRef, useEffect, useLayoutEffect, useCallback } from "react";
-import { ArrowRight, ChevronLeft } from "lucide-react";
+import { ArrowRight, ChevronLeft, ChevronDown, ChevronUp } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { motion, AnimatePresence } from "motion/react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Badge } from "@/components/ui/badge";
 
@@ -14,6 +13,7 @@ interface Project {
   company: string;
   slug: string;
   heroImages: string[];
+  finalScreens?: string[];
   subtitle?: string;
   featured?: boolean;
   [key: string]: unknown;
@@ -346,21 +346,17 @@ function ProjectLinkWithThumbnails({
   return (
     <Link
       href={href}
-      className={`group flex flex-col ${
-        isExpanded
-          ? `rounded-xl px-3 -mx-3 py-3 ${
-              showHoverBg ? "bg-black/5 dark:bg-white/5" : "bg-transparent"
-            }`
-          : "project-link py-2 min-[480px]:py-1"
+      className={`group flex flex-col rounded-xl px-3 -mx-3 py-2 min-[480px]:py-1 ${
+        showHoverBg ? "bg-black/5 dark:bg-white/5" : "bg-transparent"
       }`}
-      style={isExpanded ? {
+      style={{
         transition: showHoverBg ? "none" : "background-color 150ms ease-out",
-      } : undefined}
+      }}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
       {/* Title and arrow row */}
-      <div className="flex items-center w-full justify-between min-[480px]:w-fit min-[480px]:justify-start min-[480px]:gap-2">
+      <div className="flex items-center w-full justify-between gap-1 min-[480px]:w-fit min-[480px]:justify-start min-[480px]:gap-2">
         {isExpanded ? (
           <span
             className="truncate whitespace-nowrap"
@@ -374,7 +370,7 @@ function ProjectLinkWithThumbnails({
           >
             {/* Base text */}
             <span className="truncate block">
-              {project.title} - {project.company}
+              {project.title} <span className="text-secondary">- {project.company}</span>
             </span>
             {/* Prismatic shimmer */}
             {isPrismaticShimmering && (
@@ -388,7 +384,7 @@ function ProjectLinkWithThumbnails({
           </span>
         ) : (
           <span className="project-link-text truncate">
-            {project.title} - {project.company}
+            {project.title}
           </span>
         )}
         {project.featured && (
@@ -414,23 +410,28 @@ function ProjectLinkWithThumbnails({
       )}
 
       {/* Animated thumbnail container */}
-      <div
-        className="overflow-hidden transition-all duration-300 ease-out"
-        style={{
-          maxHeight: isExpanded && project.heroImages.length > 0 ? "110px" : "0px",
-          opacity: isExpanded ? 1 : 0,
-          marginTop: isExpanded && project.heroImages.length > 0 ? "4px" : "0px",
-        }}
-      >
-        <div className="flex gap-2 overflow-x-auto scrollbar-hide py-1">
-          {project.heroImages.map((src, index) => (
-            <ThumbnailImage
-              key={`${src}-${index}`}
-              src={src}
-            />
-          ))}
-        </div>
-      </div>
+      {(() => {
+        const allImages = [...project.heroImages, ...(project.finalScreens || [])];
+        return (
+          <div
+            className="overflow-hidden transition-all duration-300 ease-out"
+            style={{
+              maxHeight: isExpanded && allImages.length > 0 ? "110px" : "0px",
+              opacity: isExpanded ? 1 : 0,
+              marginTop: isExpanded && allImages.length > 0 ? "4px" : "0px",
+            }}
+          >
+            <div className="flex gap-2 overflow-x-auto scrollbar-hide py-1">
+              {allImages.map((src, index) => (
+                <ThumbnailImage
+                  key={`${src}-${index}`}
+                  src={src}
+                />
+              ))}
+            </div>
+          </div>
+        );
+      })()}
     </Link>
   );
 }
@@ -444,105 +445,80 @@ export function ExpandableProjectSection({
     images: string[];
     initialIndex: number;
   } | null>(null);
+  const chevronRef = useRef<HTMLDivElement>(null);
   const [isTitleHovered, setIsTitleHovered] = useState(false);
-  const [supportsHover, setSupportsHover] = useState(false);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      const scrollY = window.scrollY;
-      setIsExpanded(scrollY >= 120);
-    };
-
-    // Check initial scroll position
-    handleScroll();
-
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  useEffect(() => {
-    // Check if device supports hover (not a touch device)
-    const mediaQuery = window.matchMedia("(hover: hover)");
-    setSupportsHover(mediaQuery.matches);
-
-    const handleChange = (e: MediaQueryListEvent) => {
-      setSupportsHover(e.matches);
-    };
-
-    mediaQuery.addEventListener("change", handleChange);
-    return () => mediaQuery.removeEventListener("change", handleChange);
-  }, []);
+  const handleImageClick = (project: Project, index: number) => {
+    const allImages = [...project.heroImages, ...(project.finalScreens || [])];
+    setFullscreenState({
+      images: allImages,
+      initialIndex: index,
+    });
+  };
 
   const handleTitleMouseEnter = () => {
-    if (supportsHover) {
-      setIsTitleHovered(true);
+    setIsTitleHovered(true);
+    if (chevronRef.current) {
+      chevronRef.current.style.transition = "transform 200ms ease-out";
+      chevronRef.current.style.transform = isExpanded ? "translateY(-2px)" : "translateY(2px)";
     }
   };
 
   const handleTitleMouseLeave = () => {
-    if (supportsHover) {
-      setIsTitleHovered(false);
+    setIsTitleHovered(false);
+    if (chevronRef.current) {
+      chevronRef.current.style.transition = "transform 200ms ease-out";
+      chevronRef.current.style.transform = "translateY(0)";
     }
   };
 
-  const handleImageClick = (project: Project, index: number) => {
-    setFullscreenState({
-      images: project.heroImages,
-      initialIndex: index,
-    });
-  };
+  // Update chevron position when isExpanded changes while hovering
+  useEffect(() => {
+    if (isTitleHovered && chevronRef.current) {
+      chevronRef.current.style.transition = "transform 200ms ease-out";
+      chevronRef.current.style.transform = isExpanded ? "translateY(-2px)" : "translateY(2px)";
+    }
+  }, [isExpanded, isTitleHovered]);
 
   if (projects.length === 0) return null;
 
   return (
     <>
-      <div className="flex flex-col gap-6">
-        {title === "Projects" ? (
-          <Link
-            href="/projects"
-            className="group flex items-center gap-1 w-fit"
-            onMouseEnter={handleTitleMouseEnter}
-            onMouseLeave={handleTitleMouseLeave}
-          >
-            <span className="text-base font-semibold group-hover:underline underline-offset-2 font-heading">
-              {title}
-            </span>
-            <AnimatePresence>
-              {isTitleHovered && (
-                <motion.div
-                  initial={{ opacity: 0, x: 0 }}
-                  animate={{ opacity: 1, x: "0.25rem" }}
-                  exit={{
-                    x: 0,
-                    opacity: 0,
-                    transition: {
-                      x: { duration: 0.2, ease: "easeOut" },
-                      opacity: { duration: 0.2, ease: "easeOut" }
-                    }
-                  }}
-                  transition={{
-                    opacity: { duration: 0.2 },
-                    x: { 
-                      duration: 0,
-                      ease: "easeOut"
-                    }
-                  }}
-                  className="flex items-center justify-center w-6 h-6 shrink-0"
-                >
-                  <ArrowRight size={16} strokeWidth={2} />
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </Link>
-        ) : (
+      <div className="flex flex-col gap-5">
+        <button
+          onClick={() => setIsExpanded(!isExpanded)}
+          className={`project-link flex items-center w-fit justify-start gap-2 rounded-xl px-3 -mx-3 py-2 min-[480px]:py-1 cursor-pointer ${
+            isTitleHovered ? "bg-black/5 dark:bg-white/5" : "bg-transparent"
+          }`}
+          style={{
+            transition: isTitleHovered ? "none" : "background-color 150ms ease-out",
+          }}
+          aria-label={isExpanded ? "Collapse projects" : "Expand projects"}
+          onMouseEnter={handleTitleMouseEnter}
+          onMouseLeave={handleTitleMouseLeave}
+        >
           <p className="text-base font-semibold font-heading">{title}</p>
-        )}
-        <div className={`flex flex-col ${isExpanded ? "gap-1" : "gap-0"}`}>
+          <div
+            ref={chevronRef}
+            className="flex items-center justify-center w-6 h-6 shrink-0"
+            style={{
+              transform: "translateY(0)",
+              transition: "transform 200ms ease-out",
+            }}
+          >
+            {isExpanded ? (
+              <ChevronUp size={16} strokeWidth={2} />
+            ) : (
+              <ChevronDown size={16} strokeWidth={2} />
+            )}
+          </div>
+        </button>
+        <div className={`flex flex-col ${isExpanded ? "gap-1" : "gap-0.5"}`}>
           {projects.map((project) => (
             <ProjectLinkWithThumbnails
               key={project.id}
               project={project}
-              href={`/projects#${project.slug}`}
+              href={`/projects/${project.slug}`}
               isExpanded={isExpanded}
             />
           ))}

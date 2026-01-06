@@ -1,8 +1,6 @@
 import { ShimmerText } from "@/components/shimmer-text";
 import { ProjectLink } from "@/components/project-link";
 import { StaggeredFadeIn } from "@/components/staggered-fade-in";
-import { Preview } from "@/components/preview";
-import { Steps } from "@/components/steps";
 import EmailCopyButton from "@/components/email-copy-button";
 import { getAllProjects, type NotionProject } from "@/lib/notion";
 import { ExpandableProjectSection } from "@/components/expandable-project-section";
@@ -29,11 +27,11 @@ function ProjectSection({
         {projects.map((project, index) => (
           <ProjectLink
             key={project.id}
-            name={`${project.title} - ${project.company}`}
+            name={project.title}
             href={
               firstItemAsMainLink && index === 0
-                ? "/projects"
-                : `/projects#${project.slug}`
+                ? `/projects/${projects[0].slug}`
+                : `/projects/${project.slug}`
             }
           />
         ))}
@@ -58,10 +56,7 @@ export default async function Home() {
       {/* Section 1: Shimmer text below header */}
       <div className="flex flex-col gap-6 w-full h-fit">
         <ShimmerText initialShimmerDelay={0.25} initialWord="Designing" />
-        <p className="mt-0 text-base w-full h-fit">
-          Currently designing conversational AI interfaces at CarMax. I enjoy hidden details, differing perspectives, and bold ideas.
-        </p>
-        <div className="mt-1 w-full h-fit">
+        <div className="mt-0 w-full h-fit">
           <EmailCopyButton />
         </div>
       </div>
@@ -75,11 +70,6 @@ export default async function Home() {
       {sideProjects.length > 0 && (
         <ExpandableProjectSection title="Side Projects" projects={sideProjects} />
       )}
-
-      {/* Section 4: Steps Demo */}
-      <Preview>
-        <Steps />
-      </Preview>
     </StaggeredFadeIn>
   );
 }

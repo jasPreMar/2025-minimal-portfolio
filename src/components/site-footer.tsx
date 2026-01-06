@@ -6,7 +6,7 @@ export function SiteFooter() {
     const text = "Made with ❤️ by Jason + Claude";
 
     return (
-        <footer className="mt-30">
+        <footer className="mt-6">
             <motion.div
                 className="relative w-20 h-20"
                 animate={{ rotate: -360 }}

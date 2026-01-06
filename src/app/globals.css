@@ -267,12 +267,7 @@ body {
   text-decoration: none;
 }
 
-/* Underline on hover - only on devices that support hover */
-@media (hover: hover) {
-  .project-link:hover .project-link-text {
-    text-decoration: underline;
-  }
-}
+/* Underline on hover removed - using background color hover effect instead */
 
 .project-link-arrow {
   transform: translateX(0);
