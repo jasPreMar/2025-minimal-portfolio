@@ -174,12 +174,12 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
         }
 
         return (
-          <div className="flex flex-col gap-6">
+          <div className="flex flex-col gap-2">
             {rows.map((row, rowIndex) => (
               <div
                 key={rowIndex}
                 className={`w-screen ml-[calc(50%-50vw)] -mr-[calc(50%-50vw)] px-8 ${
-                  row.images.length === 2 ? "grid grid-cols-2 gap-6" : ""
+                  row.images.length === 2 ? "grid grid-cols-2 gap-2" : ""
                 }`}
               >
                 {row.images.map((screen, screenIndex) => (
