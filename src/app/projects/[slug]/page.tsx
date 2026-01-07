@@ -147,18 +147,55 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
       )}
 
       {/* Final Screens */}
-      {project.finalScreens.length > 0 && (
-        <div className="flex flex-col gap-6">
-          {project.finalScreens.map((screen, index) => (
-            <div key={index} className="w-screen ml-[calc(50%-50vw)] -mr-[calc(50%-50vw)] px-8">
-              <InteractiveImage
-                src={screen}
-                alt={`${project.title} final screen ${index + 1}`}
-              />
-            </div>
-          ))}
-        </div>
-      )}
+      {project.finalScreens.length > 0 && (() => {
+        // Group images into rows: 2, 1, 2, 1, ...
+        const rows: { images: string[]; startIndex: number }[] = [];
+        let currentIndex = 0;
+        let rowIndex = 0;
+
+        while (currentIndex < project.finalScreens.length) {
+          const startIndex = currentIndex;
+          if (rowIndex % 2 === 0) {
+            // Even rows: 2 columns
+            rows.push({
+              images: project.finalScreens.slice(currentIndex, currentIndex + 2),
+              startIndex,
+            });
+            currentIndex += 2;
+          } else {
+            // Odd rows: 1 column
+            rows.push({
+              images: project.finalScreens.slice(currentIndex, currentIndex + 1),
+              startIndex,
+            });
+            currentIndex += 1;
+          }
+          rowIndex++;
+        }
+
+        return (
+          <div className="flex flex-col gap-6">
+            {rows.map((row, rowIndex) => (
+              <div
+                key={rowIndex}
+                className={`w-screen ml-[calc(50%-50vw)] -mr-[calc(50%-50vw)] px-8 ${
+                  row.images.length === 2 ? "grid grid-cols-2 gap-6" : ""
+                }`}
+              >
+                {row.images.map((screen, screenIndex) => (
+                  <InteractiveImage
+                    key={row.startIndex + screenIndex}
+                    src={screen}
+                    alt={`${project.title} final screen ${row.startIndex + screenIndex + 1}`}
+                    objectFit="cover"
+                    aspectRatio={row.images.length === 2 ? "square" : "video"}
+                  />
+                ))}
+              </div>
+            ))}
+          </div>
+        );
+      })()}
 
       {/* Keywords/Tags */}
       {project.tags.length > 0 && (

@@ -8,9 +8,10 @@ import { Skeleton } from "@/components/ui/skeleton";
 interface InteractiveImageProps {
   src: string;
   alt: string;
-  aspectRatio?: "video" | "auto";
+  aspectRatio?: "video" | "auto" | "square";
   className?: string;
   priority?: boolean;
+  objectFit?: "cover" | "contain";
 }
 
 function FullscreenView({
@@ -166,11 +167,16 @@ export function InteractiveImage({
   aspectRatio = "video",
   className = "",
   priority = false,
+  objectFit = "cover",
 }: InteractiveImageProps) {
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
-  const aspectClass = aspectRatio === "video" ? "aspect-video" : "";
+  const aspectClass = 
+    aspectRatio === "video" ? "aspect-video" : 
+    aspectRatio === "square" ? "aspect-square" : 
+    "";
+  const objectFitClass = objectFit === "contain" ? "object-contain" : "object-cover";
 
   return (
     <>
@@ -182,7 +188,7 @@ export function InteractiveImage({
           src={src}
           alt={alt}
           fill
-          className={`object-cover transition-transform duration-500 ease-out group-hover:scale-[1.02] ${isLoading ? "opacity-0" : "opacity-100"
+          className={`${objectFitClass} transition-transform duration-500 ease-out group-hover:scale-[1.02] ${isLoading ? "opacity-0" : "opacity-100"
             }`}
           unoptimized
           priority={priority}
