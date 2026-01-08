@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect, useLayoutEffect, useCallback } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import { ArrowRight, ChevronLeft, ChevronDown, ChevronUp } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -296,7 +296,6 @@ function ProjectLinkWithThumbnails({
   const [isHovered, setIsHovered] = useState(false);
   const [supportsHover, setSupportsHover] = useState(false);
   const [isPrismaticShimmering, setIsPrismaticShimmering] = useState(false);
-  const previousExpandedRef = useRef(false);
   const prismaticTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const prismaticEndTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
@@ -320,6 +319,21 @@ function ProjectLinkWithThumbnails({
         arrowRef.current.style.transition = "transform 0ms";
         arrowRef.current.style.transform = "translateX(0.25rem)";
       }
+      
+      // Trigger shimmer effect on hover
+      const prismaticDuration = 0.91; // Duration in seconds
+      
+      // Clear any existing timeouts
+      if (prismaticTimeoutRef.current) clearTimeout(prismaticTimeoutRef.current);
+      if (prismaticEndTimeoutRef.current) clearTimeout(prismaticEndTimeoutRef.current);
+      
+      // Start prismatic shimmer immediately
+      setIsPrismaticShimmering(true);
+      
+      // End prismatic shimmer
+      prismaticEndTimeoutRef.current = setTimeout(() => {
+        setIsPrismaticShimmering(false);
+      }, prismaticDuration * 1000);
     }
   };
 
@@ -366,32 +380,6 @@ function ProjectLinkWithThumbnails({
     };
   }, [supportsHover]);
 
-  // Trigger shimmer effect when expanding - use useLayoutEffect for instant trigger
-  useLayoutEffect(() => {
-    // Only trigger if transitioning from not expanded to expanded
-    if (isExpanded && !previousExpandedRef.current) {
-      const prismaticDuration = 0.91; // Duration in seconds
-
-      // Clear any existing timeouts
-      if (prismaticTimeoutRef.current) clearTimeout(prismaticTimeoutRef.current);
-      if (prismaticEndTimeoutRef.current) clearTimeout(prismaticEndTimeoutRef.current);
-
-      // Start prismatic shimmer immediately
-      setIsPrismaticShimmering(true);
-
-      // End prismatic shimmer
-      prismaticEndTimeoutRef.current = setTimeout(() => {
-        setIsPrismaticShimmering(false);
-      }, prismaticDuration * 1000);
-    }
-
-    previousExpandedRef.current = isExpanded;
-
-    return () => {
-      if (prismaticTimeoutRef.current) clearTimeout(prismaticTimeoutRef.current);
-      if (prismaticEndTimeoutRef.current) clearTimeout(prismaticEndTimeoutRef.current);
-    };
-  }, [isExpanded]);
 
   const showHoverBg = isHovered;
 
@@ -411,36 +399,36 @@ function ProjectLinkWithThumbnails({
     >
       {/* Title and arrow row */}
       <div className="flex items-center w-full justify-between gap-1 min-[480px]:w-fit min-[480px]:justify-start min-[480px]:gap-2">
-        {isExpanded ? (
-          <span
-            className="truncate whitespace-nowrap"
-            style={
-              {
-                "--prismatic-duration": "0.91s",
-                position: "relative",
-                display: "block",
-              } as React.CSSProperties
-            }
-          >
-            {/* Base text */}
-            <span className="truncate block">
-              {project.title} <span className="text-secondary">- {project.company}</span>
-            </span>
-            {/* Prismatic shimmer */}
-            {isPrismaticShimmering && (
-              <span
-                className="shimmer-prismatic shimmer-animating"
-                aria-hidden="true"
-              >
-                {project.title} - {project.company}
-              </span>
+        <span
+          className="truncate whitespace-nowrap"
+          style={
+            {
+              "--prismatic-duration": "0.91s",
+              position: "relative",
+              display: "block",
+            } as React.CSSProperties
+          }
+        >
+          {/* Base text */}
+          <span className="truncate block">
+            {isExpanded ? (
+              <>
+                {project.title} <span className="text-secondary">- {project.company}</span>
+              </>
+            ) : (
+              project.title
             )}
           </span>
-        ) : (
-          <span className="project-link-text truncate">
-            {project.title}
-          </span>
-        )}
+          {/* Prismatic shimmer */}
+          {isPrismaticShimmering && (
+            <span
+              className="shimmer-prismatic shimmer-animating"
+              aria-hidden="true"
+            >
+              {isExpanded ? `${project.title} - ${project.company}` : project.title}
+            </span>
+          )}
+        </span>
         {project.featured && (
           <Badge variant="featured" className="shrink-0 ml-2">
             New
