@@ -257,7 +257,7 @@ function ThumbnailImage({
 
   return (
     <div
-      className="relative flex-shrink-0 h-[90px] rounded-lg overflow-hidden bg-muted group/thumb"
+      className="relative flex-shrink-0 h-[90px] rounded-lg overflow-hidden bg-muted group/thumb image-inner-shadow"
       style={{ aspectRatio }}
     >
       {isLoading && (
