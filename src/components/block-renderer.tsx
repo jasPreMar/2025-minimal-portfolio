@@ -56,6 +56,7 @@ export function BlockRenderer({ blocks, projectTitle }: BlockRendererProps) {
                   src={block.src}
                   alt={block.alt}
                   priority={true}
+                  aspectRatio="intrinsic"
                 />
               </ContentWrapper>
             );
@@ -80,10 +81,11 @@ export function BlockRenderer({ blocks, projectTitle }: BlockRendererProps) {
 
           case "image":
             return (
-              <ContentWrapper key={index} hasMaxWidth={false} spacing="media">
+              <ContentWrapper key={index} hasMaxWidth={block.constrainWidth ?? false} spacing="media">
                 <InteractiveImage
                   src={block.src}
                   alt={block.alt}
+                  aspectRatio="intrinsic"
                 />
               </ContentWrapper>
             );
@@ -96,8 +98,7 @@ export function BlockRenderer({ blocks, projectTitle }: BlockRendererProps) {
                     key={imgIndex}
                     src={img.src}
                     alt={img.alt}
-                    objectFit="cover"
-                    aspectRatio="square"
+                    aspectRatio="intrinsic"
                   />
                 ))}
               </ContentWrapper>
@@ -105,7 +106,7 @@ export function BlockRenderer({ blocks, projectTitle }: BlockRendererProps) {
 
           case "imageGrid":
             const columns = block.columns || 2;
-            const aspectRatio = block.aspectRatio || "video";
+            const defaultAspectRatio = block.aspectRatio || "intrinsic";
             return (
               <ContentWrapper
                 key={index}
@@ -115,13 +116,16 @@ export function BlockRenderer({ blocks, projectTitle }: BlockRendererProps) {
                 style={{ gridTemplateColumns: `repeat(${columns}, 1fr)` }}
               >
                 {block.images.map((img, imgIndex) => (
-                  <InteractiveImage
+                  <div
                     key={imgIndex}
-                    src={img.src}
-                    alt={img.alt}
-                    objectFit="cover"
-                    aspectRatio={aspectRatio}
-                  />
+                    style={img.colSpan ? { gridColumn: `span ${img.colSpan}` } : undefined}
+                  >
+                    <InteractiveImage
+                      src={img.src}
+                      alt={img.alt}
+                      aspectRatio={img.aspectRatio || defaultAspectRatio}
+                    />
+                  </div>
                 ))}
               </ContentWrapper>
             );

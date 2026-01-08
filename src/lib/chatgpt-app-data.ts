@@ -3,9 +3,9 @@ export type ContentBlock =
   | { type: "hero"; src: string; alt: string }
   | { type: "text"; content: string }
   | { type: "heading"; content: string }
-  | { type: "image"; src: string; alt: string }
+  | { type: "image"; src: string; alt: string; constrainWidth?: boolean }
   | { type: "imagePair"; images: { src: string; alt: string }[] }
-  | { type: "imageGrid"; images: { src: string; alt: string }[]; columns?: number; aspectRatio?: "video" | "square" | "auto" };
+  | { type: "imageGrid"; images: { src: string; alt: string; colSpan?: number; aspectRatio?: "video" | "square" | "2/1" | "intrinsic" }[]; columns?: number; aspectRatio?: "video" | "square" | "2/1" | "intrinsic" };
 
 export type HardcodedProject = {
   slug: string;
@@ -41,6 +41,7 @@ export const chatgptAppProject: HardcodedProject = {
       type: "image",
       src: "/projects/Personal AI concept.png",
       alt: "Personal AI concept exploration",
+      constrainWidth: true,
     },
     {
       type: "text",
@@ -88,17 +89,14 @@ export const chatgptAppProject: HardcodedProject = {
         "2. Two fuller flows. These started the same with inline cards and carousels, but including a full screen view inside the app. After sharing it with my 2 devs, they wanted to see what it would look like to be able to switch between multiple cars in the fullscreen view too. It was a great idea, so I made one more addition to the multi-car variant of the full screen view.",
     },
     {
-      type: "imagePair",
+      type: "imageGrid",
+      columns: 2,
+      aspectRatio: "intrinsic",
       images: [
         { src: "/projects/MVP Single car.png", alt: "MVP single car flow" },
         { src: "/projects/MVP Multi-car.png", alt: "MVP multi-car flow" },
-      ],
-    },
-    {
-      type: "imagePair",
-      images: [
-        { src: "/projects/Final Single car.png", alt: "Final single car design" },
-        { src: "/projects/Final Multi-car.png", alt: "Final multi-car design" },
+        { src: "/projects/Final Single car.png", alt: "Final single car design", colSpan: 2 },
+        { src: "/projects/Final Multi-car.png", alt: "Final multi-car design", colSpan: 2 },
       ],
     },
     {

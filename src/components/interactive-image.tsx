@@ -8,7 +8,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 interface InteractiveImageProps {
   src: string;
   alt: string;
-  aspectRatio?: "video" | "auto" | "square";
+  aspectRatio?: "video" | "auto" | "square" | "2/1" | "intrinsic";
   className?: string;
   priority?: boolean;
   objectFit?: "cover" | "contain";
@@ -94,8 +94,43 @@ export function InteractiveImage({
   const aspectClass = 
     aspectRatio === "video" ? "aspect-video" : 
     aspectRatio === "square" ? "aspect-square" : 
+    aspectRatio === "2/1" ? "aspect-[2/1]" :
     "";
   const objectFitClass = objectFit === "contain" ? "object-contain" : "object-cover";
+
+  // Intrinsic mode: image determines its own height based on natural aspect ratio
+  if (aspectRatio === "intrinsic") {
+    return (
+      <>
+        <div
+          className={`relative w-full rounded-xl overflow-hidden bg-muted cursor-zoom-in group ${className}`}
+          onClick={() => setIsFullscreen(true)}
+        >
+          <Image
+            src={src}
+            alt={alt}
+            width={0}
+            height={0}
+            sizes="100vw"
+            className={`w-full h-auto transition-transform duration-500 ease-out group-hover:scale-[1.02] ${isLoading ? "opacity-0" : "opacity-100"}`}
+            unoptimized
+            priority={priority}
+            onLoad={() => setIsLoading(false)}
+          />
+          {isLoading && (
+            <Skeleton className="absolute inset-0 w-full h-full rounded-xl" />
+          )}
+        </div>
+        {isFullscreen && (
+          <FullscreenView
+            src={src}
+            alt={alt}
+            onClose={() => setIsFullscreen(false)}
+          />
+        )}
+      </>
+    );
+  }
 
   return (
     <>
