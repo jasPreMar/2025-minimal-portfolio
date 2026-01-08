@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 import { ChevronLeft } from "lucide-react";
 import Image from "next/image";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -23,11 +23,6 @@ function FullscreenView({
   alt: string;
   onClose: () => void;
 }) {
-  const [isZoomed, setIsZoomed] = useState(false);
-  const [panPosition, setPanPosition] = useState({ x: 50, y: 50 });
-  const [isDragging, setIsDragging] = useState(false);
-  const dragStartRef = useRef<{ mouseX: number; mouseY: number; panX: number; panY: number } | null>(null);
-
   // Lock body scroll when fullscreen is active
   useEffect(() => {
     document.body.style.overflow = 'hidden';
@@ -35,70 +30,6 @@ function FullscreenView({
       document.body.style.overflow = '';
     };
   }, []);
-
-  // Reset pan position when zoom state changes
-  useEffect(() => {
-    if (!isZoomed) {
-      setPanPosition({ x: 50, y: 50 });
-    }
-  }, [isZoomed]);
-
-  const handleMouseDown = useCallback(
-    (e: React.MouseEvent) => {
-      if (!isZoomed) return;
-      setIsDragging(true);
-      dragStartRef.current = {
-        mouseX: e.clientX,
-        mouseY: e.clientY,
-        panX: panPosition.x,
-        panY: panPosition.y,
-      };
-    },
-    [isZoomed, panPosition]
-  );
-
-  const handleMouseMove = useCallback(
-    (e: React.MouseEvent) => {
-      if (!isZoomed || !isDragging || !dragStartRef.current) return;
-      const rect = e.currentTarget.getBoundingClientRect();
-      const deltaX = ((e.clientX - dragStartRef.current.mouseX) / rect.width) * 100;
-      const deltaY = ((e.clientY - dragStartRef.current.mouseY) / rect.height) * 100;
-      setPanPosition({
-        x: dragStartRef.current.panX - deltaX,
-        y: dragStartRef.current.panY - deltaY,
-      });
-    },
-    [isZoomed, isDragging]
-  );
-
-  const handleTouchStart = useCallback(
-    (e: React.TouchEvent) => {
-      if (!isZoomed) return;
-      const touch = e.touches[0];
-      dragStartRef.current = {
-        mouseX: touch.clientX,
-        mouseY: touch.clientY,
-        panX: panPosition.x,
-        panY: panPosition.y,
-      };
-    },
-    [isZoomed, panPosition]
-  );
-
-  const handleTouchMove = useCallback(
-    (e: React.TouchEvent) => {
-      if (!isZoomed || !dragStartRef.current) return;
-      const touch = e.touches[0];
-      const rect = e.currentTarget.getBoundingClientRect();
-      const deltaX = ((touch.clientX - dragStartRef.current.mouseX) / rect.width) * 100;
-      const deltaY = ((touch.clientY - dragStartRef.current.mouseY) / rect.height) * 100;
-      setPanPosition({
-        x: dragStartRef.current.panX - deltaX,
-        y: dragStartRef.current.panY - deltaY,
-      });
-    },
-    [isZoomed]
-  );
 
   return (
     <div
@@ -128,20 +59,8 @@ function FullscreenView({
         }}
       >
         <div
-          className="w-full h-full relative"
-          style={{
-            cursor: isZoomed ? (isDragging ? "grabbing" : "grab") : "zoom-in",
-          }}
-          onClick={(e) => {
-            if (!isDragging) setIsZoomed(!isZoomed);
-          }}
-          onMouseDown={handleMouseDown}
-          onMouseUp={() => setIsDragging(false)}
-          onMouseLeave={() => setIsDragging(false)}
-          onMouseMove={handleMouseMove}
-          onTouchStart={handleTouchStart}
-          onTouchMove={handleTouchMove}
-          onTouchEnd={() => { dragStartRef.current = null; }}
+          className="w-full h-full relative cursor-zoom-out"
+          onClick={onClose}
         >
           <Image
             src={src}
@@ -149,8 +68,8 @@ function FullscreenView({
             fill
             className="transition-none"
             style={{
-              objectFit: isZoomed ? "cover" : "contain",
-              objectPosition: isZoomed ? `${panPosition.x}% ${panPosition.y}%` : "center",
+              objectFit: "contain",
+              objectPosition: "center",
             }}
             unoptimized
             draggable={false}
