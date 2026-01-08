@@ -4,6 +4,7 @@ import { StaggeredFadeIn } from "@/components/staggered-fade-in";
 import EmailCopyButton from "@/components/email-copy-button";
 import { getAllProjects, type NotionProject } from "@/lib/notion";
 import { ExpandableProjectSection } from "@/components/expandable-project-section";
+import { chatgptAppProject } from "@/lib/chatgpt-app-data";
 
 // Revalidate every 60 seconds (ISR)
 export const revalidate = 60;
@@ -48,8 +49,31 @@ export default async function Home() {
   const allProjects = await getAllProjects();
 
   // Split projects by type
-  const projects = allProjects.filter((p) => p.projectType === "Project");
+  const notionProjects = allProjects.filter((p) => p.projectType === "Project");
   const sideProjects = allProjects.filter((p) => p.projectType === "Side Project");
+
+  // Create hardcoded project entry for the home page carousel
+  const chatgptAppHomeProject = {
+    id: "hardcoded-chatgpt-app",
+    title: chatgptAppProject.title,
+    company: chatgptAppProject.company,
+    slug: chatgptAppProject.slug,
+    heroImages: ["/projects/Final Multi-car.png"],
+    finalScreens: [
+      "/projects/Personal AI concept.png",
+      "/projects/Mock ChatGPT app.png",
+      "/projects/Mock OpenAI logos.png",
+      "/projects/MVP Single car.png",
+      "/projects/MVP Multi-car.png",
+      "/projects/Final Single car.png",
+      "/projects/Final Multi-car.png",
+    ],
+    subtitle: chatgptAppProject.subtitle,
+    featured: false,
+  };
+
+  // Prepend hardcoded project to the list
+  const projects = [chatgptAppHomeProject, ...notionProjects];
 
   return (
     <StaggeredFadeIn initialDelay={0.25} staggerDelay={0.18} duration={0.45}>

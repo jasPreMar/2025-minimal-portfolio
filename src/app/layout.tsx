@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Lato } from "next/font/google";
+import { Inter, Lato, Space_Mono } from "next/font/google";
 import localFont from "next/font/local";
 import "./globals.css";
 import { AnimatedHeader } from "@/components/animated-header";
@@ -14,6 +14,12 @@ const lato = Lato({
   variable: "--font-lato",
   subsets: ["latin"],
   weight: ["100", "300", "400", "700", "900"],
+});
+
+const spaceMono = Space_Mono({
+  variable: "--font-space-mono",
+  subsets: ["latin"],
+  weight: ["400", "700"],
 });
 
 const carmaxSharpSans = localFont({
@@ -46,7 +52,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${inter.variable} ${lato.variable} ${carmaxSharpSans.variable} antialiased bg-background text-foreground`}
+        className={`${inter.variable} ${lato.variable} ${carmaxSharpSans.variable} ${spaceMono.variable} antialiased bg-background text-foreground`}
       >
         <script
           dangerouslySetInnerHTML={{
