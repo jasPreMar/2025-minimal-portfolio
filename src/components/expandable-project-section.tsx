@@ -494,7 +494,7 @@ export function ExpandableProjectSection({
   title,
   projects,
 }: ExpandableProjectSectionProps) {
-  const [isExpanded, setIsExpanded] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(true);
   const [fullscreenState, setFullscreenState] = useState<{
     images: string[];
     initialIndex: number;
