@@ -346,7 +346,7 @@ body {
 }
 
 .dark {
-  --background: oklch(0.12 0 0);
+  --background: oklch(0 0 0);
   --preview-background: oklch(0.18 0 0);
   --foreground: oklch(0.98 0 0);
   /* Step component dark mode */
@@ -413,13 +413,16 @@ body {
   display: inline-block;
 }
 
+/* HTML and body backgrounds - must be outside @layer for proper cascade with .dark variables */
+html,
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
-  }
-
-  body {
-    @apply bg-background text-foreground;
   }
 
   h1, h2, h3, h4, h5, h6 {
