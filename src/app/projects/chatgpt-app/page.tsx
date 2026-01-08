@@ -17,7 +17,7 @@ export default function ChatGPTAppPage() {
   const project = chatgptAppProject;
 
   return (
-    <div className="flex flex-col gap-6">
+    <div>
       {/* Project Title Section - 80px below header */}
       <ContentWrapper>
         <div className="flex flex-col gap-2 mt-20">
