@@ -17,7 +17,7 @@ function ImagePreview({
 }) {
   return (
     <div
-      className="carousel-item flex-shrink-0 w-full rounded-xl overflow-hidden cursor-pointer relative snap-start group aspect-video bg-muted"
+      className="carousel-item flex-shrink-0 w-full rounded-3xl overflow-hidden cursor-pointer relative snap-start group aspect-video bg-muted image-inner-shadow"
       onClick={onClick}
     >
       <Image

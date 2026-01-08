@@ -434,3 +434,12 @@ body {
     line-height: 1.2;
   }
 }
+
+/* ========================================
+   Image Inner Border
+   1px inner border with #0D0D0D at 5% opacity
+   ======================================== */
+.image-inner-shadow {
+  outline: 1px solid oklch(0.18 0 0 / 0.05);
+  outline-offset: -1px;
+}

@@ -27,7 +27,7 @@ function MediaItemPreview({
   if (item.type === "figma") {
     return (
       <div
-        className={`carousel-item flex-shrink-0 ${height} aspect-video rounded-xl overflow-hidden cursor-pointer snap-center`}
+        className={`carousel-item flex-shrink-0 ${height} aspect-video rounded-3xl overflow-hidden cursor-pointer snap-center bg-muted image-inner-shadow`}
         onClick={onClick}
       >
         <iframe
@@ -43,7 +43,7 @@ function MediaItemPreview({
   if (item.type === "image") {
     return (
       <div
-        className={`carousel-item flex-shrink-0 ${height} rounded-xl overflow-hidden cursor-pointer relative snap-center`}
+        className={`carousel-item flex-shrink-0 ${height} rounded-3xl overflow-hidden cursor-pointer relative snap-center bg-muted image-inner-shadow`}
         style={{ aspectRatio }}
         onClick={onClick}
       >
@@ -67,7 +67,7 @@ function MediaItemPreview({
   if (item.type === "video") {
     return (
       <div
-        className={`carousel-item flex-shrink-0 ${height} rounded-xl overflow-hidden cursor-pointer relative bg-black snap-center`}
+        className={`carousel-item flex-shrink-0 ${height} rounded-3xl overflow-hidden cursor-pointer relative bg-black snap-center image-inner-shadow`}
         style={{ aspectRatio }}
         onClick={onClick}
       >

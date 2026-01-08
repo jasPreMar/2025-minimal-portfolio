@@ -17,7 +17,7 @@ export function FigmaEmbed({ url }: FigmaEmbedProps) {
     <>
       {/* Inline preview - click anywhere to go fullscreen */}
       <div
-        className="relative w-full aspect-video rounded-xl overflow-hidden cursor-pointer"
+        className="relative w-full aspect-video rounded-3xl overflow-hidden cursor-pointer"
         onClick={() => setIsFullscreen(true)}
       >
         <iframe
