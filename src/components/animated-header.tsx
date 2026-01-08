@@ -2,6 +2,7 @@
 
 import { usePathname, useRouter } from "next/navigation";
 import { useState, useCallback } from "react";
+import { ContentWrapper } from "@/components/content-wrapper";
 
 export function AnimatedHeader() {
   const pathname = usePathname();
@@ -35,30 +36,32 @@ export function AnimatedHeader() {
   }, []);
 
   return (
-    <div className="flex items-center gap-1 text-xl font-semibold tracking-tight min-h-[28px]">
-      <button
-        type="button"
-        className={`relative rounded-md cursor-pointer select-none transition-colors duration-150 ${
-          isHovered ? "bg-black/5 dark:bg-white/5" : "bg-transparent"
-        }`}
-        onClick={handleClick}
-        onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}
-        onTouchEnd={handleTouchEnd}
-        style={{
-          padding: "2px 10px",
-          margin: "-2px -10px",
-        }}
-      >
-        <span
-          className="inline-block transition-transform duration-200 ease-out"
+    <ContentWrapper as="header">
+      <div className="flex items-center gap-1 text-xl font-semibold tracking-tight min-h-[28px]">
+        <button
+          type="button"
+          className={`relative rounded-md cursor-pointer select-none transition-colors duration-150 ${
+            isHovered ? "bg-black/5 dark:bg-white/5" : "bg-transparent"
+          }`}
+          onClick={handleClick}
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+          onTouchEnd={handleTouchEnd}
           style={{
-            transform: isHovered && !isHomePage ? "translateX(-2px)" : "translateX(0)",
+            padding: "2px 10px",
+            margin: "-2px -10px",
           }}
         >
-          Jason Marsh
-        </span>
-      </button>
-    </div>
+          <span
+            className="inline-block transition-transform duration-200 ease-out"
+            style={{
+              transform: isHovered && !isHomePage ? "translateX(-2px)" : "translateX(0)",
+            }}
+          >
+            Jason Marsh
+          </span>
+        </button>
+      </div>
+    </ContentWrapper>
   );
 }

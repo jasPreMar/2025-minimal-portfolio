@@ -4,6 +4,7 @@ import { getProjectBySlug, getAllProjectSlugs, getAllProjects, type NotionProjec
 import { InteractiveImage } from "@/components/interactive-image";
 import { Badge } from "@/components/ui/badge";
 import { notFound } from "next/navigation";
+import { ContentWrapper } from "@/components/content-wrapper";
 
 // Revalidate every 60 seconds (ISR)
 export const revalidate = 60;
@@ -110,39 +111,43 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
   return (
     <div className="flex flex-col gap-6">
       {/* Project Title Section - 80px below header */}
-      <div className="flex flex-col gap-2 mt-20">
-        <h1 className="text-3xl font-semibold tracking-tight">
-          {project.title}
-        </h1>
-        <p className="text-base text-secondary max-w-md">
-          {oneLiner}
-        </p>
-        {project.featured && (
-          <Badge variant="featured" className="w-fit mt-1">
-            New
-          </Badge>
-        )}
-      </div>
+      <ContentWrapper>
+        <div className="flex flex-col gap-2 mt-20">
+          <h1 className="text-3xl font-semibold tracking-tight">
+            {project.title}
+          </h1>
+          <p className="text-base text-secondary max-w-md">
+            {oneLiner}
+          </p>
+          {project.featured && (
+            <Badge variant="featured" className="w-fit mt-1">
+              New
+            </Badge>
+          )}
+        </div>
+      </ContentWrapper>
 
       {/* Hero Image - Full Width with Padding */}
       {project.heroImages.length > 0 && (
-        <div className="w-screen ml-[calc(50%-50vw)] -mr-[calc(50%-50vw)] px-8">
+        <ContentWrapper hasMaxWidth={false}>
           <InteractiveImage
             src={project.heroImages[0]}
             alt={`${project.title} hero image`}
             priority={true}
           />
-        </div>
+        </ContentWrapper>
       )}
 
       {/* Overview */}
       {project.background && (
-        <div className="flex flex-col gap-2">
-          <h3 className="text-xl font-semibold">Overview</h3>
-          <p className="leading-relaxed whitespace-pre-line">
-            {project.background}
-          </p>
-        </div>
+        <ContentWrapper>
+          <div className="flex flex-col gap-2">
+            <h3 className="text-xl font-semibold">Overview</h3>
+            <p className="leading-relaxed whitespace-pre-line">
+              {project.background}
+            </p>
+          </div>
+        </ContentWrapper>
       )}
 
       {/* Final Screens */}
@@ -175,11 +180,10 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
         return (
           <div className="flex flex-col gap-2">
             {rows.map((row, rowIndex) => (
-              <div
+              <ContentWrapper
                 key={rowIndex}
-                className={`w-screen ml-[calc(50%-50vw)] -mr-[calc(50%-50vw)] px-8 ${
-                  row.images.length === 2 ? "grid grid-cols-2 gap-2" : ""
-                }`}
+                hasMaxWidth={false}
+                className={row.images.length === 2 ? "grid grid-cols-2 gap-2" : ""}
               >
                 {row.images.map((screen, screenIndex) => (
                   <InteractiveImage
@@ -190,7 +194,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
                     aspectRatio={row.images.length === 2 ? "square" : "video"}
                   />
                 ))}
-              </div>
+              </ContentWrapper>
             ))}
           </div>
         );
@@ -198,16 +202,18 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
 
       {/* Keywords/Tags */}
       {project.tags.length > 0 && (
-        <div className="flex flex-wrap gap-2">
-          {project.tags.map((tag, i) => (
-            <span
-              key={i}
-              className="px-2 py-0.5 rounded-full text-sm text-secondary border border-foreground/10"
-            >
-              {tag}
-            </span>
-          ))}
-        </div>
+        <ContentWrapper>
+          <div className="flex flex-wrap gap-2">
+            {project.tags.map((tag, i) => (
+              <span
+                key={i}
+                className="px-2 py-0.5 rounded-full text-sm text-secondary border border-foreground/10"
+              >
+                {tag}
+              </span>
+            ))}
+          </div>
+        </ContentWrapper>
       )}
     </div>
   );

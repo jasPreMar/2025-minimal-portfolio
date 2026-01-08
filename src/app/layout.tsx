@@ -71,7 +71,7 @@ export default function RootLayout({
             `,
           }}
         />
-        <div className="max-w-[608px] mx-auto mt-28 mb-28 px-8 flex flex-col">
+        <div className="flex flex-col mt-28 mb-28">
           <AnimatedHeader />
           {children}
         </div>

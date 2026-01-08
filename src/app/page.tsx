@@ -5,6 +5,7 @@ import EmailCopyButton from "@/components/email-copy-button";
 import { getAllProjects, type NotionProject } from "@/lib/notion";
 import { ExpandableProjectSection } from "@/components/expandable-project-section";
 import { chatgptAppProject } from "@/lib/chatgpt-app-data";
+import { ContentWrapper } from "@/components/content-wrapper";
 
 // Revalidate every 60 seconds (ISR)
 export const revalidate = 60;
@@ -78,21 +79,27 @@ export default async function Home() {
   return (
     <StaggeredFadeIn initialDelay={0.25} staggerDelay={0.18} duration={0.45}>
       {/* Section 1: Shimmer text below header */}
-      <div className="flex flex-col gap-6 w-full h-fit">
-        <ShimmerText initialShimmerDelay={0.25} initialWord="Designing" />
-        <div className="mt-0 w-full h-fit">
-          <EmailCopyButton />
+      <ContentWrapper>
+        <div className="flex flex-col gap-6 w-full h-fit">
+          <ShimmerText initialShimmerDelay={0.25} initialWord="Designing" />
+          <div className="mt-0 w-full h-fit">
+            <EmailCopyButton />
+          </div>
         </div>
-      </div>
+      </ContentWrapper>
 
       {/* Section 2: Projects - only renders if there are projects */}
       {projects.length > 0 && (
-        <ExpandableProjectSection title="Projects" projects={projects} />
+        <ContentWrapper>
+          <ExpandableProjectSection title="Projects" projects={projects} />
+        </ContentWrapper>
       )}
 
       {/* Section 3: Side Projects - only renders if there are side projects */}
       {sideProjects.length > 0 && (
-        <ExpandableProjectSection title="Side Projects" projects={sideProjects} />
+        <ContentWrapper>
+          <ExpandableProjectSection title="Side Projects" projects={sideProjects} />
+        </ContentWrapper>
       )}
     </StaggeredFadeIn>
   );

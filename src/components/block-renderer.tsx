@@ -1,6 +1,7 @@
 "use client";
 
 import { InteractiveImage } from "@/components/interactive-image";
+import { ContentWrapper } from "@/components/content-wrapper";
 import type { ContentBlock } from "@/lib/chatgpt-app-data";
 
 // Parse markdown-style links [text](url) into JSX
@@ -50,45 +51,46 @@ export function BlockRenderer({ blocks, projectTitle }: BlockRendererProps) {
         switch (block.type) {
           case "hero":
             return (
-              <div
-                key={index}
-                className="w-screen ml-[calc(50%-50vw)] -mr-[calc(50%-50vw)] px-8 sm:px-16"
-              >
+              <ContentWrapper key={index} hasMaxWidth={false}>
                 <InteractiveImage
                   src={block.src}
                   alt={block.alt}
                   priority={true}
                 />
-              </div>
+              </ContentWrapper>
             );
 
           case "text":
             return (
-              <p key={index} className="leading-relaxed whitespace-pre-line">
-                {parseTextWithLinks(block.content)}
-              </p>
+              <ContentWrapper key={index} hasMaxWidth>
+                <p className="leading-relaxed whitespace-pre-line">
+                  {parseTextWithLinks(block.content)}
+                </p>
+              </ContentWrapper>
             );
 
           case "heading":
             return (
-              <h4 key={index} className="text-lg font-semibold mt-4">
-                {block.content}
-              </h4>
+              <ContentWrapper key={index} hasMaxWidth>
+                <h4 className="text-lg font-semibold mt-4">
+                  {block.content}
+                </h4>
+              </ContentWrapper>
             );
 
           case "image":
             return (
-              <div key={index} className="w-screen ml-[calc(50%-50vw)] -mr-[calc(50%-50vw)] px-8 sm:px-16">
+              <ContentWrapper key={index} hasMaxWidth={false}>
                 <InteractiveImage
                   src={block.src}
                   alt={block.alt}
                 />
-              </div>
+              </ContentWrapper>
             );
 
           case "imagePair":
             return (
-              <div key={index} className="w-screen ml-[calc(50%-50vw)] -mr-[calc(50%-50vw)] px-8 sm:px-16 grid grid-cols-2 gap-2">
+              <ContentWrapper key={index} hasMaxWidth={false} className="grid grid-cols-2 gap-2">
                 {block.images.map((img, imgIndex) => (
                   <InteractiveImage
                     key={imgIndex}
@@ -98,29 +100,29 @@ export function BlockRenderer({ blocks, projectTitle }: BlockRendererProps) {
                     aspectRatio="square"
                   />
                 ))}
-              </div>
+              </ContentWrapper>
             );
 
           case "imageGrid":
             const columns = block.columns || 2;
             const aspectRatio = block.aspectRatio || "video";
             return (
-              <div key={index} className="flex flex-col gap-2">
-                <div
-                  className="w-screen ml-[calc(50%-50vw)] -mr-[calc(50%-50vw)] px-8 sm:px-16 grid gap-2"
-                  style={{ gridTemplateColumns: `repeat(${columns}, 1fr)` }}
-                >
-                  {block.images.map((img, imgIndex) => (
-                    <InteractiveImage
-                      key={imgIndex}
-                      src={img.src}
-                      alt={img.alt}
-                      objectFit="cover"
-                      aspectRatio={aspectRatio}
-                    />
-                  ))}
-                </div>
-              </div>
+              <ContentWrapper
+                key={index}
+                hasMaxWidth={false}
+                className="grid gap-2"
+                style={{ gridTemplateColumns: `repeat(${columns}, 1fr)` }}
+              >
+                {block.images.map((img, imgIndex) => (
+                  <InteractiveImage
+                    key={imgIndex}
+                    src={img.src}
+                    alt={img.alt}
+                    objectFit="cover"
+                    aspectRatio={aspectRatio}
+                  />
+                ))}
+              </ContentWrapper>
             );
 
           default:
