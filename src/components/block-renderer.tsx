@@ -52,7 +52,7 @@ export function BlockRenderer({ blocks, projectTitle }: BlockRendererProps) {
             return (
               <div
                 key={index}
-                className="w-screen ml-[calc(50%-50vw)] -mr-[calc(50%-50vw)] px-8"
+                className="w-screen ml-[calc(50%-50vw)] -mr-[calc(50%-50vw)] px-8 sm:px-16"
               >
                 <InteractiveImage
                   src={block.src}
@@ -78,7 +78,7 @@ export function BlockRenderer({ blocks, projectTitle }: BlockRendererProps) {
 
           case "image":
             return (
-              <div key={index} className="w-screen ml-[calc(50%-50vw)] -mr-[calc(50%-50vw)] px-8">
+              <div key={index} className="w-screen ml-[calc(50%-50vw)] -mr-[calc(50%-50vw)] px-8 sm:px-16">
                 <InteractiveImage
                   src={block.src}
                   alt={block.alt}
@@ -88,7 +88,7 @@ export function BlockRenderer({ blocks, projectTitle }: BlockRendererProps) {
 
           case "imagePair":
             return (
-              <div key={index} className="w-screen ml-[calc(50%-50vw)] -mr-[calc(50%-50vw)] px-8 grid grid-cols-2 gap-2">
+              <div key={index} className="w-screen ml-[calc(50%-50vw)] -mr-[calc(50%-50vw)] px-8 sm:px-16 grid grid-cols-2 gap-2">
                 {block.images.map((img, imgIndex) => (
                   <InteractiveImage
                     key={imgIndex}
@@ -107,7 +107,7 @@ export function BlockRenderer({ blocks, projectTitle }: BlockRendererProps) {
             return (
               <div key={index} className="flex flex-col gap-2">
                 <div
-                  className="w-screen ml-[calc(50%-50vw)] -mr-[calc(50%-50vw)] px-8 grid gap-2"
+                  className="w-screen ml-[calc(50%-50vw)] -mr-[calc(50%-50vw)] px-8 sm:px-16 grid gap-2"
                   style={{ gridTemplateColumns: `repeat(${columns}, 1fr)` }}
                 >
                   {block.images.map((img, imgIndex) => (
