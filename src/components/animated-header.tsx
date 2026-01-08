@@ -32,16 +32,7 @@ export function AnimatedHeader() {
   }, []);
 
   // Use Link for prefetching, but render as span when on home page
-  const linkContent = (
-    <span
-      className="inline-block transition-transform duration-200 ease-out"
-      style={{
-        transform: isHovered && !isHomePage ? "translateX(-2px)" : "translateX(0)",
-      }}
-    >
-      Jason Marsh
-    </span>
-  );
+  const linkContent = <span>Jason Marsh</span>;
 
   return (
     <ContentWrapper as="header">
