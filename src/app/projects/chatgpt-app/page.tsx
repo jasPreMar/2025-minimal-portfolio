@@ -1,4 +1,3 @@
-import { SetProjectTitle } from "@/components/project-title-context";
 import { BlockRenderer } from "@/components/block-renderer";
 import { chatgptAppProject } from "@/lib/chatgpt-app-data";
 
@@ -18,12 +17,12 @@ export default function ChatGPTAppPage() {
 
   return (
     <div className="flex flex-col gap-6">
-      {/* Set header title to project name */}
-      <SetProjectTitle title={project.title} />
-
-      {/* Header: Subtitle */}
-      <div className="flex flex-col">
-        <p className="text-base max-w-md">{project.subtitle}</p>
+      {/* Project Title Section - 80px below header */}
+      <div className="flex flex-col gap-2 mt-20">
+        <h1 className="text-3xl font-semibold tracking-tight">
+          {project.title}
+        </h1>
+        <p className="text-base text-secondary max-w-md">{project.subtitle}</p>
       </div>
 
       {/* Content Blocks */}

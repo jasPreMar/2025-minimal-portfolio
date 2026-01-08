@@ -3,7 +3,6 @@ import { Inter, Lato, Space_Mono } from "next/font/google";
 import localFont from "next/font/local";
 import "./globals.css";
 import { AnimatedHeader } from "@/components/animated-header";
-import { ProjectTitleProvider } from "@/components/project-title-context";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -72,12 +71,10 @@ export default function RootLayout({
             `,
           }}
         />
-        <ProjectTitleProvider>
-          <div className="max-w-[608px] mx-auto mt-28 mb-28 px-8 flex flex-col">
-            <AnimatedHeader />
-            {children}
-          </div>
-        </ProjectTitleProvider>
+        <div className="max-w-[608px] mx-auto mt-28 mb-28 px-8 flex flex-col">
+          <AnimatedHeader />
+          {children}
+        </div>
       </body>
     </html>
   );

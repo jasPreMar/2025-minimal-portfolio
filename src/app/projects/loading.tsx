@@ -1,13 +1,9 @@
 import { Skeleton } from "@/components/ui/skeleton";
-import { SetProjectTitle } from "@/components/project-title-context";
 
 // Loading skeleton for projects page - shows immediately while data fetches
 export default function ProjectsLoading() {
     return (
         <div className="flex flex-col">
-            {/* Set header title immediately */}
-            <SetProjectTitle title="Projects" />
-
             {/* First project section skeleton */}
             <div className="flex flex-col gap-6 py-20 border-b border-border">
                 {/* Hero image skeleton - breakout width */}

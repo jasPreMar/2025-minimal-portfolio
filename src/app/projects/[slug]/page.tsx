@@ -2,7 +2,6 @@ import Image from "next/image";
 import { ArrowUpRight, Briefcase, Calendar, Users } from "lucide-react";
 import { getProjectBySlug, getAllProjectSlugs, getAllProjects, type NotionProject } from "@/lib/notion";
 import { InteractiveImage } from "@/components/interactive-image";
-import { SetProjectTitle } from "@/components/project-title-context";
 import { Badge } from "@/components/ui/badge";
 import { notFound } from "next/navigation";
 
@@ -110,16 +109,16 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
 
   return (
     <div className="flex flex-col gap-6">
-      {/* Set header title to project name */}
-      <SetProjectTitle title={project.title} />
-
-      {/* Header: Title and Subtitle */}
-      <div className="flex flex-col">
-        <p className="text-base max-w-md">
+      {/* Project Title Section - 80px below header */}
+      <div className="flex flex-col gap-2 mt-20">
+        <h1 className="text-3xl font-semibold tracking-tight">
+          {project.title}
+        </h1>
+        <p className="text-base text-secondary max-w-md">
           {oneLiner}
         </p>
         {project.featured && (
-          <Badge variant="featured" className="w-fit">
+          <Badge variant="featured" className="w-fit mt-1">
             New
           </Badge>
         )}
