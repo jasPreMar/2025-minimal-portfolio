@@ -19,6 +19,7 @@ const CONTENT_MAX_WIDTH = 608;
 const PADDING_DESKTOP = 64; // px-16 = 64px
 const PADDING_MOBILE = 32; // px-8 = 32px
 const SM_BREAKPOINT = 640;
+const BUTTON_HEIGHT = 40; // h-10 = 40px
 
 export function Rulers({ visible }: RulersProps) {
   const [scrollX, setScrollX] = useState(0);
@@ -38,7 +39,7 @@ export function Rulers({ visible }: RulersProps) {
   
   const containerRef = useRef<HTMLDivElement>(null);
 
-  // Calculate preset guide positions based on content margins
+  // Calculate preset guide positions based on content margins and button position
   const calculatePresetGuides = useCallback(() => {
     const vw = window.innerWidth;
     const padding = vw >= SM_BREAKPOINT ? PADDING_DESKTOP : PADDING_MOBILE;
@@ -53,9 +54,23 @@ export function Rulers({ visible }: RulersProps) {
     const contentLeft = padding + (contentAreaWidth - actualContentWidth) / 2 - RULER_SIZE;
     const contentRight = contentLeft + actualContentWidth;
     
+    // Find the email button to get its vertical position
+    const emailButton = document.querySelector('[aria-label="Copy email address to clipboard"]');
+    let buttonTop = 88; // fallback value
+    let buttonBottom = buttonTop + BUTTON_HEIGHT;
+    
+    if (emailButton) {
+      const rect = emailButton.getBoundingClientRect();
+      // Convert to content coordinates (subtract RULER_SIZE for the top ruler)
+      buttonTop = rect.top - RULER_SIZE;
+      buttonBottom = rect.bottom - RULER_SIZE;
+    }
+    
     return [
       { id: "preset-left", orientation: "vertical" as const, position: contentLeft },
       { id: "preset-right", orientation: "vertical" as const, position: contentRight },
+      { id: "preset-top", orientation: "horizontal" as const, position: buttonTop },
+      { id: "preset-bottom", orientation: "horizontal" as const, position: buttonBottom },
     ];
   }, []);
 
