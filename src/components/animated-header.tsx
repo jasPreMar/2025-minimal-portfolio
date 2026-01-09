@@ -94,6 +94,11 @@ export function AnimatedHeader() {
             className="email-button-chromatic outline-none h-10 w-10 hidden sm:flex items-center justify-center rounded-lg focus-visible:ring-1 focus-visible:ring-[oklch(0.145_0_0)] focus-visible:ring-offset-1 focus:outline-none bg-[oklch(1_0_0)] text-[oklch(0.145_0_0)] font-sans cursor-pointer"
             aria-label="Ruler"
             onClick={() => setIsRulerFilled(!isRulerFilled)}
+            whileTap={{
+              y: 0.5,
+              boxShadow: "0 0 0 1px #00000014, 0px 1px 1px #0000000a, inset 0 1.25px 0 0 rgba(255, 255, 255, 0.12), inset 0 -1px 0 0 rgba(0, 0, 0, 0.12), inset 0 2.5px 5px 0 rgba(0, 0, 0, 0.15), inset 0 -2px 4px 0 rgba(255, 255, 255, 0.15)"
+            }}
+            transition={{ duration: 0.1 }}
           >
             <Ruler 
               size={16} 
