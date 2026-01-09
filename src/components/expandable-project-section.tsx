@@ -257,7 +257,7 @@ function ThumbnailImage({
 
   return (
     <div
-      className="relative flex-shrink-0 h-[90px] rounded-lg overflow-hidden bg-muted group/thumb image-inner-shadow"
+      className="relative flex-shrink-0 h-[90px] rounded-lg overflow-hidden bg-muted group/thumb"
       style={{ aspectRatio }}
     >
       {isLoading && (
@@ -277,6 +277,8 @@ function ThumbnailImage({
           setIsLoading(false);
         }}
       />
+      {/* Border overlay - stays above scaled image */}
+      <div className="absolute inset-0 rounded-lg pointer-events-none z-10 image-inner-shadow" />
     </div>
   );
 }
@@ -387,7 +389,7 @@ function ProjectLinkWithThumbnails({
     <Link
       ref={linkRef}
       href={href}
-      className={`group flex flex-col rounded-xl px-3 -mx-3 py-2 ${
+      className={`group flex flex-col rounded-xl px-3 -mx-3 py-2 min-[480px]:py-1 ${
         showHoverBg ? "bg-black/5 dark:bg-white/5" : "bg-transparent"
       }`}
       style={{
@@ -578,7 +580,7 @@ export function ExpandableProjectSection({
 
   return (
     <>
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-5">
         <button
           ref={buttonRef}
           onClick={() => setIsExpanded(!isExpanded)}
