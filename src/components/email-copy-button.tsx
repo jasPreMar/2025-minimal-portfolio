@@ -66,12 +66,17 @@ export default function EmailCopyButton({ email = "jasonpmarsh@gmail.com" }: Ema
           onTouchStart={() => setIsHovered(false)}
           aria-label="Copy email address to clipboard"
           layout
+          whileTap={{
+            y: 0.5,
+            boxShadow: "0 0 0 1px #00000014, 0px 1px 1px #0000000a, inset 0 1.25px 0 0 rgba(255, 255, 255, 0.12), inset 0 -1px 0 0 rgba(0, 0, 0, 0.12), inset 0 2.5px 5px 0 rgba(0, 0, 0, 0.15), inset 0 -2px 4px 0 rgba(255, 255, 255, 0.15)"
+          }}
           transition={{
             layout: {
               type: "spring",
               bounce: 0,
               duration: 0.2,
             },
+            duration: 0.1,
           }}
         >
           <motion.div
