@@ -8,6 +8,8 @@ interface ContentWrapperProps {
   hasMaxWidth?: boolean;
   /** Additional classes for the inner container */
   className?: string;
+  /** Additional classes for the outer container */
+  outerClassName?: string;
   /** Inline styles for the inner container */
   style?: React.CSSProperties;
   /** Element type for outer container */
@@ -26,12 +28,13 @@ export function ContentWrapper({
   children,
   hasMaxWidth = true,
   className = "",
+  outerClassName = "",
   style,
   as: Component = "div",
   spacing = "none",
 }: ContentWrapperProps) {
   return (
-    <Component className={`w-full px-8 sm:px-16 ${spacingClasses[spacing]}`.trim()}>
+    <Component className={`w-full px-8 sm:px-16 ${spacingClasses[spacing]} ${outerClassName}`.trim()}>
       <div
         className={`${hasMaxWidth ? "max-w-[608px] mx-auto" : "w-full"} ${className}`.trim()}
         style={style}

@@ -116,12 +116,18 @@ body {
   color: var(--shimmer-base);
   width: 100%;
   height: fit-content;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 /* New text layer - establishes dimensions and shows by default */
 .shimmer-new {
   display: block;
   position: relative;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 /* Old text layer - overlays the new text, clips from left to hide */
@@ -131,6 +137,9 @@ body {
   left: 0;
   right: 0;
   color: var(--shimmer-base);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 /* Shimmer highlight layer - white gradient at wipe boundary */
@@ -150,6 +159,9 @@ body {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   pointer-events: none;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 /* Wipe animation keyframes */
@@ -240,6 +252,9 @@ body {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   pointer-events: none;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 /* Prismatic slide animation - faster than the white shimmer */

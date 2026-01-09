@@ -4,6 +4,8 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState, useCallback } from "react";
 import { ContentWrapper } from "@/components/content-wrapper";
+import { ShimmerText } from "@/components/shimmer-text";
+import EmailCopyButton from "@/components/email-copy-button";
 
 export function AnimatedHeader() {
   const pathname = usePathname();
@@ -36,36 +38,49 @@ export function AnimatedHeader() {
 
   return (
     <ContentWrapper as="header">
-      <div className="flex items-center gap-1 text-xl font-semibold tracking-tight min-h-[28px]">
-        {isHomePage ? (
-          <span
-            className="relative rounded-md select-none transition-colors duration-150 bg-transparent"
-            style={{
-              padding: "2px 10px",
-              margin: "-2px -10px",
-            }}
-          >
-            {linkContent}
-          </span>
-        ) : (
-          <Link
-            href="/"
-            prefetch={true}
-            className={`relative rounded-md cursor-pointer select-none transition-colors duration-150 ${
-              isHovered ? "bg-black/5 dark:bg-white/5" : "bg-transparent"
-            }`}
-            onClick={handleClick}
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
-            onTouchEnd={handleTouchEnd}
-            style={{
-              padding: "2px 10px",
-              margin: "-2px -10px",
-            }}
-          >
-            {linkContent}
-          </Link>
-        )}
+      <div className="flex items-center gap-4 w-full">
+        {/* Left side: Name and shimmer text stacked */}
+        <div className="flex flex-col min-w-0 flex-1 overflow-hidden">
+          <div className="flex items-center gap-1 text-xl font-semibold tracking-tight min-h-[28px]">
+            {isHomePage ? (
+              <span
+                className="relative rounded-md select-none transition-colors duration-150 bg-transparent truncate"
+                style={{
+                  padding: "2px 10px",
+                  margin: "-2px -10px",
+                }}
+              >
+                {linkContent}
+              </span>
+            ) : (
+              <Link
+                href="/"
+                prefetch={true}
+                className={`relative rounded-md cursor-pointer select-none transition-colors duration-150 truncate ${
+                  isHovered ? "bg-black/5 dark:bg-white/5" : "bg-transparent"
+                }`}
+                onClick={handleClick}
+                onMouseEnter={handleMouseEnter}
+                onMouseLeave={handleMouseLeave}
+                onTouchEnd={handleTouchEnd}
+                style={{
+                  padding: "2px 10px",
+                  margin: "-2px -10px",
+                }}
+              >
+                {linkContent}
+              </Link>
+            )}
+          </div>
+          <div className="truncate">
+            <ShimmerText initialShimmerDelay={0.25} initialWord="Designing" />
+          </div>
+        </div>
+
+        {/* Right side: Email copy button */}
+        <div className="flex-shrink-0">
+          <EmailCopyButton />
+        </div>
       </div>
     </ContentWrapper>
   );

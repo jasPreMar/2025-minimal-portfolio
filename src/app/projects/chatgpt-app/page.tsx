@@ -19,8 +19,8 @@ export default function ChatGPTAppPage() {
   return (
     <div>
       {/* Project Title Section - 80px below header */}
-      <ContentWrapper>
-        <div className="flex flex-col gap-2 mt-20">
+      <ContentWrapper outerClassName="-mb-12">
+        <div className="flex flex-col gap-1 mt-20">
           <h1 className="text-3xl font-semibold tracking-tight">
             {project.title}
           </h1>
