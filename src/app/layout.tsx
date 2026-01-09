@@ -53,24 +53,6 @@ export default function RootLayout({
       <body
         className={`${inter.variable} ${lato.variable} ${carmaxSharpSans.variable} ${spaceMono.variable} antialiased`}
       >
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              (function() {
-                function updateTheme() {
-                  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-                  if (prefersDark) {
-                    document.documentElement.classList.add('dark');
-                  } else {
-                    document.documentElement.classList.remove('dark');
-                  }
-                }
-                updateTheme();
-                window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', updateTheme);
-              })();
-            `,
-          }}
-        />
         <div className="flex flex-col mt-28 mb-28">
           <AnimatedHeader />
           {children}

@@ -92,14 +92,6 @@
   --radius-xl: calc(var(--radius) + 4px);
 }
 
-/* Dark mode variables - applied when .dark class is present */
-@media (prefers-color-scheme: dark) {
-  :root {
-    --secondary: #9ca3af;
-    --shimmer-base: var(--secondary);
-    --shimmer-highlight: #ffffff;
-  }
-}
 
 body {
   font-family: var(--font-inter), system-ui, sans-serif;
