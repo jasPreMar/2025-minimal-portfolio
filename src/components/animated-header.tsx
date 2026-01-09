@@ -6,10 +6,14 @@ import { useState, useCallback } from "react";
 import { ContentWrapper } from "@/components/content-wrapper";
 import { ShimmerText } from "@/components/shimmer-text";
 import EmailCopyButton from "@/components/email-copy-button";
+import { Rulers } from "@/components/rulers";
+import { Ruler } from "lucide-react";
+import { motion } from "motion/react";
 
 export function AnimatedHeader() {
   const pathname = usePathname();
   const [isHovered, setIsHovered] = useState(false);
+  const [isRulerFilled, setIsRulerFilled] = useState(false);
 
   const isHomePage = pathname === "/";
 
@@ -37,6 +41,8 @@ export function AnimatedHeader() {
   const linkContent = <span>Jason Marsh</span>;
 
   return (
+    <>
+    <Rulers visible={isRulerFilled} />
     <ContentWrapper as="header">
       <div className="flex items-center gap-4 w-full">
         {/* Left side: Name and shimmer text stacked */}
@@ -82,11 +88,23 @@ export function AnimatedHeader() {
           </div>
         </div>
 
-        {/* Right side: Email copy button */}
-        <div className="flex-shrink-0 mb-0">
+        {/* Right side: Ruler button and Email copy button */}
+        <div className="flex-shrink-0 mb-0 flex items-center gap-2">
+          <motion.button
+            className="email-button-chromatic outline-none h-10 w-10 hidden sm:flex items-center justify-center rounded-lg focus-visible:ring-1 focus-visible:ring-[oklch(0.145_0_0)] focus-visible:ring-offset-1 focus:outline-none bg-[oklch(1_0_0)] text-[oklch(0.145_0_0)] font-sans cursor-pointer"
+            aria-label="Ruler"
+            onClick={() => setIsRulerFilled(!isRulerFilled)}
+          >
+            <Ruler 
+              size={16} 
+              strokeWidth={2} 
+              fill="none"
+            />
+          </motion.button>
           <EmailCopyButton />
         </div>
       </div>
     </ContentWrapper>
+    </>
   );
 }
