@@ -40,7 +40,7 @@ export function StaggeredFadeIn({
   const validChildren = React.Children.toArray(children).filter(Boolean);
 
   return (
-    <div className="flex flex-col gap-20 pt-5">
+    <div className="flex flex-col gap-20 pt-20">
       {validChildren.map((child, index) => (
         <motion.div
           key={index}

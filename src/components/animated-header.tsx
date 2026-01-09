@@ -78,7 +78,7 @@ export function AnimatedHeader() {
         </div>
 
         {/* Right side: Email copy button */}
-        <div className="flex-shrink-0">
+        <div className="flex-shrink-0 mb-1">
           <EmailCopyButton />
         </div>
       </div>
