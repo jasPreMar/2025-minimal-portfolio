@@ -389,7 +389,7 @@ function ProjectLinkWithThumbnails({
     <Link
       ref={linkRef}
       href={href}
-      className={`group flex flex-col rounded-xl px-3 -mx-3 py-2 min-[480px]:py-1 ${
+      className={`group flex flex-col rounded-xl px-3 -mx-3 py-2 min-[480px]:py-2 ${
         showHoverBg ? "bg-black/5 dark:bg-white/5" : "bg-transparent"
       }`}
       style={{
@@ -580,7 +580,7 @@ export function ExpandableProjectSection({
 
   return (
     <>
-      <div className="flex flex-col gap-5">
+      <div className="flex flex-col gap-4">
         <button
           ref={buttonRef}
           onClick={() => setIsExpanded(!isExpanded)}
