@@ -40,7 +40,7 @@ export function AnimatedHeader() {
     <ContentWrapper as="header">
       <div className="flex items-center gap-4 w-full">
         {/* Left side: Name and shimmer text stacked */}
-        <div className="flex flex-col min-w-0 flex-1 overflow-hidden">
+        <div className="flex flex-col min-w-0 flex-1 overflow-visible">
           <div className="flex items-center gap-1 text-xl font-semibold tracking-tight min-h-[28px]">
             {isHomePage ? (
               <span
