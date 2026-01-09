@@ -44,7 +44,12 @@ export function AnimatedHeader() {
           <div className="flex items-center gap-1 text-xl font-semibold tracking-tight min-h-[28px]">
             {isHomePage ? (
               <span
-                className="relative rounded-md select-none transition-colors duration-150 bg-transparent truncate"
+                className={`relative rounded-xl cursor-pointer select-none transition-colors duration-150 truncate ${
+                  isHovered ? "bg-black/5 dark:bg-white/5" : "bg-transparent"
+                }`}
+                onMouseEnter={handleMouseEnter}
+                onMouseLeave={handleMouseLeave}
+                onTouchEnd={handleTouchEnd}
                 style={{
                   padding: "2px 10px",
                   margin: "-2px -10px",
@@ -56,7 +61,7 @@ export function AnimatedHeader() {
               <Link
                 href="/"
                 prefetch={true}
-                className={`relative rounded-md cursor-pointer select-none transition-colors duration-150 truncate ${
+                className={`relative rounded-xl cursor-pointer select-none transition-colors duration-150 truncate ${
                   isHovered ? "bg-black/5 dark:bg-white/5" : "bg-transparent"
                 }`}
                 onClick={handleClick}
