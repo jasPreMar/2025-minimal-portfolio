@@ -29,8 +29,8 @@ export const chatgptAppProject: HardcodedProject = {
   blocks: [
     {
       type: "hero",
-      src: "/projects/Final Multi-car.png",
-      alt: "CarMax ChatGPT App hero image showing the final multi-car experience",
+      src: "/projects/Chat GPT Hero.png",
+      alt: "CarMax ChatGPT App hero image",
     },
     {
       type: "text",
@@ -63,9 +63,11 @@ export const chatgptAppProject: HardcodedProject = {
         "Immediately after the announcement ended, I made a mock by patching together pieces of ChatGPT and Spotify app screenshots. It depicted a simple flow that showed a user querying a CarMax app in ChatGPT and engaging with shopping results. While the mock was believable and effective, it was just as important to show that our competitor might beat us to market. So I also mocked an OpenAI co-branded page showing Carvana as a partner. With both of these assets I had the carrot and stick I needed to make a convincing pitch, all in about 10 minutes. It worked — the response was near instant.",
     },
     {
-      type: "imagePair",
+      type: "imageGrid",
+      columns: 1,
+      aspectRatio: "intrinsic",
       images: [
-        { src: "/projects/Mock ChatGPT app.png", alt: "Mock of CarMax ChatGPT app" },
+        { src: "/projects/Mock.png", alt: "Mock of CarMax ChatGPT app" },
         { src: "/projects/Mock OpenAI logos.png", alt: "Mock of OpenAI partner logos including competitor" },
       ],
     },
@@ -84,19 +86,23 @@ export const chatgptAppProject: HardcodedProject = {
         "1. Two MVP flows — one with an inline card for a single car, and another with an inline carousel for multiple cars — that opened an in-app browser on tap. This meant we could start by building only the inline elements, and not the full page views (yet).",
     },
     {
+      type: "image",
+      src: "/projects/MVP1.png",
+      alt: "MVP design showing single and multi-car inline flows",
+    },
+    {
       type: "text",
       content:
         "2. Two fuller flows. These started the same with inline cards and carousels, but including a full screen view inside the app. After sharing it with my 2 devs, they wanted to see what it would look like to be able to switch between multiple cars in the fullscreen view too. It was a great idea, so I made one more addition to the multi-car variant of the full screen view.",
     },
     {
       type: "imageGrid",
-      columns: 2,
+      columns: 1,
       aspectRatio: "intrinsic",
       images: [
-        { src: "/projects/MVP Single car.png", alt: "MVP single car flow" },
-        { src: "/projects/MVP Multi-car.png", alt: "MVP multi-car flow" },
-        { src: "/projects/Final Single car.png", alt: "Final single car design", colSpan: 2 },
-        { src: "/projects/Final Multi-car.png", alt: "Final multi-car design", colSpan: 2 },
+        { src: "/projects/Single car.png", alt: "Single car design" },
+        { src: "/projects/Multi-car.png", alt: "Multi-car design" },
+        { src: "/projects/Desktop.png", alt: "Desktop design" },
       ],
     },
     {
