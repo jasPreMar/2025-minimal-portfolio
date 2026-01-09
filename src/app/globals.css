@@ -456,8 +456,8 @@ body {
 /* ========================================
    Image Inner Border
    1px inner border with #0D0D0D at 5% opacity
+   Applied to overlay div to stay above scaled images
    ======================================== */
 .image-inner-shadow {
-  outline: 1px solid oklch(0.18 0 0 / 0.05);
-  outline-offset: -1px;
+  box-shadow: inset 0 0 0 1px oklch(0.18 0 0 / 0.05);
 }

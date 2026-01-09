@@ -103,7 +103,7 @@ export function InteractiveImage({
     return (
       <>
         <div
-          className={`relative w-full rounded-3xl overflow-hidden bg-muted cursor-zoom-in group image-inner-shadow ${className}`}
+          className={`relative w-full rounded-3xl overflow-hidden bg-muted cursor-zoom-in group ${className}`}
           onClick={() => setIsFullscreen(true)}
         >
           <Image
@@ -120,6 +120,8 @@ export function InteractiveImage({
           {isLoading && (
             <Skeleton className="absolute inset-0 w-full h-full rounded-3xl" />
           )}
+          {/* Border overlay - stays above scaled image */}
+          <div className="absolute inset-0 rounded-3xl pointer-events-none z-10 image-inner-shadow" />
         </div>
         {isFullscreen && (
           <FullscreenView
@@ -135,7 +137,7 @@ export function InteractiveImage({
   return (
     <>
       <div
-        className={`relative w-full ${aspectClass} rounded-3xl overflow-hidden bg-muted cursor-zoom-in group image-inner-shadow ${className}`}
+        className={`relative w-full ${aspectClass} rounded-3xl overflow-hidden bg-muted cursor-zoom-in group ${className}`}
         onClick={() => setIsFullscreen(true)}
       >
         <Image
@@ -151,6 +153,8 @@ export function InteractiveImage({
         {isLoading && (
           <Skeleton className="absolute inset-0 w-full h-full rounded-3xl" />
         )}
+        {/* Border overlay - stays above scaled image */}
+        <div className="absolute inset-0 rounded-3xl pointer-events-none z-10 image-inner-shadow" />
       </div>
       {isFullscreen && (
         <FullscreenView
