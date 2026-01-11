@@ -4,20 +4,24 @@ import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "@/lib/utils"
 
 const badgeVariants = cva(
-  "inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium transition-colors",
+  "inline-flex items-center gap-1.5 px-2 py-0.5 text-sm font-medium transition-colors",
   {
     variants: {
       variant: {
         default:
-          "border-transparent bg-primary text-primary-foreground",
+          "rounded-full border-transparent bg-primary text-primary-foreground",
         secondary:
-          "border-transparent bg-secondary text-secondary-foreground",
+          "rounded-full border-transparent bg-secondary text-secondary-foreground",
         destructive:
-          "border-transparent bg-destructive text-destructive-foreground",
-        outline: "text-foreground border border-foreground/10",
+          "rounded-full border-transparent bg-destructive text-destructive-foreground",
+        outline: "rounded-full text-foreground border border-foreground/10",
         // OKLCH colors for perceptually uniform blue shades
         // Hue 252 = blue, consistent across light/dark modes
-        featured: "bg-[oklch(0.94_0.04_252)] text-[oklch(0.55_0.2_252)] dark:bg-[oklch(0.25_0.08_252)] dark:text-[oklch(0.72_0.14_252)]",
+        featured: "rounded-full bg-[oklch(0.94_0.04_252)] text-[oklch(0.55_0.2_252)] dark:bg-[oklch(0.25_0.08_252)] dark:text-[oklch(0.72_0.14_252)]",
+        // Live variant - green with flat style and dot
+        live: "rounded-md bg-[oklch(0.94_0.04_142)] text-[oklch(0.45_0.15_142)] dark:bg-[oklch(0.25_0.08_142)] dark:text-[oklch(0.70_0.12_142)]",
+        // In-flight variant - blue with flat style and dot
+        "in-flight": "rounded-md bg-[oklch(0.94_0.04_252)] text-[oklch(0.55_0.2_252)] dark:bg-[oklch(0.25_0.08_252)] dark:text-[oklch(0.72_0.14_252)]",
       },
     },
     defaultVariants: {
@@ -30,9 +34,16 @@ export interface BadgeProps
   extends React.HTMLAttributes<HTMLDivElement>,
     VariantProps<typeof badgeVariants> {}
 
-function Badge({ className, variant, ...props }: BadgeProps) {
+function Badge({ className, variant, children, ...props }: BadgeProps) {
+  const showDot = variant === "live" || variant === "in-flight";
+  
   return (
-    <div className={cn(badgeVariants({ variant }), className)} {...props} />
+    <div className={cn(badgeVariants({ variant }), className)} {...props}>
+      {showDot && (
+        <span className="w-1.5 h-1.5 rounded-full bg-current opacity-80" />
+      )}
+      {children}
+    </div>
   )
 }
 

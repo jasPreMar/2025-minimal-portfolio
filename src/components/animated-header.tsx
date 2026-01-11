@@ -104,8 +104,7 @@ export function AnimatedHeader() {
 
         {/* Right side: Email copy button */}
         <div className="flex-shrink-0 mb-0 flex items-center gap-2">
-          {/* Ruler button hidden for now */}
-          {/* <motion.button
+          <motion.button
             className="email-button-chromatic outline-none h-10 w-10 hidden sm:flex items-center justify-center rounded-lg focus-visible:ring-1 focus-visible:ring-[oklch(0.145_0_0)] focus-visible:ring-offset-1 focus:outline-none bg-[oklch(1_0_0)] text-[oklch(0.145_0_0)] font-sans cursor-pointer"
             aria-label="Ruler"
             onClick={() => setIsRulerFilled(!isRulerFilled)}
@@ -120,7 +119,7 @@ export function AnimatedHeader() {
               strokeWidth={2} 
               fill="none"
             />
-          </motion.button> */}
+          </motion.button>
           <EmailCopyButton />
         </div>
       </div>

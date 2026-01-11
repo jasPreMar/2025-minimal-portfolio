@@ -1,6 +1,7 @@
 import { BlockRenderer } from "@/components/block-renderer";
 import { chatgptAppProject } from "@/lib/chatgpt-app-data";
 import { ContentWrapper } from "@/components/content-wrapper";
+import { Badge } from "@/components/ui/badge";
 
 // Static page - no revalidation needed
 export const dynamic = "force-static";
@@ -21,9 +22,28 @@ export default function ChatGPTAppPage() {
       {/* Project Title Section - 80px below header */}
       <ContentWrapper outerClassName="-mb-12">
         <div className="flex flex-col gap-1 mt-20">
-          <h1 className="text-3xl font-semibold tracking-tight">
-            {project.title}
-          </h1>
+          {/* Mobile: Badge above title */}
+          {project.status && (
+            <div className="sm:hidden">
+              <Badge variant={project.status === "live" ? "live" : "in-flight"}>
+                {project.status === "live" ? "Live" : "In flight"}
+              </Badge>
+            </div>
+          )}
+          {/* Desktop: Badge inline with title, Mobile: Just title */}
+          <div className="flex items-start gap-3 sm:gap-2">
+            <h1 className="text-3xl font-semibold tracking-tight flex-1">
+              {project.title}
+            </h1>
+            {project.status && (
+              <Badge 
+                variant={project.status === "live" ? "live" : "in-flight"}
+                className="hidden sm:flex sm:mt-2"
+              >
+                {project.status === "live" ? "Live" : "In flight"}
+              </Badge>
+            )}
+          </div>
           <p className="text-base text-secondary max-w-md">{project.subtitle}</p>
         </div>
       </ContentWrapper>
