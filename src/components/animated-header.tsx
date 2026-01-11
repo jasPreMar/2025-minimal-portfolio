@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { ContentWrapper } from "@/components/content-wrapper";
 import { ShimmerText } from "@/components/shimmer-text";
 import EmailCopyButton from "@/components/email-copy-button";
@@ -14,15 +14,24 @@ export function AnimatedHeader() {
   const pathname = usePathname();
   const [isHovered, setIsHovered] = useState(false);
   const [isRulerFilled, setIsRulerFilled] = useState(false);
+  const [isTouchDevice, setIsTouchDevice] = useState(false);
 
   const isHomePage = pathname === "/";
+
+  // Detect if device supports touch
+  useEffect(() => {
+    setIsTouchDevice('ontouchstart' in window || navigator.maxTouchPoints > 0);
+  }, []);
 
   const handleClick = () => {
     setIsHovered(false);
   };
 
   const handleMouseEnter = () => {
-    setIsHovered(true);
+    // Only set hover state on non-touch devices
+    if (!isTouchDevice) {
+      setIsHovered(true);
+    }
   };
 
   const handleMouseLeave = () => {
@@ -30,11 +39,14 @@ export function AnimatedHeader() {
   };
 
   // Handle touch events to prevent stuck hover state on mobile
+  const handleTouchStart = useCallback(() => {
+    // Prevent hover state from being set on touch devices
+    setIsHovered(false);
+  }, []);
+
   const handleTouchEnd = useCallback(() => {
-    // Small delay to allow the click to register first
-    setTimeout(() => {
-      setIsHovered(false);
-    }, 100);
+    // Immediately clear hover state on touch end
+    setIsHovered(false);
   }, []);
 
   // Use Link for prefetching, but render as span when on home page
@@ -55,6 +67,7 @@ export function AnimatedHeader() {
                 }`}
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}
+                onTouchStart={handleTouchStart}
                 onTouchEnd={handleTouchEnd}
                 style={{
                   padding: "2px 10px",
@@ -73,6 +86,7 @@ export function AnimatedHeader() {
                 onClick={handleClick}
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}
+                onTouchStart={handleTouchStart}
                 onTouchEnd={handleTouchEnd}
                 style={{
                   padding: "2px 10px",
