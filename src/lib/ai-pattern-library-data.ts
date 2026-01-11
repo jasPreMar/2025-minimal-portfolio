@@ -39,16 +39,21 @@ export const aiPatternLibraryProject: HardcodedProject = {
         "There were many AI capabilities we didn't have yet, such as response streaming and multi-modal input, but I incorporated them into the system anyway to help future-proof us in a fast-changing landscape.",
     },
     {
-      type: "image",
-      src: "/projects/ai-pattern-library-components.png",
-      alt: "A cluster of AI pattern library components",
-      objectFit: "contain",
-    },
-    {
-      type: "image",
-      src: "/projects/ai-pattern-library-variants.png",
-      alt: "Variants of one component showing different states",
-      objectFit: "contain",
+      type: "imageGrid",
+      columns: 1,
+      aspectRatio: "intrinsic",
+      images: [
+        {
+          src: "/projects/ai-pattern-library-components.png",
+          alt: "A cluster of AI pattern library components",
+          objectFit: "contain",
+        },
+        {
+          src: "/projects/ai-pattern-library-variants.png",
+          alt: "Variants of one component showing different states",
+          objectFit: "contain",
+        },
+      ],
     },
     {
       type: "heading",
