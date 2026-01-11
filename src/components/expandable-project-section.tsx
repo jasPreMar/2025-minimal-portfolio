@@ -584,7 +584,7 @@ export function ExpandableProjectSection({
         <button
           ref={buttonRef}
           onClick={() => setIsExpanded(!isExpanded)}
-          className={`project-link flex items-center w-fit justify-start gap-2 rounded-xl px-3 -mx-3 py-2 min-[480px]:py-1 cursor-pointer ${
+          className={`project-link flex items-center w-fit justify-start gap-2 rounded-md px-3 -mx-3 py-2 min-[480px]:py-1 cursor-pointer ${
             isTitleHovered ? "bg-black/5 dark:bg-white/5" : "bg-transparent"
           }`}
           style={{
