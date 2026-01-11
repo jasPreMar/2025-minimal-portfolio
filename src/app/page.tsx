@@ -3,6 +3,7 @@ import { StaggeredFadeIn } from "@/components/staggered-fade-in";
 import { getAllProjects, type NotionProject } from "@/lib/notion";
 import { ExpandableProjectSection } from "@/components/expandable-project-section";
 import { chatgptAppProject } from "@/lib/chatgpt-app-data";
+import { aiPatternLibraryProject } from "@/lib/ai-pattern-library-data";
 import { ContentWrapper } from "@/components/content-wrapper";
 
 // Revalidate every 60 seconds (ISR)
@@ -51,7 +52,7 @@ export default async function Home() {
   const notionProjects = allProjects.filter((p) => p.projectType === "Project");
   const sideProjects = allProjects.filter((p) => p.projectType === "Side Project");
 
-  // Create hardcoded project entry for the home page carousel
+  // Create hardcoded project entries for the home page carousel
   const chatgptAppHomeProject = {
     id: "hardcoded-chatgpt-app",
     title: chatgptAppProject.title,
@@ -71,8 +72,26 @@ export default async function Home() {
     featured: false,
   };
 
-  // Prepend hardcoded project to the list
-  const projects = [chatgptAppHomeProject, ...notionProjects];
+  const aiPatternLibraryHomeProject = {
+    id: "hardcoded-ai-pattern-library",
+    title: aiPatternLibraryProject.title,
+    company: aiPatternLibraryProject.company,
+    slug: aiPatternLibraryProject.slug,
+    heroImages: ["/projects/ai-pattern-library-hero.png"],
+    finalScreens: [
+      "[ai-pattern-library-hero.png]",
+      "/projects/ai-pattern-library-components.png",
+      "[ai-pattern-library-variants.png]",
+      "[ai-pattern-library-markdown.png]",
+      "[ai-pattern-library-shopping-components.png]",
+      "[ai-pattern-library-storybook.png]",
+    ],
+    subtitle: aiPatternLibraryProject.subtitle,
+    featured: false,
+  };
+
+  // Prepend hardcoded projects to the list
+  const projects = [aiPatternLibraryHomeProject, chatgptAppHomeProject, ...notionProjects];
 
   return (
     <StaggeredFadeIn initialDelay={0.25} staggerDelay={0.18} duration={0.45}>

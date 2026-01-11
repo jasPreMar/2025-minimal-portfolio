@@ -100,6 +100,47 @@ export function InteractiveImage({
 
   // Intrinsic mode: image determines its own height based on natural aspect ratio
   if (aspectRatio === "intrinsic") {
+    // For contain mode, use a container that shows background around the image
+    if (objectFit === "contain") {
+      return (
+        <>
+          <div
+            className={`relative w-full rounded-3xl overflow-hidden bg-muted cursor-zoom-in group ${className}`}
+            onClick={() => setIsFullscreen(true)}
+          >
+            <div className="relative w-full flex items-center justify-center py-8 px-4">
+              <div className="relative max-w-full max-h-[600px] w-full flex items-center justify-center">
+                <Image
+                  src={src}
+                  alt={alt}
+                  width={0}
+                  height={0}
+                  sizes="100vw"
+                  className={`max-w-full max-h-full w-auto h-auto transition-transform duration-500 ease-out group-hover:scale-[1.02] ${isLoading ? "opacity-0" : "opacity-100"}`}
+                  unoptimized
+                  priority={priority}
+                  onLoad={() => setIsLoading(false)}
+                />
+              </div>
+            </div>
+            {isLoading && (
+              <Skeleton className="absolute inset-0 w-full h-full rounded-3xl" />
+            )}
+            {/* Border overlay - stays above scaled image */}
+            <div className="absolute inset-0 rounded-3xl pointer-events-none z-10 image-inner-shadow" />
+          </div>
+          {isFullscreen && (
+            <FullscreenView
+              src={src}
+              alt={alt}
+              onClose={() => setIsFullscreen(false)}
+            />
+          )}
+        </>
+      );
+    }
+    
+    // Default intrinsic behavior
     return (
       <>
         <div
@@ -136,10 +177,10 @@ export function InteractiveImage({
 
   return (
     <>
-      <div
-        className={`relative w-full ${aspectClass} rounded-3xl overflow-hidden bg-muted cursor-zoom-in group ${className}`}
-        onClick={() => setIsFullscreen(true)}
-      >
+        <div
+          className={`relative w-full ${aspectClass} rounded-3xl overflow-hidden bg-muted cursor-zoom-in group ${className}`}
+          onClick={() => setIsFullscreen(true)}
+        >
         <Image
           src={src}
           alt={alt}

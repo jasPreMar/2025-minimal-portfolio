@@ -86,6 +86,7 @@ export function BlockRenderer({ blocks, projectTitle }: BlockRendererProps) {
                   src={block.src}
                   alt={block.alt}
                   aspectRatio="intrinsic"
+                  objectFit={block.objectFit}
                 />
               </ContentWrapper>
             );
@@ -99,6 +100,7 @@ export function BlockRenderer({ blocks, projectTitle }: BlockRendererProps) {
                     src={img.src}
                     alt={img.alt}
                     aspectRatio="intrinsic"
+                    objectFit={img.objectFit}
                   />
                 ))}
               </ContentWrapper>
@@ -124,6 +126,7 @@ export function BlockRenderer({ blocks, projectTitle }: BlockRendererProps) {
                       src={img.src}
                       alt={img.alt}
                       aspectRatio={img.aspectRatio || defaultAspectRatio}
+                      objectFit={img.objectFit}
                     />
                   </div>
                 ))}
