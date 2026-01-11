@@ -88,7 +88,7 @@ export default async function Home() {
   };
 
   // Prepend hardcoded projects to the list
-  const projects = [aiPatternLibraryHomeProject, chatgptAppHomeProject, ...notionProjects];
+  const projects = [chatgptAppHomeProject, aiPatternLibraryHomeProject, ...notionProjects];
 
   return (
     <StaggeredFadeIn initialDelay={0.25} staggerDelay={0.18} duration={0.45}>
