@@ -415,7 +415,7 @@ function ProjectLinkWithThumbnails({
           <span className="truncate block">
             {isExpanded ? (
               <>
-                {project.title} <span className="text-secondary">- {project.company}</span>
+                {project.title} <span className="text-secondary">- 2025</span>
               </>
             ) : (
               project.title
@@ -427,7 +427,7 @@ function ProjectLinkWithThumbnails({
               className="shimmer-prismatic shimmer-animating"
               aria-hidden="true"
             >
-              {isExpanded ? `${project.title} - ${project.company}` : project.title}
+              {isExpanded ? `${project.title} - 2025` : project.title}
             </span>
           )}
         </span>
