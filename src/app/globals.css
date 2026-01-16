@@ -460,3 +460,55 @@ body {
 .image-inner-shadow {
   box-shadow: inset 0 0 0 1px oklch(0.18 0 0 / 0.05);
 }
+
+/* ========================================
+   Keyword Shimmer Effect
+   Prismatic shimmer for bold keywords on scroll into view
+   ======================================== */
+.keyword-shimmer-active {
+  display: inline;
+  background:
+    /* Main prismatic sweep with foreground color as base */
+    linear-gradient(82deg,
+      var(--foreground) 0%,
+      var(--foreground) 40%,
+      #ff4da6 43%,
+      #ffa500 46%,
+      #50fa7b 49%,
+      #00cfff 52%,
+      #da70d6 55%,
+      var(--foreground) 58%,
+      var(--foreground) 100%),
+    /* Secondary sweep at different angle for depth */
+    linear-gradient(98deg,
+      var(--foreground) 0%,
+      var(--foreground) 42%,
+      rgba(255, 200, 0, 0.85) 46%,
+      rgba(0, 255, 180, 0.8) 50%,
+      rgba(200, 50, 220, 0.85) 54%,
+      var(--foreground) 58%,
+      var(--foreground) 100%),
+    /* Tertiary micro-offset for shimmer texture */
+    linear-gradient(88deg,
+      var(--foreground) 0%,
+      var(--foreground) 44%,
+      rgba(255, 150, 180, 0.65) 48%,
+      rgba(140, 220, 255, 0.6) 50%,
+      rgba(230, 130, 230, 0.65) 52%,
+      var(--foreground) 56%,
+      var(--foreground) 100%);
+  background-size: 280% 100%, 280% 100%, 280% 100%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: keyword-shimmer 0.9s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
+}
+
+@keyframes keyword-shimmer {
+  0% {
+    background-position: 100% center, 105% center, 95% center;
+  }
+  100% {
+    background-position: -5% center, 0% center, -10% center;
+  }
+}

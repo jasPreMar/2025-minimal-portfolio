@@ -2,6 +2,7 @@
 
 import { InteractiveImage } from "@/components/interactive-image";
 import { ContentWrapper } from "@/components/content-wrapper";
+import { ShimmerKeyword } from "@/components/shimmer-keyword";
 import type { ContentBlock } from "@/lib/chatgpt-app-data";
 
 // Parse markdown-style links [text](url) and bold **text** into JSX
@@ -83,9 +84,9 @@ function parseTextWithLinks(text: string): React.ReactNode {
       );
     } else if (element.type === 'bold') {
       parts.push(
-        <strong key={`bold-${keyCounter++}`} className="font-semibold">
+        <ShimmerKeyword key={`bold-${keyCounter++}`}>
           {element.content}
-        </strong>
+        </ShimmerKeyword>
       );
     }
     
