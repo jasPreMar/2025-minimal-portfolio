@@ -21,14 +21,18 @@ export function ShimmerKeyword({ children }: ShimmerKeywordProps) {
         (entries) => {
           const entry = entries[0];
           if (entry.isIntersecting) {
-            setIsAnimating(true);
             setHasAnimated(true);
             observer.disconnect();
 
-            // End animation after it completes
+            // Delay before starting shimmer
             setTimeout(() => {
-              setIsAnimating(false);
-            }, 900);
+              setIsAnimating(true);
+
+              // End animation after it completes
+              setTimeout(() => {
+                setIsAnimating(false);
+              }, 900);
+            }, 800);
           }
         },
         {
