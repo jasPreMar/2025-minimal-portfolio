@@ -24,7 +24,7 @@ export default function ChatGPTAppPage() {
         <div className="flex flex-col gap-1 mt-20">
           {/* Mobile: Badge above title */}
           {project.status && (
-            <div className="sm:hidden">
+            <div className="sm:hidden pb-1">
               <Badge variant={project.status === "live" ? "live" : "in-flight"}>
                 {project.status === "live" ? "Live" : "In flight"}
               </Badge>
