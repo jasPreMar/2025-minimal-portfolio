@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback, useRef, useImperativeHandle, forwardR
 
 const PRISMATIC_DELAY_RATIO = 0.35; // Prismatic starts right on the heels of white shimmer
 
-const WORDS = [
+export const DEFAULT_WORDS = [
   "Designing",
   "Actioning",
   "Actualizing",
@@ -19,7 +19,6 @@ const WORDS = [
   "Clauding",
   "Coalescing",
   "Coding",
-  "Cogitating",
   "Componentizing",
   "Composing",
   "Computing",
@@ -110,32 +109,33 @@ const WORDS = [
 ];
 
 const LOCATIONS = [
-  "New York",
-  "the City",
-  "Work Island",
-  "Brooklyn",
-  "BK",
-  "Willy B",
-  "the concrete jungle",
-  "Williamsburg",
-  "the Big Apple",
-  "NYC",
-  "the 718",
-  "Kings County",
-  "north Brooklyn",
-  "Billyburg",
-  "the burg",
-  "Gotham",
-  "the city that never sleeps",
-  "Nueva York",
-  "the Empire State",
-  "Manhattan-adjacent",
-  "East Williamsburg",
-  "the Northside",
-  "Bedford Ave",
-  "McCarren Park",
-  "Domino Park",
-  "the 11211",
+  "in New York",
+  "in the City",
+  "on Work Island",
+  "in Brooklyn",
+  "in BK",
+  "in Willy B",
+  "in the concrete jungle",
+  "in Williamsburg",
+  "in the Big Apple",
+  "in NYC",
+  "in the 718",
+  "in Kings County",
+  "in north Brooklyn",
+  "in Billyburg",
+  "in the burg",
+  "in Gotham",
+  "in the city that never sleeps",
+  "in Nueva York",
+  "in the Empire State",
+  "in Manhattan-adjacent",
+  "in East Williamsburg",
+  "in the Northside",
+  "on Bedford Ave",
+  "at McCarren Park",
+  "at Domino Park",
+  "in the 11211",
+  "by the BQE",
 ];
 
 interface ShimmerTextProps {
@@ -156,6 +156,11 @@ interface ShimmerTextProps {
    * Only used when initialShimmerDelay is set.
    */
   initialLocation?: string;
+  /**
+   * Custom list of words/verbs to cycle through.
+   * Defaults to DEFAULT_WORDS if not provided.
+   */
+  words?: string[];
 }
 
 export interface ShimmerTextRef {
@@ -168,11 +173,12 @@ const ShimmerTextComponent = forwardRef<ShimmerTextRef, ShimmerTextProps>(({
   initialShimmerDelay,
   initialWord,
   initialLocation,
+  words = DEFAULT_WORDS,
 }, ref) => {
   const [currentWord, setCurrentWord] = useState("Designing");
   const [previousWord, setPreviousWord] = useState("Designing");
-  const [currentLocation, setCurrentLocation] = useState("New York");
-  const [previousLocation, setPreviousLocation] = useState("New York");
+  const [currentLocation, setCurrentLocation] = useState("in New York");
+  const [previousLocation, setPreviousLocation] = useState("in New York");
   const [isAnimating, setIsAnimating] = useState(false);
   const [isPrismaticAnimating, setIsPrismaticAnimating] = useState(false);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
@@ -183,11 +189,11 @@ const ShimmerTextComponent = forwardRef<ShimmerTextRef, ShimmerTextProps>(({
   const getRandomWord = useCallback((excludeWord: string) => {
     let newWord: string;
     do {
-      const randomIndex = Math.floor(Math.random() * WORDS.length);
-      newWord = WORDS[randomIndex];
+      const randomIndex = Math.floor(Math.random() * words.length);
+      newWord = words[randomIndex];
     } while (newWord === excludeWord);
     return newWord;
-  }, []);
+  }, [words]);
 
   const getRandomLocation = useCallback((excludeLocation: string) => {
     let newLocation: string;
@@ -243,17 +249,6 @@ const ShimmerTextComponent = forwardRef<ShimmerTextRef, ShimmerTextProps>(({
     trigger: triggerAnimation,
   }), [triggerAnimation]);
 
-  // Trigger initial shimmer on mount if delay is specified
-  useEffect(() => {
-    if (initialShimmerDelay === undefined) return;
-
-    const initialTimeout = setTimeout(() => {
-      triggerAnimation(initialWord, initialLocation);
-    }, initialShimmerDelay * 1000);
-
-    return () => clearTimeout(initialTimeout);
-  }, [initialShimmerDelay, initialWord, initialLocation, triggerAnimation]);
-
   const startInterval = useCallback(() => {
     const totalCycleDuration = (wipeDuration + pauseDuration) * 1000;
 
@@ -266,9 +261,32 @@ const ShimmerTextComponent = forwardRef<ShimmerTextRef, ShimmerTextProps>(({
     }, totalCycleDuration);
   }, [wipeDuration, pauseDuration, triggerAnimation]);
 
+  // Trigger initial shimmer on mount if delay is specified
   useEffect(() => {
-    startInterval();
+    if (initialShimmerDelay === undefined) {
+      // If no initial delay, start interval immediately
+      startInterval();
+      return;
+    }
 
+    // Trigger first shimmer with the same starting text (shimmer from start to start)
+    const initialTimeout = setTimeout(() => {
+      const wordToUse = initialWord || "Designing";
+      const locationToUse = initialLocation || "in New York";
+      triggerAnimation(wordToUse, locationToUse);
+      
+      // After one full cycle, trigger first random shimmer and start the interval
+      const totalCycleDuration = (wipeDuration + pauseDuration) * 1000;
+      setTimeout(() => {
+        triggerAnimation(); // First random shimmer
+        startInterval(); // Start interval for subsequent shimmers
+      }, totalCycleDuration);
+    }, initialShimmerDelay * 1000);
+
+    return () => clearTimeout(initialTimeout);
+  }, [initialShimmerDelay, initialWord, initialLocation, triggerAnimation, startInterval, wipeDuration, pauseDuration]);
+
+  useEffect(() => {
     return () => {
       if (intervalRef.current) {
         clearInterval(intervalRef.current);
@@ -283,10 +301,10 @@ const ShimmerTextComponent = forwardRef<ShimmerTextRef, ShimmerTextProps>(({
         clearTimeout(prismaticEndTimeoutRef.current);
       }
     };
-  }, [startInterval]);
+  }, []);
 
-  const fullTextNew = `${currentWord} in ${currentLocation}...`;
-  const fullTextOld = `${previousWord} in ${previousLocation}...`;
+  const fullTextNew = `${currentWord} ${currentLocation}...`;
+  const fullTextOld = `${previousWord} ${previousLocation}...`;
 
   const handleClick = useCallback(() => {
     triggerAnimation();

@@ -2,13 +2,14 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback, useEffect, useMemo } from "react";
 import { ContentWrapper } from "@/components/content-wrapper";
 import { ShimmerText } from "@/components/shimmer-text";
 import EmailCopyButton from "@/components/email-copy-button";
 import { Rulers } from "@/components/rulers";
 import { Ruler } from "lucide-react";
 import { motion } from "motion/react";
+import { getVerbsForPath } from "@/lib/project-verbs";
 
 export function AnimatedHeader() {
   const pathname = usePathname();
@@ -17,6 +18,9 @@ export function AnimatedHeader() {
   const [isTouchDevice, setIsTouchDevice] = useState(false);
 
   const isHomePage = pathname === "/";
+  
+  // Get project-specific verbs based on current path
+  const projectVerbs = useMemo(() => getVerbsForPath(pathname), [pathname]);
 
   // Detect if device supports touch
   useEffect(() => {
@@ -98,7 +102,11 @@ export function AnimatedHeader() {
             )}
           </div>
           <div className="truncate">
-            <ShimmerText initialShimmerDelay={0.25} initialWord="Designing" />
+            <ShimmerText 
+              initialShimmerDelay={0.25} 
+              initialWord="Designing" 
+              words={projectVerbs}
+            />
           </div>
         </div>
 

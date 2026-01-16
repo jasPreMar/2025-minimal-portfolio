@@ -49,13 +49,15 @@ export const chatgptAppProject: HardcodedProject = {
         "Immediately after the announcement, I patched together an app mock from screenshots of ChatGPT and Spotify's app. Then I mocked a fake OpenAI co-branded page showing Carvana as a partner to show that our competitor might beat us to market. I sent both assets up the chain (along with a clarification that it wasn't a real partnership).",
     },
     {
-      type: "imageGrid",
-      columns: 1,
-      aspectRatio: "intrinsic",
-      images: [
-        { src: "/projects/Mock ChatGPT app.png", alt: "Mock of ChatGPT app" },
-        { src: "/projects/Mock OpenAI logos.png", alt: "Mock of OpenAI logos" },
-      ],
+      type: "image",
+      src: "/projects/Mock ChatGPT app.png",
+      alt: "Mock of ChatGPT app",
+    },
+    {
+      type: "image",
+      src: "/projects/Mock OpenAI logos.png",
+      alt: "Mock of OpenAI logos",
+      constrainWidth: true,
     },
     {
       type: "heading",
@@ -71,17 +73,12 @@ export const chatgptAppProject: HardcodedProject = {
       columns: 1,
       aspectRatio: "intrinsic",
       images: [
-        { src: "/projects/MVP Single car.png", alt: "MVP screens" },
-        { src: "/projects/MVP Multi-car.png", alt: "MVP screens" },
-      ],
-    },
-    {
-      type: "imageGrid",
-      columns: 1,
-      aspectRatio: "intrinsic",
-      images: [
-        { src: "/projects/Final Single car.png", alt: "Final design screens" },
-        { src: "/projects/Final Multi-car.png", alt: "Final design screens" },
+        { src: "/projects/kmx-chatgpt-components.png", alt: "ChatGPT app components" },
+        { src: "/projects/kmx-chatgpt-01.png", alt: "ChatGPT app design 1" },
+        { src: "/projects/kmx-chatgpt-02.png", alt: "ChatGPT app design 2" },
+        { src: "/projects/kmx-chatgpt-03.png", alt: "ChatGPT app design 3" },
+        { src: "/projects/kmx-chatgpt-04.png", alt: "ChatGPT app design 4" },
+        { src: "/projects/kmx-chatgpt-05.png", alt: "ChatGPT app design 5" },
       ],
     },
     {
