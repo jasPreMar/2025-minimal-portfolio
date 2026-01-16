@@ -5,7 +5,7 @@ export type ContentBlock =
   | { type: "heading"; content: string }
   | { type: "image"; src: string; alt: string; constrainWidth?: boolean; objectFit?: "cover" | "contain" }
   | { type: "imagePair"; images: { src: string; alt: string; objectFit?: "cover" | "contain" }[] }
-  | { type: "imageGrid"; images: { src: string; alt: string; colSpan?: number; aspectRatio?: "video" | "square" | "2/1" | "intrinsic"; objectFit?: "cover" | "contain" }[]; columns?: number; aspectRatio?: "video" | "square" | "2/1" | "intrinsic" };
+  | { type: "imageGrid"; images: { src: string; alt: string; colSpan?: number; aspectRatio?: "video" | "square" | "2/1" | "intrinsic"; objectFit?: "cover" | "contain" }[]; columns?: number; aspectRatio?: "video" | "square" | "2/1" | "intrinsic"; constrainWidth?: boolean };
 
 export type HardcodedProject = {
   slug: string;
@@ -49,15 +49,13 @@ export const chatgptAppProject: HardcodedProject = {
         "Immediately after the announcement, I patched together an app mock from screenshots of ChatGPT and Spotify's app. Then I mocked a fake OpenAI co-branded page showing Carvana as a partner to show that our competitor might beat us to market. I sent both assets up the chain (along with a clarification that it wasn't a real partnership).",
     },
     {
-      type: "image",
-      src: "/projects/Mock ChatGPT app.png",
-      alt: "Mock of ChatGPT app",
-    },
-    {
-      type: "image",
-      src: "/projects/Mock OpenAI logos.png",
-      alt: "Mock of OpenAI logos",
+      type: "imageGrid",
+      columns: 1,
       constrainWidth: true,
+      images: [
+        { src: "/projects/Mock ChatGPT app.png", alt: "Mock of ChatGPT app" },
+        { src: "/projects/Mock OpenAI logos.png", alt: "Mock of OpenAI logos" },
+      ],
     },
     {
       type: "heading",
@@ -72,6 +70,7 @@ export const chatgptAppProject: HardcodedProject = {
       type: "imageGrid",
       columns: 1,
       aspectRatio: "intrinsic",
+      constrainWidth: true,
       images: [
         { src: "/projects/kmx-chatgpt-components.png", alt: "ChatGPT app components" },
         { src: "/projects/kmx-chatgpt-01.png", alt: "ChatGPT app design 1" },

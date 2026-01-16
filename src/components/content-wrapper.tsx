@@ -15,13 +15,14 @@ interface ContentWrapperProps {
   /** Element type for outer container */
   as?: "div" | "header" | "section" | "main" | "footer";
   /** Spacing variant - uses collapsing margins */
-  spacing?: "none" | "text" | "media";
+  spacing?: "none" | "text" | "section" | "media";
 }
 
 const spacingClasses = {
   none: "",
-  text: "my-6", // 24px - collapses to 24px between adjacent text blocks
-  media: "my-[72px]", // 72px - collapses with adjacent media or dominates over text
+  text: "my-4", // 16px - collapses to 16px between adjacent text blocks
+  section: "mt-[112px]", // 112px top margin for section headers
+  media: "my-[112px]", // 112px - collapses with adjacent media or dominates over text
 };
 
 export function ContentWrapper({

@@ -134,8 +134,8 @@ export function BlockRenderer({ blocks, projectTitle }: BlockRendererProps) {
 
           case "heading":
             return (
-              <ContentWrapper key={index} hasMaxWidth spacing="text">
-                <h4 className="text-lg font-semibold mt-4">
+              <ContentWrapper key={index} hasMaxWidth spacing="section">
+                <h4 className="text-lg font-semibold">
                   {block.content}
                 </h4>
               </ContentWrapper>
@@ -174,7 +174,7 @@ export function BlockRenderer({ blocks, projectTitle }: BlockRendererProps) {
             return (
               <ContentWrapper
                 key={index}
-                hasMaxWidth={false}
+                hasMaxWidth={block.constrainWidth ?? false}
                 spacing="media"
                 className="grid gap-2"
                 style={{ gridTemplateColumns: `repeat(${columns}, 1fr)` }}
