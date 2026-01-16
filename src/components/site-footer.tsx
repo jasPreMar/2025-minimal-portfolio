@@ -1,51 +1,38 @@
 "use client";
 
-import { motion } from "motion/react";
+import { useState, useEffect } from "react";
+
+const glyphs = ["•", "✢", "✳", "✶", "✻", "✽", "✽", "✻", "✶", "✳", "✢", "•"];
 
 export function SiteFooter() {
-    const text = "Made with ❤️ by Jason + Claude";
+    const [currentGlyphIndex, setCurrentGlyphIndex] = useState(0);
+    const [isBigHeart, setIsBigHeart] = useState(true);
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setCurrentGlyphIndex((prev) => (prev + 1) % glyphs.length);
+        }, 200);
+
+        return () => clearInterval(interval);
+    }, []);
+
+    useEffect(() => {
+        // Heartbeat animation: big → small → big → pause
+        const heartbeat = () => {
+            setIsBigHeart(false); // small
+            setTimeout(() => setIsBigHeart(true), 100); // back to big
+        };
+
+        const interval = setInterval(heartbeat, 800); // heartbeat every 800ms
+
+        return () => clearInterval(interval);
+    }, []);
 
     return (
-        <footer className="mt-6">
-            <motion.div
-                className="relative w-20 h-20"
-                animate={{ rotate: -360 }}
-                transition={{
-                    duration: 15,
-                    ease: "linear",
-                    repeat: Infinity,
-                }}
-            >
-                <svg
-                    viewBox="0 0 100 100"
-                    className="w-full h-full"
-                >
-                    <defs>
-                        <path
-                            id="circlePath"
-                            d="M 50, 50 m -38, 0 a 38,38 0 1,1 76,0 a 38,38 0 1,1 -76,0"
-                            fill="none"
-                        />
-                    </defs>
-                    <text 
-                        fontSize="12"
-                        fontWeight="500"
-                        letterSpacing="0.06em"
-                        style={{ 
-                            fill: 'var(--secondary)',
-                            textTransform: 'uppercase',
-                            fontFamily: 'var(--font-sans), system-ui, sans-serif'
-                        }}
-                    >
-                        <textPath
-                            href="#circlePath"
-                            startOffset="0%"
-                        >
-                            {text}
-                        </textPath>
-                    </text>
-                </svg>
-            </motion.div>
+        <footer className="mt-6 mb-6">
+            <div className="text-center text-secondary text-sm font-mono">
+                Made with {isBigHeart ? "❤" : "♥"} by Jason Marsh and {glyphs[currentGlyphIndex]}
+            </div>
         </footer>
     );
 }

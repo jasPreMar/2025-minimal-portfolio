@@ -3,6 +3,7 @@ import { Inter, Lato, Space_Mono } from "next/font/google";
 import localFont from "next/font/local";
 import "./globals.css";
 import { AnimatedHeader } from "@/components/animated-header";
+import { SiteFooter } from "@/components/site-footer";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -53,9 +54,12 @@ export default function RootLayout({
       <body
         className={`${inter.variable} ${lato.variable} ${carmaxSharpSans.variable} ${spaceMono.variable} antialiased`}
       >
-        <div className="flex flex-col mt-28 mb-28">
+        <div className="flex flex-col mt-28 min-h-screen">
           <AnimatedHeader />
-          {children}
+          <div className="flex-1">
+            {children}
+          </div>
+          <SiteFooter />
         </div>
       </body>
     </html>

@@ -5,6 +5,8 @@ import { InteractiveImage } from "@/components/interactive-image";
 import { Badge } from "@/components/ui/badge";
 import { notFound } from "next/navigation";
 import { ContentWrapper } from "@/components/content-wrapper";
+import { NextProjectSection } from "@/components/next-project-section";
+import { getNextProject } from "@/lib/project-navigation";
 
 // Revalidate every 60 seconds (ISR)
 export const revalidate = 60;
@@ -107,6 +109,9 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
 
   // Use subtitle if available, otherwise use the default one-liner
   const oneLiner = project.subtitle || "A collection of real, impactful, and shipped projects.";
+
+  // Get the next project
+  const nextProject = await getNextProject(slug);
 
   return (
     <div className="flex flex-col gap-6">
@@ -215,6 +220,9 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
           </div>
         </ContentWrapper>
       )}
+
+      {/* Next Project Section */}
+      <NextProjectSection nextProject={nextProject} />
     </div>
   );
 }

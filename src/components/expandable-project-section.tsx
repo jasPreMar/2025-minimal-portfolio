@@ -7,7 +7,7 @@ import Link from "next/link";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Badge } from "@/components/ui/badge";
 
-interface Project {
+export interface Project {
   id: string;
   title: string;
   company: string;
@@ -284,7 +284,7 @@ function ThumbnailImage({
 }
 
 // Project link with thumbnail carousel inside
-function ProjectLinkWithThumbnails({
+export function ProjectLinkWithThumbnails({
   project,
   href,
   isExpanded,

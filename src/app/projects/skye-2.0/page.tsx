@@ -2,6 +2,8 @@ import { BlockRenderer } from "@/components/block-renderer";
 import { skye2Project } from "@/lib/skye-2.0-data";
 import { ContentWrapper } from "@/components/content-wrapper";
 import { Badge } from "@/components/ui/badge";
+import { NextProjectSection } from "@/components/next-project-section";
+import { getNextProject } from "@/lib/project-navigation";
 
 // Static page - no revalidation needed
 export const dynamic = "force-static";
@@ -14,8 +16,9 @@ export function generateMetadata() {
   };
 }
 
-export default function Skye2Page() {
+export default async function Skye2Page() {
   const project = skye2Project;
+  const nextProject = await getNextProject(project.slug);
 
   return (
     <div>
@@ -66,6 +69,9 @@ export default function Skye2Page() {
           </div>
         </ContentWrapper>
       )}
+
+      {/* Next Project Section */}
+      <NextProjectSection nextProject={nextProject} />
     </div>
   );
 }

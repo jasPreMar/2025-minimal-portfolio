@@ -2,6 +2,8 @@ import { BlockRenderer } from "@/components/block-renderer";
 import { aiPatternLibraryProject } from "@/lib/ai-pattern-library-data";
 import { ContentWrapper } from "@/components/content-wrapper";
 import { Badge } from "@/components/ui/badge";
+import { NextProjectSection } from "@/components/next-project-section";
+import { getNextProject } from "@/lib/project-navigation";
 
 // Static page - no revalidation needed
 export const dynamic = "force-static";
@@ -14,8 +16,9 @@ export function generateMetadata() {
   };
 }
 
-export default function AIPatternLibraryPage() {
+export default async function AIPatternLibraryPage() {
   const project = aiPatternLibraryProject;
+  const nextProject = await getNextProject(project.slug);
 
   return (
     <div>
@@ -66,6 +69,9 @@ export default function AIPatternLibraryPage() {
           </div>
         </ContentWrapper>
       )}
+
+      {/* Next Project Section */}
+      <NextProjectSection nextProject={nextProject} />
     </div>
   );
 }
