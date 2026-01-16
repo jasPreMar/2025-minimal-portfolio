@@ -5,6 +5,7 @@ import { useState, useEffect, useCallback, useRef, useImperativeHandle, forwardR
 const PRISMATIC_DELAY_RATIO = 0.35; // Prismatic starts right on the heels of white shimmer
 
 const WORDS = [
+  "Designing",
   "Actioning",
   "Actualizing",
   "Aligning",
@@ -32,7 +33,6 @@ const WORDS = [
   "Deliberating",
   "Delighting",
   "Delivering",
-  "Designing",
   "Determining",
   "Digging",
   "Discovering",
@@ -49,8 +49,6 @@ const WORDS = [
   "Forming",
   "Framing",
   "Generating",
-  "Gradating",
-  "Gridding",
   "Grouping",
   "Guiding",
   "Harmonizing",
@@ -63,7 +61,6 @@ const WORDS = [
   "Intuiting",
   "Iterating",
   "Jamming",
-  "Kerning",
   "Layering",
   "Levitating",
   "Listening",
@@ -88,17 +85,14 @@ const WORDS = [
   "Refactoring",
   "Refining",
   "Rendering",
-  "Reticulating",
   "Ruminating",
   "Scaling",
   "Scoping",
   "Sensing",
-  "Shadowing",
   "Simmering",
   "Simplifying",
   "Sketching",
   "Solving",
-  "Spacing",
   "Studying",
   "Synthesizing",
   "Systematizing",
@@ -108,7 +102,6 @@ const WORDS = [
   "Transforming",
   "Transitioning",
   "Transmuting",
-  "Tweening",
   "Typesetting",
   "Vectoring",
   "Vibe coding",
@@ -117,6 +110,7 @@ const WORDS = [
 ];
 
 const LOCATIONS = [
+  "New York",
   "the City",
   "Work Island",
   "Brooklyn",
@@ -127,7 +121,6 @@ const LOCATIONS = [
   "the Big Apple",
   "NYC",
   "the 718",
-  "the L train",
   "Kings County",
   "north Brooklyn",
   "Billyburg",
@@ -143,8 +136,6 @@ const LOCATIONS = [
   "McCarren Park",
   "Domino Park",
   "the 11211",
-  "the BQE",
-  "the waterfront",
 ];
 
 interface ShimmerTextProps {
@@ -173,13 +164,13 @@ export interface ShimmerTextRef {
 
 const ShimmerTextComponent = forwardRef<ShimmerTextRef, ShimmerTextProps>(({
   wipeDuration = 0.65,
-  pauseDuration = 3.35, // Adjusted so total cycle is 4 seconds (3.35 + 0.65 = 4)
+  pauseDuration = 5.025, // Adjusted so total cycle is 5.675 seconds (5.025 + 0.65 = 5.675)
   initialShimmerDelay,
   initialWord,
   initialLocation,
 }, ref) => {
-  const [currentWord, setCurrentWord] = useState("Vibing");
-  const [previousWord, setPreviousWord] = useState("Vibing");
+  const [currentWord, setCurrentWord] = useState("Designing");
+  const [previousWord, setPreviousWord] = useState("Designing");
   const [currentLocation, setCurrentLocation] = useState("New York");
   const [previousLocation, setPreviousLocation] = useState("New York");
   const [isAnimating, setIsAnimating] = useState(false);
