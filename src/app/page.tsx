@@ -112,7 +112,7 @@ export default async function Home() {
   const projects = [chatgptAppHomeProject, aiPatternLibraryHomeProject, skye2HomeProject, ...notionProjects];
 
   return (
-    <StaggeredFadeIn initialDelay={0.25} staggerDelay={0.18} duration={0.45}>
+    <StaggeredFadeIn initialDelay={0.25} staggerDelay={0.18} duration={0.45} className="pt-28">
       {/* Section 1: Projects - only renders if there are projects */}
       {projects.length > 0 && (
         <ContentWrapper>

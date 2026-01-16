@@ -17,6 +17,10 @@ interface StaggeredFadeInProps {
    * Duration of each fade-in animation (in seconds)
    */
   duration?: number;
+  /**
+   * Additional className for the wrapper div
+   */
+  className?: string;
 }
 
 const itemVariants = {
@@ -35,12 +39,13 @@ export function StaggeredFadeIn({
   initialDelay = 0.1,
   staggerDelay = 0.15,
   duration = 0.5,
+  className = "",
 }: StaggeredFadeInProps) {
   // Convert children to array and filter out null/undefined/false
   const validChildren = React.Children.toArray(children).filter(Boolean);
 
   return (
-    <div className="flex flex-col gap-20 pt-20">
+    <div className={`flex flex-col gap-20 pt-20 ${className}`.trim()}>
       {validChildren.map((child, index) => (
         <motion.div
           key={index}

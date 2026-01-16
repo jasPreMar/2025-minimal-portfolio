@@ -56,7 +56,7 @@ export default function RootLayout({
       >
         <div className="flex flex-col mt-28 min-h-screen">
           <AnimatedHeader />
-          <div className="flex-1">
+          <div className="flex-1 pb-28">
             {children}
           </div>
           <SiteFooter />
