@@ -13,6 +13,7 @@ export interface ProjectForLink {
   finalScreens?: string[];
   subtitle?: string;
   featured?: boolean;
+  [key: string]: unknown;
 }
 
 // Get all projects in the same order as the home page
