@@ -4,6 +4,7 @@ import { getAllProjects, type NotionProject } from "@/lib/notion";
 import { ExpandableProjectSection } from "@/components/expandable-project-section";
 import { chatgptAppProject } from "@/lib/chatgpt-app-data";
 import { aiPatternLibraryProject } from "@/lib/ai-pattern-library-data";
+import { skye2Project } from "@/lib/skye-2.0-data";
 import { ContentWrapper } from "@/components/content-wrapper";
 
 // Revalidate every 60 seconds (ISR)
@@ -53,14 +54,34 @@ export default async function Home() {
   const sideProjects = allProjects.filter((p) => p.projectType === "Side Project");
 
   // Create hardcoded project entries for the home page carousel
+  const skye2HomeProject = {
+    id: "hardcoded-skye-2",
+    title: skye2Project.title,
+    company: skye2Project.company,
+    slug: skye2Project.slug,
+    heroImages: ["/projects/skye-2.0-hero-chat-redesign.png"],
+    finalScreens: [
+      "/projects/skye-2.0-vision-board-week-one.png",
+      "/projects/skye-2.0-component-library-overview-1.png",
+      "/projects/skye-2.0-desktop-chat-ui.png",
+      "/projects/skye-2.0-snippets.png",
+      "/projects/skye-2.0-escalation-flow-screens.png",
+      "/projects/skye-2.0-github-pr-activity.png",
+      "/projects/skye-2.0-feedback-sketches.png",
+      "/projects/skye-2.0-feedback-rating-final.png",
+      "/projects/skye-2.0-car-carousel-inline.png",
+    ],
+    subtitle: skye2Project.subtitle,
+    featured: false,
+  };
+
   const chatgptAppHomeProject = {
     id: "hardcoded-chatgpt-app",
     title: chatgptAppProject.title,
     company: chatgptAppProject.company,
     slug: chatgptAppProject.slug,
-    heroImages: ["/projects/Final Multi-car.png"],
+    heroImages: ["/projects/Chat GPT Hero.png"],
     finalScreens: [
-      "/projects/Personal AI concept.png",
       "/projects/Mock ChatGPT app.png",
       "/projects/Mock OpenAI logos.png",
       "/projects/MVP Single car.png",
@@ -88,7 +109,7 @@ export default async function Home() {
   };
 
   // Prepend hardcoded projects to the list
-  const projects = [chatgptAppHomeProject, aiPatternLibraryHomeProject, ...notionProjects];
+  const projects = [chatgptAppHomeProject, aiPatternLibraryHomeProject, skye2HomeProject, ...notionProjects];
 
   return (
     <StaggeredFadeIn initialDelay={0.25} staggerDelay={0.18} duration={0.45}>

@@ -1,0 +1,123 @@
+# Designing CarMax's AI Transformation
+*Two years of concepts, prototypes, and shipping with AI at CarMax*
+
+[hero]
+
+This case study covers two years of **redesigning** CarMax's **chat assistant** for an **LLM** foundation, crafting a **design system**, **prototyping in code**, and designing our first **ChatGPT app**. My work contributed to **30% improved customer engagement**, **15% reduction in escalations**, a team of the quarter award, and shout outs at earnings calls.
+
+---
+
+### The CarMax ChatGPT App
+A New, AI-native car shopping product
+
+[Image: hero image of the top of the app]
+
+In 2025, CarMax made a big bet on **AI** to assist customers in shopping for cars. Our only solution was in-house, not where shoppers actually spend time. Since more and more people use **ChatGPT** for all kinds of things, I ran **user research** to test car shopping with it.
+
+1. Everybody was surprised by how much they loved it.
+2. It was incomplete.
+
+So the very day that OpenAI [announced](https://www.youtube.com/watch?v=2C4Cs6503gw&t=7s) the **ChatGPT Apps** platform, I **identified the opportunity** and moved fast: beat Carvana to the **AI-native** market.
+
+
+#### 10-Minute Mock
+Immediately after the announcement, I patched together an app mock from screenshots of ChatGPT and Spotify’s app. Then I mocked a fake OpenAI co-branded page showing Carvana as a partner to show that our competitor might beat us to market. I sent both assets up the chain (along with a clarification that it wasn’t a real partnership).
+
+[Image: Mock of ChatGPT app]
+[Image: Mock of OpenAI logos]
+
+#### Adapting to ChatGPT's Constraints
+A few weeks later, I was added to a team to sprint on building the app. I started by reading OpenAI’s design guidelines. It confirmed the importance of the app feeling like a native part of ChatGPT. Then, using components from CarMax's official Figma file, I refined the design and created both MVP and final versions, allowing engineers to ship incrementally.
+
+[Image: MVP screens]
+[Image: Final design screens]
+
+#### Conclusion
+I positioned CarMax to be the first car shopping app in ChatGPT by moving fast on mocks and specs.
+
+---
+
+### AI Pattern Library
+*Unifying AI experiences across CarMax*
+
+[hero]
+
+After launching CarMax's first **AI chat**, Skye, many teams were starting to build **AI features** into their products. So I created a **design system for conversational AI** with **components in Figma** and **interactive prototypes in code**, so other teams could ship **generative AI** experiences quickly and consistently.
+
+#### Core Component Library in Figma
+In one week I deconstructed our Skye chat interface into core components like input, messages, responses, and chain of thought. I worked backward from our base MUI components and styles to keep it cohesive with the rest of our experience.
+
+There were many AI capabilities we didn't have yet, such as response streaming and multi-modal input, but I incorporated them into the system anyway so teams would be ready when we added them later.
+
+[a cluster of components]
+[variants of one component]
+[markdown styles]
+[gif of a response streaming]
+
+#### Car Shopping Components
+I also enhanced the design of the search results carousel. The new design looked more consistent with the design of the rest, so felt more like a part of the site. It also included new buttons that give users the ability to take actions such as save or reserve on cars they like right from chat.
+
+[Show various inline components in one image]
+
+#### Interaction Design in Code
+I built interactive prototypes in code using Storybook, demonstrating streaming, scroll positioning, and voice mode that static Figma couldn't capture.
+
+[Screenshots of storybook component gif for prompt composer]
+
+#### Conclusion
+With this extension to our design system, one team shipped a new AI chat product in two weeks. This work also created a shared visual and interactive language for AI experiences across the company.
+
+---
+
+### Skye 2.0:
+*Reinventing Carmax's Chatbot as an AI Shopping Assistant*
+
+[hero]
+
+I **redesigned** Skye's UI around **generative AI**, resulting in **30% higher user satisfaction** and **15% fewer escalations**. When I joined the team, our help chat was a limited, deterministic bot with more negative satisfaction ratings than positive. Meanwhile, ChatGPT was taking over. So I made **prototypes** showing what our chat could be with **LLMs**, **pitched the vision**, and got stakeholders on board to rebuild from the ground up.
+
+[Vision board]
+*A vision board full of ideas that I created during my first week on the team.*
+
+#### Core Chat Components
+I created a library of chat components such as the Header, User Input, Conversation, and Messages. I focused on simplicity, speed, and directness to contrast with our previous UI, which was cluttered, slow, and obstructive.
+
+[ gallery components]
+[desktop view of the new chat UI with core components]
+
+#### Escalation & Events
+Live agent escalation was broken. The problem was that conversations would end automatically after de-escalating, forcing users to lose their history. This was unnecessary, so I redesigned it so the conversation kept going and made the connection status visible in the UI.
+
+#### Snippets & Escalation
+To answer user questions in the period before we had an AI provider, our lead dev suggested using a capability that matched a question to content on carmax.com. Since the data contained text and a link, I designed two versions: A rich link and a quoted text link similar to what you might find in Apple Messages. We called them Snippets. In anticipation of snippets getting many answers wrong, I designed it to automatically suggested escalation after the snippet was shown.
+
+De-escalation were broken. They would end automatically after the live agent left, forcing users to lose their chat history. So I designed it so the conversation continued and displayed the connection status in the UI.
+
+[Chat screenshot with a snippet]
+[Screens of escalation and de-escalation steps]
+
+#### Failure & Turnaround
+The version we shipped relied on knowledge found on carmax.com, but there wasn’t enough content to satisfy most users’ questions. The front-end still needed a lot of work, but engineers needed to focus on improving Skye’s knowledge. So I stepped in to work on front-end development for a couple of months, bringing the front-end in line with the design and giving our devs a little extra capacity. Our engineers then created our first working POC with LLMs, which fixed everything. I user tested this and shared recordings with stakeholders, which convinced them to partner with Microsoft quickly.
+
+[PRs and my Github activity]
+
+#### Feedback & Rating
+Now that chat responses were generative, it was imperative for me to design a way for users to rate them. It was also time we improved how we measured the user's chat experience. This was to make sure we didn't only define success as cost savings, but also as improvement to the experience. I needed to find the right point in the conversation to prompt for feedback without interrupting flow. It turned out, the answer was not to place it in the conversation at all, but to make it appear when you close the chat — a natural end point. For this, I designed an emoji rating component with subtle motion to increase likelihood of engagement.
+
+[Feedback sketches]
+[Gif of prototype for feedback]
+
+#### Inline Components
+Showing car search results in chat resulted in long bulleted lists that were laborious to read through. To solve this, I designed an inline carousel of car cards. The nice thing about carousels was that they were used all over the site and thus familiar. CSS scroll snap gave us native-feeling behavior without the burden of custom JS.
+
+[gif of the shopping results carousel]
+*Inline Carousel. One month after designing this, ChatGPT officially announced their Shopping feature, which also landed on using an inline carousel for results, which reinforced that I was on the right track.*
+
+#### Conclusion
+The 30% increase in customer satisfaction alone justified an increased investment in AI at CarMax. Meanwhile, live agent chats improved 10%. This indicated that some gains were from the redesign rather than just LLMs. On top of that, there was a 15% improvement in containment compared to 1.0, which meant we both improved the experience and saved the company money.
+
+---
+
+### 4. Closing
+
+I transformed Skye from a frustrating decision‑tree chatbot to a measurable, LLM‑powered product. Then I turned that into a scalable design system and finally an app concept that pushes CarMax into new AI-native marketplaces. Throughout this project, I’ve become more of a self-directed design engineer who builds and thinks strategically.

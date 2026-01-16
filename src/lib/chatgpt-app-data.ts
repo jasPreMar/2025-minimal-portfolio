@@ -37,23 +37,7 @@ export const chatgptAppProject: HardcodedProject = {
     {
       type: "text",
       content:
-        "CarMax's AI assistant, Skye, lived only on carmax.com, which meant it had zero presence where shoppers actually spent their time. 6 months prior, I was conceiving of an opportunity for Skye to integrate more closely with the kind of AI assistants that people use every day.",
-    },
-    {
-      type: "image",
-      src: "/projects/Personal AI concept.png",
-      alt: "Personal AI concept exploration",
-      constrainWidth: true,
-    },
-    {
-      type: "text",
-      content:
-        "OpenAI had spent the year placing big bets on [shopping](https://openai.com/index/chatgpt-shopping-research/) and [buying](https://www.youtube.com/watch?v=C6qcZdtIv54&t=2s) in ChatGPT. And the moment that OpenAI [announced](https://www.youtube.com/watch?v=2C4Cs6503gw&t=7s) ChatGPT Apps, it was clear that we needed to act.",
-    },
-    {
-      type: "text",
-      content:
-        "My goal was for us to beat our competitor to market. To do this, I needed to make the opportunity as clear as possible to internal stakeholders. Then, I needed to craft a clean, shippable, native-feeling ChatGPT app that stood a high chance of being approved.",
+        "In 2025, CarMax made a big bet on **AI** to assist customers in shopping for cars. Our only solution was in-house, not where shoppers actually spend time. Since more and more people use **ChatGPT** for all kinds of things, I ran **user research** to test car shopping with it.\n\n1. Everybody was surprised by how much they loved it.\n2. It was incomplete.\n\nSo the very day that OpenAI [announced](https://www.youtube.com/watch?v=2C4Cs6503gw&t=7s) the **ChatGPT Apps** platform, I **identified the opportunity** and moved fast: beat Carvana to the **AI-native** market.",
     },
     {
       type: "heading",
@@ -62,15 +46,15 @@ export const chatgptAppProject: HardcodedProject = {
     {
       type: "text",
       content:
-        "Immediately after the announcement ended, I made a mock by patching together pieces of ChatGPT and Spotify app screenshots. It depicted a simple flow that showed a user querying a CarMax app in ChatGPT and engaging with shopping results. While the mock was believable and effective, it was just as important to show that our competitor might beat us to market. So I also mocked an OpenAI co-branded page showing Carvana as a partner. With both of these assets I had the carrot and stick I needed to make a convincing pitch, all in about 10 minutes. It worked — the response was near instant.",
+        "Immediately after the announcement, I patched together an app mock from screenshots of ChatGPT and Spotify's app. Then I mocked a fake OpenAI co-branded page showing Carvana as a partner to show that our competitor might beat us to market. I sent both assets up the chain (along with a clarification that it wasn't a real partnership).",
     },
     {
       type: "imageGrid",
       columns: 1,
       aspectRatio: "intrinsic",
       images: [
-        { src: "/projects/Mock.png", alt: "Mock of CarMax ChatGPT app" },
-        { src: "/projects/Mock OpenAI logos.png", alt: "Mock of OpenAI partner logos including competitor" },
+        { src: "/projects/Mock ChatGPT app.png", alt: "Mock of ChatGPT app" },
+        { src: "/projects/Mock OpenAI logos.png", alt: "Mock of OpenAI logos" },
       ],
     },
     {
@@ -80,31 +64,24 @@ export const chatgptAppProject: HardcodedProject = {
     {
       type: "text",
       content:
-        "Several weeks later, stakeholders were aligned and the decision was made to build the app. Immediately, I looked to refine the design to make building it as straightforward as possible. I read through the UX and UI guides on OpenAI's site, which confirmed that it was important that the app feels native. Crucially, this helped me convince stakeholders that the design details were important. Then, using components from CarMax's official Figma file, I refined the design and created both MVP and final versions, allowing engineers to ship incrementally.",
-    },
-    {
-      type: "text",
-      content:
-        "1. Two MVP flows — one with an inline card for a single car, and another with an inline carousel for multiple cars — that opened an in-app browser on tap. This meant we could start by building only the inline elements, and not the full page views (yet).",
-    },
-    {
-      type: "image",
-      src: "/projects/MVP1.png",
-      alt: "MVP design showing single and multi-car inline flows",
-    },
-    {
-      type: "text",
-      content:
-        "2. Two fuller flows. These started the same with inline cards and carousels, but including a full screen view inside the app. After sharing it with my 2 devs, they wanted to see what it would look like to be able to switch between multiple cars in the fullscreen view too. It was a great idea, so I made one more addition to the multi-car variant of the full screen view.",
+        "A few weeks later, I was added to a team to sprint on building the app. I started by reading OpenAI's design guidelines. It confirmed the importance of the app feeling like a native part of ChatGPT. Then, using components from CarMax's official Figma file, I refined the design and created both MVP and final versions, allowing engineers to ship incrementally.",
     },
     {
       type: "imageGrid",
       columns: 1,
       aspectRatio: "intrinsic",
       images: [
-        { src: "/projects/Single car.png", alt: "Single car design" },
-        { src: "/projects/Multi-car.png", alt: "Multi-car design" },
-        { src: "/projects/Desktop.png", alt: "Desktop design" },
+        { src: "/projects/MVP Single car.png", alt: "MVP screens" },
+        { src: "/projects/MVP Multi-car.png", alt: "MVP screens" },
+      ],
+    },
+    {
+      type: "imageGrid",
+      columns: 1,
+      aspectRatio: "intrinsic",
+      images: [
+        { src: "/projects/Final Single car.png", alt: "Final design screens" },
+        { src: "/projects/Final Multi-car.png", alt: "Final design screens" },
       ],
     },
     {
@@ -114,7 +91,7 @@ export const chatgptAppProject: HardcodedProject = {
     {
       type: "text",
       content:
-        "Our MVP version of the app is now being shipped and designs are ready for engineers to build an improved experience in the following weeks. In the end, this was a successful exercise in taking decisive action, influencing the business, and moving fast while still focusing on craft and quality. Now we stand a chance to have an early mover advantage with one of the first car shopping apps in ChatGPT. And we'll need to move even faster to keep pace with ChatGPT's own internal shopping marketplace ambitions.",
+        "I positioned CarMax to be the first car shopping app in ChatGPT by moving fast on mocks and specs.",
     },
   ],
 };
