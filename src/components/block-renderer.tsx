@@ -4,38 +4,99 @@ import { InteractiveImage } from "@/components/interactive-image";
 import { ContentWrapper } from "@/components/content-wrapper";
 import type { ContentBlock } from "@/lib/chatgpt-app-data";
 
-// Parse markdown-style links [text](url) into JSX
+// Parse markdown-style links [text](url) and bold **text** into JSX
 function parseTextWithLinks(text: string): React.ReactNode {
-  const linkRegex = /\[([^\]]+)\]\(([^)]+)\)/g;
   const parts: React.ReactNode[] = [];
   let lastIndex = 0;
+  let keyCounter = 0;
+  
+  // Find all markdown elements (links and bold)
+  const elements: Array<{ type: 'link' | 'bold'; start: number; end: number; content: string; url?: string }> = [];
+  
+  // Find all links
+  const linkRegex = /\[([^\]]+)\]\(([^)]+)\)/g;
   let match;
-
   while ((match = linkRegex.exec(text)) !== null) {
-    // Add text before the link
-    if (match.index > lastIndex) {
-      parts.push(text.slice(lastIndex, match.index));
-    }
-    // Add the link
-    parts.push(
-      <a
-        key={match.index}
-        href={match[2]}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="underline underline-offset-2 hover:text-secondary transition-colors"
-      >
-        {match[1]}
-      </a>
-    );
-    lastIndex = match.index + match[0].length;
+    elements.push({
+      type: 'link',
+      start: match.index,
+      end: match.index + match[0].length,
+      content: match[1],
+      url: match[2],
+    });
   }
-
+  
+  // Find all bold text (but skip if inside a link)
+  const boldRegex = /\*\*([^*]+)\*\*/g;
+  while ((match = boldRegex.exec(text)) !== null) {
+    const boldStart = match.index;
+    const boldEnd = match.index + match[0].length;
+    
+    // Check if this bold is inside any link
+    const isInsideLink = elements.some(
+      (el) => el.type === 'link' && boldStart >= el.start && boldEnd <= el.end
+    );
+    
+    if (!isInsideLink) {
+      elements.push({
+        type: 'bold',
+        start: boldStart,
+        end: boldEnd,
+        content: match[1],
+      });
+    }
+  }
+  
+  // Sort by position
+  elements.sort((a, b) => a.start - b.start);
+  
+  // Remove overlapping elements (keep the first one found)
+  const filteredElements: typeof elements = [];
+  for (const element of elements) {
+    const overlaps = filteredElements.some(
+      (existing) => !(element.end <= existing.start || element.start >= existing.end)
+    );
+    if (!overlaps) {
+      filteredElements.push(element);
+    }
+  }
+  
+  // Build the result
+  for (const element of filteredElements) {
+    // Add text before the element
+    if (element.start > lastIndex) {
+      parts.push(text.slice(lastIndex, element.start));
+    }
+    
+    // Add the element
+    if (element.type === 'link') {
+      parts.push(
+        <a
+          key={`link-${keyCounter++}`}
+          href={element.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="underline underline-offset-2 hover:text-secondary transition-colors"
+        >
+          {element.content}
+        </a>
+      );
+    } else if (element.type === 'bold') {
+      parts.push(
+        <strong key={`bold-${keyCounter++}`} className="font-semibold">
+          {element.content}
+        </strong>
+      );
+    }
+    
+    lastIndex = element.end;
+  }
+  
   // Add remaining text
   if (lastIndex < text.length) {
     parts.push(text.slice(lastIndex));
   }
-
+  
   return parts.length > 0 ? parts : text;
 }
 
