@@ -3,7 +3,7 @@ export type ContentBlock =
   | { type: "hero"; src: string; alt: string }
   | { type: "text"; content: string }
   | { type: "heading"; content: string }
-  | { type: "image"; src: string; alt: string; constrainWidth?: boolean; objectFit?: "cover" | "contain" }
+  | { type: "image"; src: string; alt: string; constrainWidth?: boolean; objectFit?: "cover" | "contain"; caption?: string }
   | { type: "imagePair"; images: { src: string; alt: string; objectFit?: "cover" | "contain" }[] }
   | { type: "imageGrid"; images: { src: string; alt: string; colSpan?: number; aspectRatio?: "video" | "square" | "2/1" | "intrinsic"; objectFit?: "cover" | "contain" }[]; columns?: number; aspectRatio?: "video" | "square" | "2/1" | "intrinsic"; constrainWidth?: boolean };
 

@@ -24,11 +24,7 @@ export const skye2Project: HardcodedProject = {
       type: "image",
       src: "/projects/skye-2.0-vision-board-week-one.png",
       alt: "A vision board full of ideas that I created during my first week on the team",
-    },
-    {
-      type: "text",
-      content:
-        "*A vision board full of ideas that I created during my first week on the team.*",
+      caption: "A vision board full of ideas that I created during my first week on the team.",
     },
     {
       type: "heading",
@@ -127,11 +123,7 @@ export const skye2Project: HardcodedProject = {
       type: "image",
       src: "/projects/skye-2.0-car-carousel-inline.png",
       alt: "Gif of the shopping results carousel",
-    },
-    {
-      type: "text",
-      content:
-        "*Inline Carousel. One month after designing this, ChatGPT officially announced their Shopping feature, which also landed on using an inline carousel for results, which reinforced that I was on the right track.*",
+      caption: "Inline Carousel. One month after designing this, ChatGPT officially announced their Shopping feature, which also landed on using an inline carousel for results, which reinforced that I was on the right track.",
     },
     {
       type: "heading",

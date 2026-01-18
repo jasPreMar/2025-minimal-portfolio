@@ -144,12 +144,19 @@ export function BlockRenderer({ blocks, projectTitle }: BlockRendererProps) {
           case "image":
             return (
               <ContentWrapper key={index} hasMaxWidth={block.constrainWidth ?? false} spacing="media">
-                <InteractiveImage
-                  src={block.src}
-                  alt={block.alt}
-                  aspectRatio="intrinsic"
-                  objectFit={block.objectFit}
-                />
+                <figure>
+                  <InteractiveImage
+                    src={block.src}
+                    alt={block.alt}
+                    aspectRatio="intrinsic"
+                    objectFit={block.objectFit}
+                  />
+                  {block.caption && (
+                    <figcaption className="text-sm text-secondary mt-3 max-w-[608px] mx-auto text-center">
+                      {block.caption}
+                    </figcaption>
+                  )}
+                </figure>
               </ContentWrapper>
             );
 
