@@ -15,7 +15,7 @@ export type HardcodedProject = {
   companyLogo?: string;
   tags: string[];
   featured?: boolean;
-  status?: "live" | "in-flight";
+  status?: "live" | "in-flight" | "tested";
   blocks: ContentBlock[];
 };
 

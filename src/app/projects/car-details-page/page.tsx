@@ -28,8 +28,14 @@ export default async function CarDetailsPageProject() {
           {/* Mobile: Badge above title */}
           {project.status && (
             <div className="sm:hidden">
-              <Badge variant={project.status === "live" ? "live" : "in-flight"}>
-                {project.status === "live" ? "Live" : "In flight"}
+              <Badge variant={
+                project.status === "live" ? "live" : 
+                project.status === "tested" ? "tested" : 
+                "in-flight"
+              }>
+                {project.status === "live" ? "Live" : 
+                 project.status === "tested" ? "Tested" : 
+                 "In flight"}
               </Badge>
             </div>
           )}
@@ -40,10 +46,16 @@ export default async function CarDetailsPageProject() {
             </h1>
             {project.status && (
               <Badge 
-                variant={project.status === "live" ? "live" : "in-flight"}
+                variant={
+                  project.status === "live" ? "live" : 
+                  project.status === "tested" ? "tested" : 
+                  "in-flight"
+                }
                 className="hidden sm:flex sm:mt-2"
               >
-                {project.status === "live" ? "Live" : "In flight"}
+                {project.status === "live" ? "Live" : 
+                 project.status === "tested" ? "Tested" : 
+                 "In flight"}
               </Badge>
             )}
           </div>

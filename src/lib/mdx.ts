@@ -13,7 +13,7 @@ export type MDXProject = {
   companyLogo?: string;
   tags: string[];
   featured?: boolean;
-  status?: "live" | "in-flight";
+  status?: "live" | "in-flight" | "tested";
   startDate: string;
   endDate?: string | null;
   heroImages: string[];

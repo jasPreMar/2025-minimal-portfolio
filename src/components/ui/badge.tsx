@@ -22,6 +22,8 @@ const badgeVariants = cva(
         live: "rounded-md bg-[oklch(0.94_0.04_142)] text-[oklch(0.45_0.15_142)] dark:bg-[oklch(0.25_0.08_142)] dark:text-[oklch(0.70_0.12_142)]",
         // In-flight variant - blue with flat style and dot
         "in-flight": "rounded-md bg-[oklch(0.94_0.04_252)] text-[oklch(0.55_0.2_252)] dark:bg-[oklch(0.25_0.08_252)] dark:text-[oklch(0.72_0.14_252)]",
+        // Tested variant - orange with flat style and dot
+        tested: "rounded-md bg-orange-100 text-orange-700 dark:bg-orange-950 dark:text-orange-300",
       },
     },
     defaultVariants: {
@@ -35,7 +37,7 @@ export interface BadgeProps
     VariantProps<typeof badgeVariants> {}
 
 function Badge({ className, variant, children, ...props }: BadgeProps) {
-  const showDot = variant === "live" || variant === "in-flight";
+  const showDot = variant === "live" || variant === "in-flight" || variant === "tested";
   
   return (
     <div className={cn(badgeVariants({ variant }), className)} {...props}>

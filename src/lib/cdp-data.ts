@@ -8,7 +8,7 @@ export const cdpProject: HardcodedProject = {
   companyLogo: "/logos/carmax-logo.svg",
   tags: ["Mobile", "E-commerce", "UX"],
   featured: false,
-  status: "live",
+  status: "tested",
   blocks: [
     {
       type: "hero",
