@@ -389,7 +389,7 @@ export function ProjectLinkWithThumbnails({
     <Link
       ref={linkRef}
       href={href}
-      className={`group flex flex-col rounded-xl px-3 -mx-3 py-2 min-[480px]:py-2 ${
+      className={`group flex flex-col rounded-xl px-3 -mx-3 pt-2 pb-3 min-[480px]:pt-2 min-[480px]:pb-3 ${
         showHoverBg ? "bg-black/5 dark:bg-white/5" : "bg-transparent"
       }`}
       style={{
@@ -456,16 +456,33 @@ export function ProjectLinkWithThumbnails({
       {/* Animated thumbnail container */}
       {(() => {
         const allImages = [...project.heroImages, ...(project.finalScreens || [])];
+        const paddingTop = 12;
+        const paddingBottom = 20;
+        const thumbnailHeight = 90;
+        const totalHeight = thumbnailHeight + paddingTop + paddingBottom; // 126px
+        
         return (
           <div
-            className="overflow-hidden transition-all duration-300 ease-out"
+            className="overflow-visible transition-all duration-300 ease-out"
             style={{
-              maxHeight: isExpanded && allImages.length > 0 ? "110px" : "0px",
+              maxHeight: isExpanded && allImages.length > 0 ? `${totalHeight}px` : "0px",
               opacity: isExpanded ? 1 : 0,
               marginTop: isExpanded && allImages.length > 0 ? "4px" : "0px",
+              marginBottom: isExpanded && allImages.length > 0 ? `-${paddingBottom}px` : "0px",
+              clipPath: "inset(0 -100px)",
             }}
           >
-            <div className="flex gap-2 overflow-x-auto scrollbar-hide py-1">
+            <div 
+              className="flex gap-2 overflow-x-auto scrollbar-hide"
+              style={{
+                marginLeft: "-12px",
+                marginRight: "-12px",
+                paddingLeft: "12px",
+                paddingRight: "12px",
+                paddingTop: `${paddingTop}px`,
+                paddingBottom: `${paddingBottom}px`,
+              }}
+            >
               {allImages.map((src, index) => (
                 <ThumbnailImage
                   key={`${src}-${index}`}
