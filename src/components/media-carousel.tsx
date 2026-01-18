@@ -28,6 +28,7 @@ function MediaItemPreview({
     return (
       <div
         className={`carousel-item flex-shrink-0 ${height} aspect-video rounded-3xl overflow-hidden cursor-pointer snap-center bg-muted image-inner-shadow`}
+        style={{ boxShadow: "0 4px 16px 0 rgba(0, 0, 0, 0.05)" }}
         onClick={onClick}
       >
         <iframe
@@ -44,7 +45,7 @@ function MediaItemPreview({
     return (
       <div
         className={`carousel-item flex-shrink-0 ${height} rounded-3xl overflow-hidden cursor-pointer relative snap-center bg-muted image-inner-shadow`}
-        style={{ aspectRatio }}
+        style={{ aspectRatio, boxShadow: "0 4px 16px 0 rgba(0, 0, 0, 0.05)" }}
         onClick={onClick}
       >
         <Image
@@ -68,7 +69,7 @@ function MediaItemPreview({
     return (
       <div
         className={`carousel-item flex-shrink-0 ${height} rounded-3xl overflow-hidden cursor-pointer relative bg-black snap-center image-inner-shadow`}
-        style={{ aspectRatio }}
+        style={{ aspectRatio, boxShadow: "0 4px 16px 0 rgba(0, 0, 0, 0.05)" }}
         onClick={onClick}
       >
         <video

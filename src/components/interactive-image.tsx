@@ -106,6 +106,7 @@ export function InteractiveImage({
         <>
           <div
             className={`relative w-full rounded-3xl overflow-hidden bg-muted cursor-zoom-in group ${className}`}
+            style={{ boxShadow: "0 4px 16px 0 rgba(0, 0, 0, 0.05)" }}
             onClick={() => setIsFullscreen(true)}
           >
             <div className="relative w-full flex items-center justify-center py-8 px-4">
@@ -145,6 +146,7 @@ export function InteractiveImage({
       <>
         <div
           className={`relative w-full rounded-3xl overflow-hidden bg-muted cursor-zoom-in group ${className}`}
+          style={{ boxShadow: "0 4px 16px 0 rgba(0, 0, 0, 0.05)" }}
           onClick={() => setIsFullscreen(true)}
         >
           <Image
@@ -179,6 +181,7 @@ export function InteractiveImage({
     <>
         <div
           className={`relative w-full ${aspectClass} rounded-3xl overflow-hidden bg-muted cursor-zoom-in group ${className}`}
+          style={{ boxShadow: "0 4px 16px 0 rgba(0, 0, 0, 0.05)" }}
           onClick={() => setIsFullscreen(true)}
         >
         <Image
