@@ -155,7 +155,7 @@ export function BlockRenderer({ blocks, projectTitle }: BlockRendererProps) {
 
           case "imagePair":
             return (
-              <ContentWrapper key={index} hasMaxWidth={false} spacing="media" className="grid grid-cols-2 gap-2">
+              <ContentWrapper key={index} hasMaxWidth={false} spacing="media" className="grid grid-cols-2 gap-4">
                 {block.images.map((img, imgIndex) => (
                   <InteractiveImage
                     key={imgIndex}
@@ -176,7 +176,7 @@ export function BlockRenderer({ blocks, projectTitle }: BlockRendererProps) {
                 key={index}
                 hasMaxWidth={block.constrainWidth ?? false}
                 spacing="media"
-                className="grid gap-2"
+                className="grid gap-4"
                 style={{ gridTemplateColumns: `repeat(${columns}, 1fr)` }}
               >
                 {block.images.map((img, imgIndex) => (
