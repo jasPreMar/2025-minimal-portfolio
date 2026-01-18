@@ -15,7 +15,7 @@ interface ContentWrapperProps {
   /** Element type for outer container */
   as?: "div" | "header" | "section" | "main" | "footer";
   /** Spacing variant - uses collapsing margins */
-  spacing?: "none" | "text" | "section" | "media";
+  spacing?: "none" | "text" | "section" | "media" | "mediaBottom";
 }
 
 const spacingClasses = {
@@ -23,6 +23,7 @@ const spacingClasses = {
   text: "my-4", // 16px - collapses to 16px between adjacent text blocks
   section: "mt-[112px]", // 112px top margin for section headers
   media: "my-[112px]", // 112px - collapses with adjacent media or dominates over text
+  mediaBottom: "mt-4 mb-[112px]", // 16px top, 112px bottom margin - for first/hero images
 };
 
 export function ContentWrapper({

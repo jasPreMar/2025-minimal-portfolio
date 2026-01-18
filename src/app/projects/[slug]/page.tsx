@@ -134,7 +134,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
 
       {/* Hero Image - Full Width with Padding */}
       {project.heroImages.length > 0 && (
-        <ContentWrapper hasMaxWidth={false}>
+        <ContentWrapper hasMaxWidth={false} spacing="mediaBottom">
           <InteractiveImage
             src={project.heroImages[0]}
             alt={`${project.title} hero image`}
@@ -182,12 +182,16 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
           rowIndex++;
         }
 
+        // First final screen row gets mediaBottom only if there's no hero image
+        const hasHeroImage = project.heroImages.length > 0;
+
         return (
           <div className="flex flex-col gap-2">
             {rows.map((row, rowIndex) => (
               <ContentWrapper
                 key={rowIndex}
                 hasMaxWidth={false}
+                spacing={!hasHeroImage && rowIndex === 0 ? "mediaBottom" : "media"}
                 className={row.images.length === 2 ? "grid grid-cols-2 gap-2" : ""}
               >
                 {row.images.map((screen, screenIndex) => (

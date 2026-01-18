@@ -23,7 +23,7 @@ export default async function AIPatternLibraryPage() {
   return (
     <div>
       {/* Project Title Section - 80px below header */}
-      <ContentWrapper outerClassName="-mb-12">
+      <ContentWrapper outerClassName="mb-0">
         <div className="flex flex-col gap-1 mt-20">
           {/* Mobile: Badge above title */}
           {project.status && (

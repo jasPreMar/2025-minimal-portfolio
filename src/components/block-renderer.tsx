@@ -107,13 +107,22 @@ interface BlockRendererProps {
 }
 
 export function BlockRenderer({ blocks, projectTitle }: BlockRendererProps) {
+  // Find the index of the first image/hero block
+  const firstImageIndex = blocks.findIndex(
+    (block) => block.type === "hero" || block.type === "image" || block.type === "imagePair" || block.type === "imageGrid"
+  );
+
   return (
     <>
       {blocks.map((block, index) => {
+        // Use mediaBottom spacing for the first image/hero, media for others
+        const isFirstImage = index === firstImageIndex;
+        const mediaSpacing = isFirstImage ? "mediaBottom" : "media";
+
         switch (block.type) {
           case "hero":
             return (
-              <ContentWrapper key={index} hasMaxWidth={false} spacing="media">
+              <ContentWrapper key={index} hasMaxWidth={false} spacing={mediaSpacing}>
                 <InteractiveImage
                   src={block.src}
                   alt={block.alt}
@@ -143,7 +152,7 @@ export function BlockRenderer({ blocks, projectTitle }: BlockRendererProps) {
 
           case "image":
             return (
-              <ContentWrapper key={index} hasMaxWidth={block.constrainWidth ?? false} spacing="media">
+              <ContentWrapper key={index} hasMaxWidth={block.constrainWidth ?? false} spacing={mediaSpacing}>
                 <figure>
                   <InteractiveImage
                     src={block.src}
@@ -162,7 +171,7 @@ export function BlockRenderer({ blocks, projectTitle }: BlockRendererProps) {
 
           case "imagePair":
             return (
-              <ContentWrapper key={index} hasMaxWidth={false} spacing="media" className="grid grid-cols-2 gap-4">
+              <ContentWrapper key={index} hasMaxWidth={false} spacing={mediaSpacing} className="grid grid-cols-2 gap-4">
                 {block.images.map((img, imgIndex) => (
                   <InteractiveImage
                     key={imgIndex}
@@ -182,7 +191,7 @@ export function BlockRenderer({ blocks, projectTitle }: BlockRendererProps) {
               <ContentWrapper
                 key={index}
                 hasMaxWidth={block.constrainWidth ?? false}
-                spacing="media"
+                spacing={mediaSpacing}
                 className="grid gap-4"
                 style={{ gridTemplateColumns: `repeat(${columns}, 1fr)` }}
               >

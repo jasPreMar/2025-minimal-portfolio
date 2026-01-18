@@ -23,7 +23,7 @@ export default async function CarDetailsPageProject() {
   return (
     <div>
       {/* Project Title Section - 80px below header */}
-      <ContentWrapper outerClassName="-mb-12">
+      <ContentWrapper>
         <div className="flex flex-col gap-1 mt-20">
           {/* Mobile: Badge above title */}
           {project.status && (
