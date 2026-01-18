@@ -41,7 +41,46 @@ const carmaxSharpSans = localFont({
 
 export const metadata: Metadata = {
   title: "Jason Marsh - Portfolio",
-  description: "Designer in New York",
+  description: "Product Designer in New York specializing in AI/ML interfaces, design systems, and conversational UX. Currently at CarMax building AI-powered customer experiences.",
+  keywords: [
+    "Jason Marsh",
+    "Product Designer",
+    "UX Designer",
+    "UI Designer",
+    "New York Designer",
+    "NYC Designer",
+    "AI Design",
+    "AI UX",
+    "Machine Learning Design",
+    "Conversational UX",
+    "Chatbot Design",
+    "Design Systems",
+    "Component Libraries",
+    "React Design",
+    "Frontend Design",
+    "CarMax",
+    "Portfolio",
+    "Product Design Portfolio",
+    "UX Portfolio",
+  ],
+  authors: [{ name: "Jason Marsh" }],
+  creator: "Jason Marsh",
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    title: "Jason Marsh - Portfolio",
+    description: "Product Designer in New York specializing in AI/ML interfaces, design systems, and conversational UX.",
+    siteName: "Jason Marsh Portfolio",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Jason Marsh - Portfolio",
+    description: "Product Designer in New York specializing in AI/ML interfaces, design systems, and conversational UX.",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export default function RootLayout({
