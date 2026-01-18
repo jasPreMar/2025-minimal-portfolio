@@ -2,6 +2,7 @@ import { getAllProjects, type NotionProject } from "@/lib/notion";
 import { chatgptAppProject } from "@/lib/chatgpt-app-data";
 import { aiPatternLibraryProject } from "@/lib/ai-pattern-library-data";
 import { skye2Project } from "@/lib/skye-2.0-data";
+import { cdpProject } from "@/lib/cdp-data";
 
 // Project interface that matches what ProjectLinkWithThumbnails expects
 export interface ProjectForLink {
@@ -76,6 +77,21 @@ export async function getAllProjectsInOrder(): Promise<ProjectForLink[]> {
     featured: false,
   };
 
+  const cdpHomeProject: ProjectForLink = {
+    id: "hardcoded-cdp",
+    title: cdpProject.title,
+    company: cdpProject.company,
+    slug: cdpProject.slug,
+    heroImages: ["/projects/cdp-hero.png"],
+    finalScreens: [
+      "/projects/cdp-header-reserve.png",
+      "/projects/cdp-carousel-gallery.png",
+      "/projects/cdp-page-structure.png",
+    ],
+    subtitle: cdpProject.subtitle,
+    featured: false,
+  };
+
   // Convert Notion projects to ProjectForLink format
   const notionProjectsForLink: ProjectForLink[] = notionProjects.map((project) => ({
     id: project.id,
@@ -93,6 +109,7 @@ export async function getAllProjectsInOrder(): Promise<ProjectForLink[]> {
     chatgptAppHomeProject,
     aiPatternLibraryHomeProject,
     skye2HomeProject,
+    cdpHomeProject,
     ...notionProjectsForLink,
   ];
 }

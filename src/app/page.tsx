@@ -5,6 +5,7 @@ import { ExpandableProjectSection } from "@/components/expandable-project-sectio
 import { chatgptAppProject } from "@/lib/chatgpt-app-data";
 import { aiPatternLibraryProject } from "@/lib/ai-pattern-library-data";
 import { skye2Project } from "@/lib/skye-2.0-data";
+import { cdpProject } from "@/lib/cdp-data";
 import { ContentWrapper } from "@/components/content-wrapper";
 
 // Revalidate every 60 seconds (ISR)
@@ -108,8 +109,23 @@ export default async function Home() {
     featured: false,
   };
 
+  const cdpHomeProject = {
+    id: "hardcoded-cdp",
+    title: cdpProject.title,
+    company: cdpProject.company,
+    slug: cdpProject.slug,
+    heroImages: ["/projects/cdp-hero.png"],
+    finalScreens: [
+      "/projects/cdp-header-reserve.png",
+      "/projects/cdp-carousel-gallery.png",
+      "/projects/cdp-page-structure.png",
+    ],
+    subtitle: cdpProject.subtitle,
+    featured: false,
+  };
+
   // Prepend hardcoded projects to the list
-  const projects = [chatgptAppHomeProject, aiPatternLibraryHomeProject, skye2HomeProject, ...notionProjects];
+  const projects = [chatgptAppHomeProject, aiPatternLibraryHomeProject, skye2HomeProject, cdpHomeProject, ...notionProjects];
 
   return (
     <StaggeredFadeIn initialDelay={0.25} staggerDelay={0.18} duration={0.45} className="pt-28">
