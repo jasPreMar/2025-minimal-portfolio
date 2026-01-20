@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect, useCallback } from "react";
-import { ArrowRight, ChevronLeft, ChevronDown, ChevronUp } from "lucide-react";
+import { ArrowRight, ChevronLeft } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -506,23 +506,6 @@ export function ExpandableProjectSection({
     images: string[];
     initialIndex: number;
   } | null>(null);
-  const chevronRef = useRef<HTMLDivElement>(null);
-  const buttonRef = useRef<HTMLButtonElement>(null);
-  const [isTitleHovered, setIsTitleHovered] = useState(false);
-  const [supportsHover, setSupportsHover] = useState(false);
-
-  useEffect(() => {
-    // Check if device supports hover (not a touch device)
-    const mediaQuery = window.matchMedia("(hover: hover)");
-    setSupportsHover(mediaQuery.matches);
-
-    const handleChange = (e: MediaQueryListEvent) => {
-      setSupportsHover(e.matches);
-    };
-
-    mediaQuery.addEventListener("change", handleChange);
-    return () => mediaQuery.removeEventListener("change", handleChange);
-  }, []);
 
   const handleImageClick = (project: Project, index: number) => {
     const allImages = [...project.heroImages, ...(project.finalScreens || [])];
@@ -532,102 +515,12 @@ export function ExpandableProjectSection({
     });
   };
 
-  const handleTitleMouseEnter = () => {
-    if (supportsHover) {
-      setIsTitleHovered(true);
-      if (chevronRef.current) {
-        chevronRef.current.style.transition = "transform 200ms ease-out";
-        chevronRef.current.style.transform = isExpanded ? "translateY(-2px)" : "translateY(2px)";
-      }
-    }
-  };
-
-  const handleTitleMouseLeave = () => {
-    if (supportsHover) {
-      setIsTitleHovered(false);
-      if (chevronRef.current) {
-        chevronRef.current.style.transition = "transform 200ms ease-out";
-        chevronRef.current.style.transform = "translateY(0)";
-      }
-    }
-  };
-
-  const handleTitleTouchStart = () => {
-    // On touch devices, clear any stuck hover states
-    if (!supportsHover) {
-      setIsTitleHovered(false);
-      if (chevronRef.current) {
-        chevronRef.current.style.transition = "transform 200ms ease-out";
-        chevronRef.current.style.transform = "translateY(0)";
-      }
-    }
-  };
-
-  // Clear hover state when clicking/tapping elsewhere
-  useEffect(() => {
-    const handleClickOutside = (e: MouseEvent | TouchEvent) => {
-      if (buttonRef.current && !buttonRef.current.contains(e.target as Node)) {
-        if (!supportsHover) {
-          setIsTitleHovered(false);
-          if (chevronRef.current) {
-            chevronRef.current.style.transition = "transform 200ms ease-out";
-            chevronRef.current.style.transform = "translateY(0)";
-          }
-        }
-      }
-    };
-
-    document.addEventListener("click", handleClickOutside);
-    document.addEventListener("touchstart", handleClickOutside);
-    return () => {
-      document.removeEventListener("click", handleClickOutside);
-      document.removeEventListener("touchstart", handleClickOutside);
-    };
-  }, [supportsHover]);
-
-  // Update chevron position when isExpanded changes while hovering
-  useEffect(() => {
-    if (isTitleHovered && chevronRef.current) {
-      chevronRef.current.style.transition = "transform 200ms ease-out";
-      chevronRef.current.style.transform = isExpanded ? "translateY(-2px)" : "translateY(2px)";
-    }
-  }, [isExpanded, isTitleHovered]);
-
   if (projects.length === 0) return null;
 
   return (
     <>
       <div className="flex flex-col gap-4">
-        <button
-          ref={buttonRef}
-          onClick={() => setIsExpanded(!isExpanded)}
-          className={`project-link flex items-center w-fit justify-start gap-2 rounded-md px-3 -mx-3 py-2 min-[480px]:py-1 cursor-pointer ${
-            isTitleHovered ? "bg-black/5 dark:bg-white/5" : "bg-transparent"
-          }`}
-          style={{
-            transition: isTitleHovered ? "none" : "background-color 150ms ease-out",
-          }}
-          aria-label={isExpanded ? "Collapse projects" : "Expand projects"}
-          onMouseEnter={handleTitleMouseEnter}
-          onMouseLeave={handleTitleMouseLeave}
-          onTouchStart={handleTitleTouchStart}
-        >
-          <p className="text-base font-semibold font-heading">{title}</p>
-          <div
-            ref={chevronRef}
-            className="flex items-center justify-center w-6 h-6 shrink-0"
-            style={{
-              transform: "translateY(0)",
-              transition: "transform 200ms ease-out",
-            }}
-          >
-            {isExpanded ? (
-              <ChevronUp size={16} strokeWidth={2} />
-            ) : (
-              <ChevronDown size={16} strokeWidth={2} />
-            )}
-          </div>
-        </button>
+        <p className="text-base font-semibold font-heading">{title}</p>
         <div className={`flex flex-col ${isExpanded ? "gap-5 min-[480px]:gap-1" : "gap-0.5"}`}>
           {projects.map((project) => (
             <ProjectLinkWithThumbnails
