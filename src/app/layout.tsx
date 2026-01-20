@@ -93,6 +93,20 @@ export default function RootLayout({
       <body
         className={`${inter.variable} ${lato.variable} ${carmaxSharpSans.variable} ${spaceMono.variable} antialiased`}
       >
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                function setTheme() {
+                  const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                  document.documentElement.classList.toggle('dark', isDark);
+                }
+                setTheme();
+                window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', setTheme);
+              })();
+            `,
+          }}
+        />
         <div className="flex flex-col mt-28 min-h-screen">
           <AnimatedHeader />
           <div className="flex-1 pb-28">
