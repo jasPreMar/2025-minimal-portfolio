@@ -4,6 +4,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 import { AnimatedHeader } from "@/components/animated-header";
 import { SiteFooter } from "@/components/site-footer";
+import { Analytics } from "@vercel/analytics/next"
 
 const inter = Inter({
   variable: "--font-inter",
@@ -114,6 +115,7 @@ export default function RootLayout({
           </div>
           <SiteFooter />
         </div>
+        <Analytics />
       </body>
     </html>
   );
