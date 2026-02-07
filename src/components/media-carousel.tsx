@@ -27,7 +27,7 @@ function MediaItemPreview({
   if (item.type === "figma") {
     return (
       <div
-        className={`carousel-item flex-shrink-0 ${height} aspect-video rounded-3xl overflow-hidden cursor-pointer snap-center bg-muted image-inner-shadow`}
+        className={`carousel-item flex-shrink-0 ${height} aspect-video rounded-3xl overflow-hidden cursor-pointer snap-center bg-background image-inner-shadow`}
         style={{ boxShadow: "0 4px 16px 0 rgba(0, 0, 0, 0.05)" }}
         onClick={onClick}
       >
@@ -44,7 +44,7 @@ function MediaItemPreview({
   if (item.type === "image") {
     return (
       <div
-        className={`carousel-item flex-shrink-0 ${height} rounded-3xl overflow-hidden cursor-pointer relative snap-center bg-muted image-inner-shadow`}
+        className={`carousel-item flex-shrink-0 ${height} rounded-3xl overflow-hidden cursor-pointer relative snap-center bg-background image-inner-shadow`}
         style={{ aspectRatio, boxShadow: "0 4px 16px 0 rgba(0, 0, 0, 0.05)" }}
         onClick={onClick}
       >
@@ -68,7 +68,7 @@ function MediaItemPreview({
   if (item.type === "video") {
     return (
       <div
-        className={`carousel-item flex-shrink-0 ${height} rounded-3xl overflow-hidden cursor-pointer relative bg-black snap-center image-inner-shadow`}
+        className={`carousel-item flex-shrink-0 ${height} rounded-3xl overflow-hidden cursor-pointer relative bg-background snap-center image-inner-shadow`}
         style={{ aspectRatio, boxShadow: "0 4px 16px 0 rgba(0, 0, 0, 0.05)" }}
         onClick={onClick}
       >
@@ -265,7 +265,7 @@ function FullscreenCarousel({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex flex-col bg-muted"
+      className="fixed inset-0 z-50 flex flex-col bg-background"
     >
       {/* Header */}
       <div
@@ -361,7 +361,7 @@ function FullscreenView({
   if (item.type === "figma") {
     return (
       <div
-        className="fixed inset-0 z-50 flex flex-col bg-muted"
+        className="fixed inset-0 z-50 flex flex-col bg-background"
       >
         <div
           className="flex items-center px-4 flex-shrink-0"
@@ -390,7 +390,7 @@ function FullscreenView({
   if (item.type === "video") {
     return (
       <div
-        className="fixed inset-0 z-50 flex flex-col bg-muted"
+        className="fixed inset-0 z-50 flex flex-col bg-background"
       >
         <div
           className="flex items-center px-4 flex-shrink-0"
@@ -425,6 +425,30 @@ function FullscreenView({
 export function MediaCarousel({ items }: MediaCarouselProps) {
   const [fullscreenItem, setFullscreenItem] = useState<MediaItem | null>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
+  const [fadeState, setFadeState] = useState({ atLeft: true, atRight: false });
+
+  const updateFadeState = useCallback(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+    const atLeft = el.scrollLeft <= 1;
+    const atRight = el.scrollLeft + el.clientWidth >= el.scrollWidth - 1;
+    setFadeState((prev) =>
+      prev.atLeft === atLeft && prev.atRight === atRight ? prev : { atLeft, atRight }
+    );
+  }, []);
+
+  useEffect(() => {
+    updateFadeState();
+    const el = scrollRef.current;
+    if (!el) return;
+    el.addEventListener("scroll", updateFadeState);
+    const ro = new ResizeObserver(updateFadeState);
+    ro.observe(el);
+    return () => {
+      el.removeEventListener("scroll", updateFadeState);
+      ro.disconnect();
+    };
+  }, [updateFadeState, items.length]);
 
   if (items.length === 0) return null;
 
@@ -456,28 +480,44 @@ export function MediaCarousel({ items }: MediaCarouselProps) {
         className="relative w-screen overflow-visible"
         style={{ marginLeft: "calc(-50vw + 50%)" }}
       >
-        <div
-          ref={scrollRef}
-          className="flex gap-4 overflow-x-auto overflow-y-visible snap-x snap-mandatory scrollbar-hide"
-          style={{ WebkitOverflowScrolling: "touch" }}
-        >
-          {/* Spacer at the beginning to align first item with content */}
+        {/* Constrain height to carousel row so overlay doesn't bleed into next section */}
+        <div className="relative h-[340px]">
           <div
-            className="flex-shrink-0"
-            style={{ width: "max(32px, calc(50vw - 304px))" }}
-            aria-hidden="true"
-          />
-
-          {items.map((item, index) => (
-            <MediaItemPreview
-              key={`${item.type}-${item.url}-${index}`}
-              item={item}
-              onClick={() => setFullscreenItem(item)}
+            ref={scrollRef}
+            onScroll={updateFadeState}
+            className="flex h-full gap-4 overflow-x-auto overflow-y-visible snap-x snap-mandatory scrollbar-hide"
+            style={{ WebkitOverflowScrolling: "touch" }}
+          >
+            {/* Spacer at the beginning to align first item with content */}
+            <div
+              className="flex-shrink-0"
+              style={{ width: "max(32px, calc(50vw - 304px))" }}
+              aria-hidden="true"
             />
-          ))}
 
-          {/* Spacer at the end */}
-          <div className="flex-shrink-0 w-8" aria-hidden="true" />
+            {items.map((item, index) => (
+              <MediaItemPreview
+                key={`${item.type}-${item.url}-${index}`}
+                item={item}
+                onClick={() => setFullscreenItem(item)}
+              />
+            ))}
+
+            {/* Spacer at the end */}
+            <div className="flex-shrink-0 w-8" aria-hidden="true" />
+          </div>
+          {/* Left fade - only when not scrolled to the left */}
+          <div
+            className="carousel-fade-overlay-left absolute left-0 top-0 bottom-0 w-12 pointer-events-none transition-opacity duration-200"
+            style={{ opacity: fadeState.atLeft ? 0 : 1 }}
+            aria-hidden
+          />
+          {/* Right fade - only when not scrolled to the right */}
+          <div
+            className="carousel-fade-overlay absolute right-0 top-0 bottom-0 w-12 pointer-events-none transition-opacity duration-200"
+            style={{ opacity: fadeState.atRight ? 0 : 1 }}
+            aria-hidden
+          />
         </div>
       </div>
       {fullscreenItem && (

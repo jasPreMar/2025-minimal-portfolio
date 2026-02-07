@@ -33,7 +33,7 @@ function FullscreenView({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex flex-col bg-muted"
+      className="fixed inset-0 z-50 flex flex-col bg-background"
     >
       {/* Header */}
       <div
@@ -105,7 +105,7 @@ export function InteractiveImage({
       return (
         <>
           <div
-            className={`relative w-full rounded-3xl overflow-hidden bg-muted cursor-zoom-in group ${className}`}
+            className={`relative w-full rounded-3xl overflow-hidden bg-background cursor-zoom-in group ${className}`}
             style={{ boxShadow: "0 4px 16px 0 rgba(0, 0, 0, 0.05)" }}
             onClick={() => setIsFullscreen(true)}
           >
@@ -145,7 +145,7 @@ export function InteractiveImage({
     return (
       <>
         <div
-          className={`relative w-full rounded-3xl overflow-hidden bg-muted cursor-zoom-in group ${className}`}
+          className={`relative w-full rounded-3xl overflow-hidden bg-background cursor-zoom-in group ${className}`}
           style={{ boxShadow: "0 4px 16px 0 rgba(0, 0, 0, 0.05)" }}
           onClick={() => setIsFullscreen(true)}
         >
@@ -180,7 +180,7 @@ export function InteractiveImage({
   return (
     <>
         <div
-          className={`relative w-full ${aspectClass} rounded-3xl overflow-hidden bg-muted cursor-zoom-in group ${className}`}
+          className={`relative w-full ${aspectClass} rounded-3xl overflow-hidden bg-background cursor-zoom-in group ${className}`}
           style={{ boxShadow: "0 4px 16px 0 rgba(0, 0, 0, 0.05)" }}
           onClick={() => setIsFullscreen(true)}
         >

@@ -189,8 +189,7 @@ function FullscreenCarousel({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex flex-col"
-      style={{ backgroundColor: "#e5e5e5" }}
+      className="fixed inset-0 z-50 flex flex-col bg-background"
     >
       <div
         className="flex items-center justify-between px-4 flex-shrink-0"
@@ -257,7 +256,7 @@ function ThumbnailImage({
 
   return (
     <div
-      className="relative flex-shrink-0 h-[90px] rounded-lg overflow-hidden bg-muted group/thumb"
+      className="relative flex-shrink-0 h-[130px] rounded-lg overflow-hidden bg-background group/thumb"
       style={{ aspectRatio }}
     >
       {isLoading && (
@@ -300,6 +299,31 @@ export function ProjectLinkWithThumbnails({
   const [isPrismaticShimmering, setIsPrismaticShimmering] = useState(false);
   const prismaticTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const prismaticEndTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const thumbScrollRef = useRef<HTMLDivElement>(null);
+  const [thumbFade, setThumbFade] = useState({ atLeft: true, atRight: false });
+
+  const updateThumbFade = useCallback(() => {
+    const el = thumbScrollRef.current;
+    if (!el) return;
+    const atLeft = el.scrollLeft <= 1;
+    const atRight = el.scrollLeft + el.clientWidth >= el.scrollWidth - 1;
+    setThumbFade((prev) =>
+      prev.atLeft === atLeft && prev.atRight === atRight ? prev : { atLeft, atRight }
+    );
+  }, []);
+
+  useEffect(() => {
+    updateThumbFade();
+    const el = thumbScrollRef.current;
+    if (!el) return;
+    el.addEventListener("scroll", updateThumbFade);
+    const ro = new ResizeObserver(updateThumbFade);
+    ro.observe(el);
+    return () => {
+      el.removeEventListener("scroll", updateThumbFade);
+      ro.disconnect();
+    };
+  }, [updateThumbFade, isExpanded, project.heroImages?.length, project.finalScreens?.length]);
 
   useEffect(() => {
     // Check if device supports hover (not a touch device)
@@ -458,9 +482,15 @@ export function ProjectLinkWithThumbnails({
         const allImages = [...project.heroImages, ...(project.finalScreens || [])];
         const paddingTop = 12;
         const paddingBottom = 20;
-        const thumbnailHeight = 90;
-        const totalHeight = thumbnailHeight + paddingTop + paddingBottom; // 126px
-        
+        const thumbnailHeight = 130;
+        const totalHeight = thumbnailHeight + paddingTop + paddingBottom;
+        const fadePx = 48;
+        const { atLeft, atRight } = thumbFade;
+        const maskValue =
+          atLeft && atRight
+            ? "none"
+            : `linear-gradient(to right, ${atLeft ? "black 0%, black" : "transparent 0%, black"} ${fadePx}px, black calc(100% - ${fadePx}px), ${atRight ? "black" : "transparent"} 100%)`;
+
         return (
           <div
             className="overflow-visible transition-all duration-300 ease-out"
@@ -472,7 +502,9 @@ export function ProjectLinkWithThumbnails({
               clipPath: "inset(0 -100px)",
             }}
           >
-            <div 
+            <div
+              ref={thumbScrollRef}
+              onScroll={updateThumbFade}
               className="flex gap-2 overflow-x-auto scrollbar-hide"
               style={{
                 marginLeft: "-12px",
@@ -481,6 +513,12 @@ export function ProjectLinkWithThumbnails({
                 paddingRight: "12px",
                 paddingTop: `${paddingTop}px`,
                 paddingBottom: `${paddingBottom}px`,
+                WebkitMaskImage: maskValue,
+                maskImage: maskValue,
+                WebkitMaskSize: "100% 100%",
+                maskSize: "100% 100%",
+                WebkitMaskRepeat: "no-repeat",
+                maskRepeat: "no-repeat",
               }}
             >
               {allImages.map((src, index) => (
