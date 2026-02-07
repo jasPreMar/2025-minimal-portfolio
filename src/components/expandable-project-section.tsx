@@ -22,6 +22,8 @@ export interface Project {
 interface ExpandableProjectSectionProps {
   title: string;
   projects: Project[];
+  /** Optional content to show on the right of the title (e.g. LinkedIn badge) */
+  rightContent?: React.ReactNode;
 }
 
 // Fullscreen image component with zoom/pan functionality
@@ -414,7 +416,7 @@ export function ProjectLinkWithThumbnails({
       ref={linkRef}
       href={href}
       className={`group flex flex-col rounded-xl px-3 -mx-3 pt-2 pb-3 min-[480px]:pt-2 min-[480px]:pb-3 ${
-        showHoverBg ? "bg-black/5 dark:bg-white/5" : "bg-transparent"
+        showHoverBg ? "bg-[oklch(96.7%_0.003_264.542)] dark:bg-[oklab(70.7%_-0.00331825_-0.0217483/0.1)]" : "bg-transparent"
       }`}
       style={{
         transition: showHoverBg ? "none" : "background-color 150ms ease-out",
@@ -538,6 +540,7 @@ export function ProjectLinkWithThumbnails({
 export function ExpandableProjectSection({
   title,
   projects,
+  rightContent,
 }: ExpandableProjectSectionProps) {
   const [isExpanded, setIsExpanded] = useState(true);
   const [fullscreenState, setFullscreenState] = useState<{
@@ -558,7 +561,10 @@ export function ExpandableProjectSection({
   return (
     <>
       <div className="flex flex-col gap-4">
-        <p className="text-base font-semibold font-heading">{title}</p>
+        <div className={`flex items-start gap-3 sm:gap-2 ${rightContent ? "justify-between" : ""}`}>
+          <p className="text-base font-semibold font-heading">{title}</p>
+          {rightContent}
+        </div>
         <div className={`flex flex-col ${isExpanded ? "gap-5 min-[480px]:gap-1" : "gap-0.5"}`}>
           {projects.map((project) => (
             <ProjectLinkWithThumbnails

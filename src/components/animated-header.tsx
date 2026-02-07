@@ -21,32 +21,46 @@ export function AnimatedHeader() {
   const [isHeaderHovered, setIsHeaderHovered] = useState(false);
   const sentinelRef = useRef<HTMLDivElement>(null);
   const prevScrollY = useRef(0);
+  // When we become stuck, we store scrollY so we only un-stuck when user scrolls back up past (scrollY - HYSTERESIS). Prevents flip-flop when header shrinks and browser adjusts scroll.
+  const stickThresholdRef = useRef<number>(0);
+  const HYSTERESIS_PX = 130;
 
-  // Detect when header is stuck at top (scrolled past initial offset)
+  // Detect when header is stuck: sentinel leaves viewport. When becoming stuck, store current scrollY as threshold for un-stuck.
   useEffect(() => {
     const sentinel = sentinelRef.current;
     if (!sentinel) return;
     const observer = new IntersectionObserver(
-      ([entry]) => setIsStuck(!entry.isIntersecting),
+      ([entry]) => {
+        if (!entry.isIntersecting) {
+          stickThresholdRef.current = window.scrollY ?? document.documentElement.scrollTop;
+          setIsStuck(true);
+        }
+      },
       { threshold: 0, rootMargin: "0px 0px 0px 0px" }
     );
     observer.observe(sentinel);
     return () => observer.disconnect();
   }, []);
 
-  // Track last scroll direction for sticky header dimming
+  // Un-stuck only when scroll back up past threshold minus hysteresis (avoids flip when header shrinks). Also track scroll direction for dimming.
   useEffect(() => {
     const handleScroll = () => {
       const y = window.scrollY ?? document.documentElement.scrollTop;
       setLastScrollDown(y > prevScrollY.current);
       prevScrollY.current = y;
+      // Un-stuck when back near top (so header expands) or when scrolled up past hysteresis (avoids flip after shrink)
+      if (isStuck && (y <= 10 || y < stickThresholdRef.current - HYSTERESIS_PX)) {
+        setIsStuck(false);
+      }
     };
+    handleScroll(); // run once in case initial scroll is already past
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [isStuck]);
 
   const isHomePage = pathname === "/";
-  
+  const isProjectPage = pathname.startsWith("/projects/");
+
   // Get project-specific verbs based on current path
   const projectVerbs = useMemo(() => getVerbsForPath(pathname), [pathname]);
 
@@ -98,13 +112,19 @@ export function AnimatedHeader() {
           className="flex items-center gap-4 w-full transition-opacity duration-200"
           style={{ opacity: isHeaderHovered ? 1 : isStuck && lastScrollDown ? 0.12 : 1 }}
         >
-        {/* Left side: Name and shimmer text stacked (shimmer hidden when stuck) */}
+        {/* Left side: Circle (hidden when stuck or on project page), 16px gap — commented out until image ready
+        {!isStuck && !isProjectPage && (
+          <div className="relative w-[92px] h-[92px] flex-shrink-0 rounded-full overflow-hidden bg-background">
+            <div className="absolute inset-0 rounded-full pointer-events-none z-10 image-inner-shadow" />
+          </div>
+        )}
+        */}
         <div className="flex flex-col min-w-0 flex-1 overflow-visible">
           <div className={`flex items-center gap-1 text-xl font-semibold tracking-tight ${isStuck ? "" : "min-h-[28px]"}`}>
             {isHomePage ? (
               <span
                 className={`relative rounded-md cursor-pointer select-none transition-colors duration-150 truncate ${
-                  isHovered ? "bg-black/5 dark:bg-white/5" : "bg-transparent"
+                  isHovered ? "bg-[oklch(96.7%_0.003_264.542)] dark:bg-[oklab(70.7%_-0.00331825_-0.0217483/0.1)]" : "bg-transparent"
                 }`}
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}
@@ -122,7 +142,7 @@ export function AnimatedHeader() {
                 href="/"
                 prefetch={true}
                 className={`relative rounded-md cursor-pointer select-none transition-colors duration-150 truncate ${
-                  isHovered ? "bg-black/5 dark:bg-white/5" : "bg-transparent"
+                  isHovered ? "bg-[oklch(96.7%_0.003_264.542)] dark:bg-[oklab(70.7%_-0.00331825_-0.0217483/0.1)]" : "bg-transparent"
                 }`}
                 onClick={handleClick}
                 onMouseEnter={handleMouseEnter}

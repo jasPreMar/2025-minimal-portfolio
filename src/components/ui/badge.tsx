@@ -24,6 +24,8 @@ const badgeVariants = cva(
         "in-flight": "rounded-md bg-[oklch(0.94_0.04_252)] text-[oklch(0.55_0.2_252)] dark:bg-[oklch(0.25_0.08_252)] dark:text-[oklch(0.72_0.14_252)]",
         // Tested variant - orange with flat style and dot
         tested: "rounded-md bg-orange-100 text-orange-700 dark:bg-orange-950 dark:text-orange-300",
+        // Flat grey pill, no dot (same flat style as featured/live but neutral)
+        grey: "rounded-full border-transparent bg-[oklch(96.7%_0.003_264.542)] text-[oklch(44.6%_0.03_256.802)] dark:bg-[oklab(70.7%_-0.00331825_-0.0217483/0.1)] dark:text-[oklch(70.7%_0.022_261.325)]",
       },
     },
     defaultVariants: {

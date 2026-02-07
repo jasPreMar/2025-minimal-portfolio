@@ -7,6 +7,9 @@ import { aiPatternLibraryProject } from "@/lib/ai-pattern-library-data";
 import { skye2Project } from "@/lib/skye-2.0-data";
 import { cdpProject } from "@/lib/cdp-data";
 import { ContentWrapper } from "@/components/content-wrapper";
+import Link from "next/link";
+import { ArrowUpRight } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
 
 // Revalidate every 60 seconds (ISR)
 export const revalidate = 60;
@@ -132,7 +135,23 @@ export default async function Home() {
       {/* Section 1: Projects - only renders if there are projects */}
       {projects.length > 0 && (
         <ContentWrapper>
-          <ExpandableProjectSection title="Projects" projects={projects} />
+          <ExpandableProjectSection
+            title="Select Projects"
+            projects={projects}
+            rightContent={
+              <Link
+                href="https://www.linkedin.com/in/jpmarsh/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="sm:mt-0.5 transition-[filter] duration-150 hover:[&>*]:brightness-95"
+              >
+                <Badge variant="grey">
+                  linkedin.com
+                  <ArrowUpRight className="w-[1em] h-[1em] shrink-0 text-current" strokeWidth={2} aria-hidden />
+                </Badge>
+              </Link>
+            }
+          />
         </ContentWrapper>
       )}
 
