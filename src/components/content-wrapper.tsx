@@ -6,6 +6,8 @@ interface ContentWrapperProps {
   children: React.ReactNode;
   /** Use full max-width (608px) for text content, false for full-bleed content like images */
   hasMaxWidth?: boolean;
+  /** When true, inner uses w-full instead of max-w (e.g. for sticky header when stuck) */
+  forceFullWidth?: boolean;
   /** Additional classes for the inner container */
   className?: string;
   /** Additional classes for the outer container */
@@ -29,16 +31,18 @@ const spacingClasses = {
 export function ContentWrapper({
   children,
   hasMaxWidth = true,
+  forceFullWidth = false,
   className = "",
   outerClassName = "",
   style,
   as: Component = "div",
   spacing = "none",
 }: ContentWrapperProps) {
+  const innerWidthClass = forceFullWidth ? "w-full" : hasMaxWidth ? "max-w-[608px] mx-auto" : "w-full";
   return (
     <Component className={`w-full px-8 sm:px-16 ${spacingClasses[spacing]} ${outerClassName}`.trim()}>
       <div
-        className={`${hasMaxWidth ? "max-w-[608px] mx-auto" : "w-full"} ${className}`.trim()}
+        className={`${innerWidthClass} ${className}`.trim()}
         style={style}
       >
         {children}

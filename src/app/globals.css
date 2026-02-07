@@ -428,6 +428,25 @@ body {
   background: linear-gradient(to right, var(--background), transparent);
 }
 
+/* Sticky nav: gradient only on a background layer so header content stays on top */
+.nav-sticky-gradient::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: var(--background);
+  mask-image: linear-gradient(to bottom, black 0%, black 5%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, black 0%, black 5%, transparent 100%);
+  mask-size: 100% 100%;
+  mask-repeat: no-repeat;
+  -webkit-mask-size: 100% 100%;
+  -webkit-mask-repeat: no-repeat;
+}
+.nav-sticky-gradient > * {
+  position: relative;
+  z-index: 1;
+}
+
 /* HTML and body backgrounds - must be outside @layer for proper cascade with .dark variables */
 html,
 body {

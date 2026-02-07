@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState, useCallback, useEffect, useMemo } from "react";
+import { useState, useCallback, useEffect, useMemo, useRef } from "react";
 import { ContentWrapper } from "@/components/content-wrapper";
 import { ShimmerText } from "@/components/shimmer-text";
 import EmailCopyButton from "@/components/email-copy-button";
@@ -16,6 +16,34 @@ export function AnimatedHeader() {
   const [isHovered, setIsHovered] = useState(false);
   const [isRulerFilled, setIsRulerFilled] = useState(false);
   const [isTouchDevice, setIsTouchDevice] = useState(false);
+  const [isStuck, setIsStuck] = useState(false);
+  const [lastScrollDown, setLastScrollDown] = useState(false);
+  const [isHeaderHovered, setIsHeaderHovered] = useState(false);
+  const sentinelRef = useRef<HTMLDivElement>(null);
+  const prevScrollY = useRef(0);
+
+  // Detect when header is stuck at top (scrolled past initial offset)
+  useEffect(() => {
+    const sentinel = sentinelRef.current;
+    if (!sentinel) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => setIsStuck(!entry.isIntersecting),
+      { threshold: 0, rootMargin: "0px 0px 0px 0px" }
+    );
+    observer.observe(sentinel);
+    return () => observer.disconnect();
+  }, []);
+
+  // Track last scroll direction for sticky header dimming
+  useEffect(() => {
+    const handleScroll = () => {
+      const y = window.scrollY ?? document.documentElement.scrollTop;
+      setLastScrollDown(y > prevScrollY.current);
+      prevScrollY.current = y;
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const isHomePage = pathname === "/";
   
@@ -59,11 +87,24 @@ export function AnimatedHeader() {
   return (
     <>
     <Rulers visible={isRulerFilled} />
-    <ContentWrapper as="header">
-      <div className="flex items-center gap-4 w-full">
-        {/* Left side: Name and shimmer text stacked */}
+    <div ref={sentinelRef} className="h-px w-full -mt-px" aria-hidden />
+    <div
+      className={`sticky top-0 z-10 -mt-px ${isStuck ? "py-3 nav-sticky-gradient flex items-center" : "bg-background"}`}
+      onMouseEnter={() => setIsHeaderHovered(true)}
+      onMouseLeave={() => setIsHeaderHovered(false)}
+    >
+      <ContentWrapper
+        as="header"
+        forceFullWidth={isStuck}
+        className={isStuck ? "transition-[max-width,width] duration-300 ease-out" : "transition-[max-width,width] duration-600 ease-out"}
+      >
+        <div
+          className="flex items-center gap-4 w-full transition-opacity duration-200"
+          style={{ opacity: isHeaderHovered ? 1 : isStuck && lastScrollDown ? 0.12 : 1 }}
+        >
+        {/* Left side: Name and shimmer text stacked (shimmer hidden when stuck) */}
         <div className="flex flex-col min-w-0 flex-1 overflow-visible">
-          <div className="flex items-center gap-1 text-xl font-semibold tracking-tight min-h-[28px]">
+          <div className={`flex items-center gap-1 text-xl font-semibold tracking-tight ${isStuck ? "" : "min-h-[28px]"}`}>
             {isHomePage ? (
               <span
                 className={`relative rounded-md cursor-pointer select-none transition-colors duration-150 truncate ${
@@ -101,13 +142,15 @@ export function AnimatedHeader() {
               </Link>
             )}
           </div>
-          <div className="truncate">
-            <ShimmerText 
-              initialShimmerDelay={0.25} 
-              initialWord="Designing" 
-              words={projectVerbs}
-            />
-          </div>
+          {!isStuck && (
+            <div className="truncate">
+              <ShimmerText 
+                initialShimmerDelay={0.25} 
+                initialWord="Designing" 
+                words={projectVerbs}
+              />
+            </div>
+          )}
         </div>
 
         {/* Right side: Email copy button */}
@@ -133,7 +176,8 @@ export function AnimatedHeader() {
           <EmailCopyButton />
         </div>
       </div>
-    </ContentWrapper>
+      </ContentWrapper>
+    </div>
     </>
   );
 }
