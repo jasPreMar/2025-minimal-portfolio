@@ -17,9 +17,9 @@ function ProjectItemSkeleton({ showThumbnails = true }: { showThumbnails?: boole
       {showThumbnails && (
         <div className="mt-1 py-1">
           <div className="flex gap-2">
-            <div className="h-[90px] w-[160px] bg-foreground/5 rounded-lg animate-pulse shrink-0" />
-            <div className="h-[90px] w-[160px] bg-foreground/5 rounded-lg animate-pulse shrink-0" />
-            <div className="h-[90px] w-[120px] bg-foreground/5 rounded-lg animate-pulse shrink-0" />
+            <div className="h-[130px] w-[231px] bg-foreground/5 rounded-lg animate-pulse shrink-0" />
+            <div className="h-[130px] w-[231px] bg-foreground/5 rounded-lg animate-pulse shrink-0" />
+            <div className="h-[130px] w-[173px] bg-foreground/5 rounded-lg animate-pulse shrink-0" />
           </div>
         </div>
       )}

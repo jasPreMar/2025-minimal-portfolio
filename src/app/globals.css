@@ -420,6 +420,14 @@ body {
   display: inline-block;
 }
 
+/* Carousel edge fades: use background so they respect light/dark mode */
+.carousel-fade-overlay {
+  background: linear-gradient(to right, transparent, var(--background));
+}
+.carousel-fade-overlay-left {
+  background: linear-gradient(to right, var(--background), transparent);
+}
+
 /* HTML and body backgrounds - must be outside @layer for proper cascade with .dark variables */
 html,
 body {
