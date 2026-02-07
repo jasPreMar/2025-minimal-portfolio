@@ -96,7 +96,7 @@ export function AnimatedHeader() {
       <ContentWrapper
         as="header"
         forceFullWidth={isStuck}
-        className={isStuck ? "transition-[max-width,width] duration-300 ease-out" : "transition-[max-width,width] duration-600 ease-out"}
+        className={isStuck ? "transition-[max-width,width] duration-300 ease-out" : "transition-[max-width,width] duration-900 ease-out"}
       >
         <div
           className="flex items-center gap-4 w-full transition-opacity duration-200"
