@@ -71,12 +71,9 @@ export default async function AIPatternLibraryPage() {
         <ContentWrapper>
           <div className="flex flex-wrap gap-2">
             {project.tags.map((tag, i) => (
-              <span
-                key={i}
-                className="px-2 py-0.5 rounded-full text-sm text-secondary border border-foreground/10"
-              >
+              <Badge key={i} variant="grey">
                 {tag}
-              </span>
+              </Badge>
             ))}
           </div>
         </ContentWrapper>
