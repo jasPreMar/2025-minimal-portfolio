@@ -93,11 +93,7 @@ export function AnimatedHeader() {
       onMouseEnter={() => setIsHeaderHovered(true)}
       onMouseLeave={() => setIsHeaderHovered(false)}
     >
-      <ContentWrapper
-        as="header"
-        forceFullWidth={isStuck}
-        className={isStuck ? "transition-[max-width,width] duration-300 ease-out" : "transition-[max-width,width] duration-900 ease-out"}
-      >
+      <ContentWrapper as="header">
         <div
           className="flex items-center gap-4 w-full transition-opacity duration-200"
           style={{ opacity: isHeaderHovered ? 1 : isStuck && lastScrollDown ? 0.12 : 1 }}
