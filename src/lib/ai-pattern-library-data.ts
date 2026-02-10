@@ -8,7 +8,7 @@ export const aiPatternLibraryProject: HardcodedProject = {
   companyLogo: "/logos/carmax-logo.svg",
   tags: ["AI/ML", "Design Systems", "Figma"],
   featured: false,
-  status: "in-flight",
+  status: "shipped",
   blocks: [
     {
       type: "hero",

@@ -31,10 +31,12 @@ export default async function ChatGPTAppPage() {
               <Badge variant={
                 project.status === "live" ? "live" : 
                 project.status === "tested" ? "tested" : 
+                project.status === "shipped" ? "shipped" : 
                 "in-flight"
               }>
                 {project.status === "live" ? "Live" : 
                  project.status === "tested" ? "Tested" : 
+                 project.status === "shipped" ? "Shipped" : 
                  "In flight"}
               </Badge>
             </div>
@@ -49,12 +51,14 @@ export default async function ChatGPTAppPage() {
                 variant={
                   project.status === "live" ? "live" : 
                   project.status === "tested" ? "tested" : 
+                  project.status === "shipped" ? "shipped" : 
                   "in-flight"
                 }
                 className="hidden sm:flex sm:mt-2"
               >
                 {project.status === "live" ? "Live" : 
                  project.status === "tested" ? "Tested" : 
+                 project.status === "shipped" ? "Shipped" : 
                  "In flight"}
               </Badge>
             )}

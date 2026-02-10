@@ -15,7 +15,7 @@ export type HardcodedProject = {
   companyLogo?: string;
   tags: string[];
   featured?: boolean;
-  status?: "live" | "in-flight" | "tested";
+  status?: "live" | "in-flight" | "tested" | "shipped";
   blocks: ContentBlock[];
 };
 
@@ -27,7 +27,7 @@ export const chatgptAppProject: HardcodedProject = {
   companyLogo: "/logos/carmax-logo.svg",
   tags: ["AI/ML", "Mobile", "Product Strategy"],
   featured: false,
-  status: "in-flight",
+  status: "shipped",
   blocks: [
     {
       type: "hero",
