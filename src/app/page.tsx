@@ -139,17 +139,18 @@ export default async function Home() {
             title="Select Projects"
             projects={projects}
             rightContent={
-              <Link
-                href="https://www.linkedin.com/in/jpmarsh/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="sm:mt-0.5 transition-[filter] duration-150 hover:[&>*]:brightness-95"
-              >
-                <Badge variant="grey">
-                  linkedin.com
-                  <ArrowUpRight className="w-[1em] h-[1em] shrink-0 text-current" strokeWidth={2} aria-hidden />
-                </Badge>
-              </Link>
+              // <Link
+              //   href="https://www.linkedin.com/in/jpmarsh/"
+              //   target="_blank"
+              //   rel="noopener noreferrer"
+              //   className="sm:mt-0.5 transition-[filter] duration-150 hover:[&>*]:brightness-95"
+              // >
+              //   <Badge variant="grey">
+              //     linkedin.com
+              //     <ArrowUpRight className="w-[1em] h-[1em] shrink-0 text-current" strokeWidth={2} aria-hidden />
+              //   </Badge>
+              // </Link>
+              null
             }
           />
         </ContentWrapper>
