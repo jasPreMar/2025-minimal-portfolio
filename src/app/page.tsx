@@ -157,17 +157,17 @@ export default async function Home() {
         </ContentWrapper>
       )}
 
-      {/* Section 2: Bento-style Side Projects grid */}
-      <ContentWrapper>
+      {/* Section 2: Bento-style Side Projects grid - commented out for now */}
+      {/* <ContentWrapper>
         <BentoGrid />
-      </ContentWrapper>
+      </ContentWrapper> */}
 
-      {/* Section 3: Side Projects from Notion - only renders if there are side projects */}
-      {sideProjects.length > 0 && (
+      {/* Section 3: Side Projects from Notion - only renders if there are side projects - commented out for now */}
+      {/* {sideProjects.length > 0 && (
         <ContentWrapper>
           <ExpandableProjectSection title="Side Projects" projects={sideProjects} />
         </ContentWrapper>
-      )}
+      )} */}
     </StaggeredFadeIn>
   );
 }
