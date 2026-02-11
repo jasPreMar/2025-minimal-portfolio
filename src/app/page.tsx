@@ -7,6 +7,7 @@ import { aiPatternLibraryProject } from "@/lib/ai-pattern-library-data";
 import { skye2Project } from "@/lib/skye-2.0-data";
 import { cdpProject } from "@/lib/cdp-data";
 import { ContentWrapper } from "@/components/content-wrapper";
+import { BentoGrid } from "@/components/bento-grid";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
@@ -136,7 +137,7 @@ export default async function Home() {
       {projects.length > 0 && (
         <ContentWrapper>
           <ExpandableProjectSection
-            title="Select Projects"
+            title="Selected Work"
             projects={projects}
             rightContent={
               // <Link
@@ -156,7 +157,12 @@ export default async function Home() {
         </ContentWrapper>
       )}
 
-      {/* Section 2: Side Projects - only renders if there are side projects */}
+      {/* Section 2: Bento-style Side Projects grid */}
+      <ContentWrapper>
+        <BentoGrid />
+      </ContentWrapper>
+
+      {/* Section 3: Side Projects from Notion - only renders if there are side projects */}
       {sideProjects.length > 0 && (
         <ContentWrapper>
           <ExpandableProjectSection title="Side Projects" projects={sideProjects} />

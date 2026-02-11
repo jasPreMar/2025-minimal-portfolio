@@ -313,7 +313,7 @@ const ShimmerTextComponent = forwardRef<ShimmerTextRef, ShimmerTextProps>(({
 
   return (
     <p
-      className="shimmer-container"
+      className="shimmer-container text-sm"
       onClick={handleClick}
       style={
         {
